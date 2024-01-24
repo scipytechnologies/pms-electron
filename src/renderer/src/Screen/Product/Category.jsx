@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../layouts/Header'
 import Footer from '../../layouts/Footer'
 import { Button, Card, Col, Nav, Form, Row, Image } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import mainservice from '../../Services/mainservice'
+import { useSelector, useDispatch } from 'react-redux'
+import { pumpInfo } from '../../store/pump'
+import { Link,useNavigate } from 'react-router-dom'
 
 export default function Category() {
   ///// Skin Switch /////
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
 
@@ -15,7 +20,7 @@ export default function Category() {
 
       for (const btn of btnWhite) {
         btn.classList.add('btn-outline-primary')
-        btn.classList.remove('btn-white')
+        btn.cassList.remove('btn-white')
       }
     } else {
       const btnOutlinePrimary = document.getElementsByClassName('btn-outline-primary')
@@ -26,6 +31,44 @@ export default function Category() {
       }
     }
   }
+
+  const user = useSelector((state) => state.loginedUser)
+  const productdata = useSelector((state) => state.pumpstore.Product)
+
+  const [form, setform] = useState({})
+  const [productData, setProductData] = useState([]);
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setform({
+      ...form,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault()
+    const res = await mainservice.createProduct(form, user.PumpId)
+    if (res.data != null) {
+      console.log(res.data)
+      fetchPump(user.PumpId);
+    } else {
+      console.log(res)
+    }
+  }
+
+  const fetchPump = async (id) => {
+    const pumpdetails = await mainservice.getPumpById(id)
+    if (pumpdetails.data != null) {
+      dispatch(pumpInfo(pumpdetails.data.result2))
+      setProductData(pumpdetails.data.result2.Product);
+    }
+  }
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchPump(user.PumpId);
+    };
+    fetchData();
+  }, [user.PumpId]);
 
   switchSkin(skin)
 
@@ -74,333 +117,47 @@ export default function Category() {
                     <i className="ri-refresh-line"></i>
                   </Nav.Link>
                   <Nav.Link href="">
-                    <i className="ri-more-2-fill"></i>
+                    <i className="ri-more-2-fill"    ></i>
                   </Nav.Link>
                 </Nav>
               </Card.Header>
               <Card.Body className="p-3">
                 <Row>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
+                  {productData.map((category, index) => (
+                    <Col key={index} sm="4" md="4" lg="4" className="p-1">
+                      <Card className="card-one">
+                        <Card.Body className="p-3">
+                          <div className="text-center p-3 bg-white rounded mb-3">
+                            <Image
+                              style={{ height: '150px' }}
+                              src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
+                              fluid={true}
+                              alt={`Category ${index}`}
+                            />
+                          </div>
 
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon ">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col sm="4" md="4" lg="4" className="p-1">
-                    <Card className="card-one">
-                      <Card.Body className="p-3">
-                        <div className="text-center p-3 bg-white rounded mb-3">
-                          <Image
-                            style={{ height: '150px' }}
-                            src="https://www.petron.com/wp-content/uploads/2020/10/Blaze-Racing-BR450-Premium-Multi-Grade-20W-50.jpg"
-                            fluid={true}
-                            alt="..."
-                          />
-                        </div>
-
-                        <h6 className="fw-semibold text-dark lh-4">Category Name</h6>
-                        <p className="mb-3 fs-sm text-secondary">
-                          this is a category short Description
-                        </p>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            style={{ marginRight: '5px' }}
-                            as="a"
-                            variant="primary"
-                            className="btn-sm w-100"
-                          >
-                            View Products
-                          </Button>
-                          <Button variant="danger" className="btn-icon">
-                            <i className="ri-delete-bin-fill"></i>
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+                          <h6 className="fw-semibold text-dark lh-4">Category Name: {category.CategoryName}</h6>
+                          <p className="mb-3 fs-sm text-secondary">Description: {category.Description}</p>
+                          <div className="d-flex justify-content-between">
+                            <Button
+                              style={{ marginRight: '5px' }}
+                              as={Link}
+                              to={`/dashboard/Product/ProductDetails?productId=${category.ProductId}`}
+                              variant="primary"
+                              className="btn-sm w-100"
+                            >
+                              View Products
+                            </Button>
+                            <Button variant="danger" className="btn-icon">
+                              <i className="ri-delete-bin-fill"></i>
+                            </Button>
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
                 </Row>
+
               </Card.Body>
             </Card>
           </Col>
@@ -424,7 +181,7 @@ export default function Category() {
                       <div className="p-1">
                         <h6>Category Name</h6>
                       </div>
-                      <Form.Control type="text" placeholder="eg.100-25484" />
+                      <Form.Control type="text" name="CategoryName" placeholder="Category Name" onChange={onChangeHandler} />
                     </Col>
                   </Row>
 
@@ -433,19 +190,21 @@ export default function Category() {
                       <div className="p-1">
                         <h6>Description</h6>
                       </div>
-                      <Form.Control type="textarea" placeholder="eg.100-25484" />
+                      <Form.Control type="textarea" name="Description" placeholder="Description" onChange={onChangeHandler} />
                     </Col>
                   </Row>
 
-                  <Form.Group controlId="formFile" className="mb-3">
+                  {/* <Form.Group controlId="formFile" className="mb-3">
                     <Form.Label>Upload Picture</Form.Label>
                     <Form.Control type="file" />
-                  </Form.Group>
-                  <Row className="g-2 align-items-center">
+                  </Form.Group> */}
+                  <Row className="g-2 align-items-center p-2">
                     <Col className=' d-flex justify-content-end'>
                       <Button
+                        type='submit'
                         variant="primary"
-                        className="d-flex  align-items-center gap-2"
+                        className="d-flex  align-items-center gap-2 my-2"
+                        onClick={onSubmitHandler}
                       >
                         Create
                       </Button>

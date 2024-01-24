@@ -101,8 +101,8 @@ async function deleteInventoryManagement(pumpId,inventoryId) {
   return response
 }
 ///////////////////////{Product}////////////////////////////////////////
-async function createProduct(data) {
-  const response = await apicall.apicall('post',9000,'ProductRouter/createProduct',data)
+async function createProduct(data,id) {
+  const response = await apicall.apicall('post',9000,`ProductRouter/createProduct/${id}`,data)
   return response
 }
 

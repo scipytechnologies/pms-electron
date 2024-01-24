@@ -4,6 +4,7 @@ import { Col, Row, Form, Nav, Card, Button, Table } from 'react-bootstrap'
 import Footer from '../../layouts/Footer'
 import { useSearchParams } from "react-router-dom"
 import mainservice from '../../Services/mainservice'
+import { useSelector } from 'react-redux'
 import HeaderMobile from '../../layouts/HeaderMobile'
 import Avatar from '../../components/Avatar'
 
@@ -35,6 +36,9 @@ export default function PostProduct() {
       }
     }
   }
+
+  const user = useSelector((state) => state.loginedUser)
+  console.log("pump",user.PumpId)
 
   const [form, setform] = useState({})
   const onChangeHandler = (event) => {
