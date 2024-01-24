@@ -157,7 +157,7 @@ export default function PostCustomer() {
       <div style={{ marginTop: '50px' }} className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">
           <li className="breadcrumb-item">
-            <Link to="#">dashboard</Link>
+            <Link to="#">Dashboard</Link>
           </li>
           <li className="breadcrumb-item">
             <Link to="#">Customer</Link>
@@ -171,7 +171,7 @@ export default function PostCustomer() {
         <Card className="card-settings">
           <Card.Header>
             <Card.Title>Create a New Customer</Card.Title>
-            <Card.Text>short Description</Card.Text>
+            {/* <Card.Text>short Description</Card.Text> */}
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -180,19 +180,19 @@ export default function PostCustomer() {
                   <h6>Customer Name</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="Name" value={uform.Name} placeholder="Enter Customer Name" onChange={onChangeHandler} />
+                  <Form.Control type="text" name="Name" value={uform.Name} placeholder="" onChange={onChangeHandler} />
                 </Col>
                 <Col md>
                   <h6>Phone Number</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="MobileNo" value={uform.MobileNo} placeholder="Enter Phone Number " onChange={onChangeHandler} />
+                  <Form.Control type="text" name="MobileNo" value={uform.MobileNo} placeholder=" " onChange={onChangeHandler} />
                 </Col>
                 <Col md>
                   <h6>GSTIN</h6>
                 </Col>
                 <Col md>
-                <Form.Control type="text" name="GSTIN" value={uform.GSTIN} placeholder="Enter GST Number" onChange={onChangeHandler}/>
+                <Form.Control type="text" name="GSTIN" value={uform.GSTIN} placeholder="" onChange={onChangeHandler}/>
                 </Col>
               </Row>
             </div>
@@ -202,45 +202,45 @@ export default function PostCustomer() {
                   <h6>Office Phone Number</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="OfficePhoneNo" value={uform.OfficePhoneNo}  placeholder="Enter Office Contact Number " onChange={onChangeHandler}/>
+                  <Form.Control type="text" name="OfficePhoneNo" value={uform.OfficePhoneNo}  placeholder=" " onChange={onChangeHandler}/>
                 </Col>
                 <Col md>
                   <h6>Email</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="EmailID" value={uform.EmailID} placeholder="Email ID" onChange={onChangeHandler}/>
+                  <Form.Control type="text" name="EmailID" value={uform.EmailID} placeholder="" onChange={onChangeHandler}/>
                 </Col>
               </Row>
             </div>
             <div className="setting-item">
               <Row className="g-2">
-                <Col>
+                <Col md="2">
                   <h6>Permanent Address</h6>
                   {/* <p>Temporibus autem quibusdam et aut officiis.</p> */}
                 </Col>
                 <Col md>
-                  <Form.Control as="textarea" rows="3" name="Address" value={uform.Address} placeholder="Enter tagline" onChange={onChangeHandler}/>
+                  <Form.Control as="textarea" rows="3" name="Address" value={uform.Address} placeholder="" onChange={onChangeHandler}/>
                 </Col>
               </Row>
             </div>
             <div className="setting-item">
               <Row className="g-2">
-                <Col md="5">
+                <Col md="2">
                   <h6>Note</h6>
                   <p>Add more information here</p>
                 </Col>
                 <Col md>
-                  <Form.Control as="textarea" rows="3" name="Note" value={uform.Note} placeholder="Enter tagline" onChange={onChangeHandler}/>
+                  <Form.Control as="textarea" rows="3" name="Note" value={uform.Note} placeholder="" onChange={onChangeHandler}/>
                 </Col>
               </Row>
             </div>
           </Card.Body>
         </Card>
-
+        { !editMode ?
         <Card className="card-settings mt-4">
           <Card.Header>
             <Card.Title>Financial Record</Card.Title>
-            <Card.Text>Add initial financial information</Card.Text>
+            {/* <Card.Text>Add initial financial information</Card.Text> */}
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -249,18 +249,19 @@ export default function PostCustomer() {
                   <h6>Credit Limit</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="CreditLimit" value={uform.CreditLimit} placeholder="Rs.15000/-" onChange={onChangeHandler}/>
+                  <Form.Control type="text" name="CreditLimit" value={uform.CreditLimit} placeholder="" onChange={onChangeHandler}/>
                 </Col>
                 <Col md>
                   <h6>Credit Balance</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="CreditBalance" value={uform.CreditBalance} placeholder="Rs.0.0/-" onChange={onChangeHandler}/>
+                  {/* Inital Amount --> No Longer Needed */}
+                  <Form.Control type="text" name="CreditBalance" value={uform.CreditBalance} placeholder="" onChange={onChangeHandler}/> 
                 </Col>
               </Row>
             </div>
           </Card.Body>
-        </Card>
+        </Card> :"" }
 
         <Card className="card-settings mt-4">
           <Card.Body className="p-0">
@@ -269,10 +270,10 @@ export default function PostCustomer() {
               <Col xs="12">
                 {editMode ?
                   <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={onUpdateHandler} type="submit">Update</Button>
+                    <Button style={{color:'white'}} onClick={onUpdateHandler} type="submit">Update</Button>
                   </div> :
-                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={onSubmitHandler} type="submit">Submit</Button>
+                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end',color:'white' }}>
+                    <Button  style={{color:'white'}} onClick={onSubmitHandler} type="submit">Submit</Button>
                   </div>}
 
               </Col>{' '}

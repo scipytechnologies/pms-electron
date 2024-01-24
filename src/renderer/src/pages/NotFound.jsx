@@ -11,7 +11,7 @@ export default function NotFound() {
     <div className="page-error">
       <div className="header">
         <Container>
-          <Link to="/" className="header-logo">dashbyte</Link>
+          <Link to="/" className="header-logo">indhanX.com</Link>
           <Nav className="nav-icon">
             <Nav.Link href=""><i className="ri-twitter-fill"></i></Nav.Link>
             <Nav.Link href=""><i className="ri-github-fill"></i></Nav.Link>

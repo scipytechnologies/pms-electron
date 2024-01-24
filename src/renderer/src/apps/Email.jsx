@@ -287,7 +287,7 @@ export default function Email() {
                   </p>
                   <p className="mb-0">
                     <span className="text-secondary">To: </span>
-                    <strong>Themepixels</strong>
+                    <strong>SciPy Technologies</strong>
                   </p>
                 </div>
                 <span className="fs-xs text-secondary d-none">11:15am (3 hours ago)</span>

@@ -9,7 +9,7 @@ export default function LockScreen() {
     <div className="page-sign">
       <Card className="card-sign">
         <Card.Header className="d-flex flex-column align-items-center">
-          <Link to="/" className="header-logo mb-4">dashbyte</Link>
+          <Link to="/" className="header-logo mb-4">indhanX.com</Link>
           <Card.Title className="text-center">Account Locked</Card.Title>
           <Card.Text className="text-center">Your account was locked due to inactivity.</Card.Text>
         </Card.Header>

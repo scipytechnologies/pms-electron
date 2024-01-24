@@ -7,7 +7,7 @@ export default function Signin() {
     <div className="page-sign">
       <Card className="card-sign">
         <Card.Header>
-          <Link to="/" className="header-logo mb-4">dashbyte</Link>
+          <Link to="/" className="header-logo mb-4">indhanX.com</Link>
           <Card.Title>Sign In</Card.Title>
           <Card.Text>Welcome back! Please signin to continue.</Card.Text>
         </Card.Header>
@@ -15,7 +15,7 @@ export default function Signin() {
           <Form method="get" action="/dashboard/finance">
             <div className="mb-4">
               <Form.Label >Email address</Form.Label>
-              <Form.Control type="text" placeholder="Enter your email address" value="me@themepixels.com" />
+              <Form.Control type="text" placeholder="Enter your email address" value="me@SciPy Technologies.com" />
             </div>
             <div className="mb-4">
               <Form.Label className="d-flex justify-content-between">Password <Link to="">Forgot password?</Link></Form.Label>

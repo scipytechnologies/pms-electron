@@ -511,7 +511,7 @@ export default function EventManagement() {
                               "initial": "A"
                             },
                             "name": "Allan R. Palban",
-                            "email": "allan@themepixels.me",
+                            "email": "allan@SciPy Technologies.me",
                             "status": {
                               "variant": "primary",
                               "label": "Active"
@@ -525,7 +525,7 @@ export default function EventManagement() {
                               "initial": "C"
                             },
                             "name": "Charlene S. Plateros",
-                            "email": "charlene@themepixels.me",
+                            "email": "charlene@SciPy Technologies.me",
                             "status": {
                               "variant": "ui-02",
                               "label": "Away"
@@ -540,7 +540,7 @@ export default function EventManagement() {
                               "bg": "bg-gray-700"
                             },
                             "name": "Adrian M. Moniño",
-                            "email": "adrian@themepixels.me",
+                            "email": "adrian@SciPy Technologies.me",
                             "status": {
                               "variant": "primary",
                               "label": "Active"
@@ -554,7 +554,7 @@ export default function EventManagement() {
                               "initial": "M"
                             },
                             "name": "Marianne B. Audrey",
-                            "email": "marianne@themepixels.me",
+                            "email": "marianne@SciPy Technologies.me",
                             "status": {
                               "variant": "primary",
                               "label": "Active"
@@ -569,7 +569,7 @@ export default function EventManagement() {
                               "bg": "bg-gray-700"
                             },
                             "name": "Carlyn Y. Salomon",
-                            "email": "carlyn@themepixels.me",
+                            "email": "carlyn@SciPy Technologies.me",
                             "status": {
                               "variant": "secondary",
                               "label": "Inactive"

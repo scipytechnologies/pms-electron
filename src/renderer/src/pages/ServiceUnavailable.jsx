@@ -10,7 +10,7 @@ export default function ServiceUnavailable() {
     <div className="page-error">
       <div className="header">
         <Container>
-          <a href="/" className="sidebar-logo">dashbyte</a>
+          <a href="/" className="sidebar-logo">indhanX.com</a>
           <Nav className="nav-icon">
             <Nav.Link href=""><i className="ri-twitter-fill"></i></Nav.Link>
             <Nav.Link href=""><i className="ri-github-fill"></i></Nav.Link>

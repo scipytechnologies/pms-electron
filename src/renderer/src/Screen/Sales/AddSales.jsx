@@ -71,11 +71,6 @@ export default function PostSales() {
   const NozzleData = NozzleOptions(nozzle)
   const EmployeeData = EmployeeOptions(employees)
   const UpiData = UpiOptions(upi)
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
 
   const switchSkin = (skin) => {
     if (skin === 'dark') {

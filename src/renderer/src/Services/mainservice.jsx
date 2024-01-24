@@ -236,6 +236,19 @@ async function getPumpSalesOnYear(data,id){
   const response = await apicall.apicall('get',9000,`YearlyReport/getyearlyByid/${id}`,data)
   return response
 }
+async function createCreditSales(id,data) {
+  const response = await apicall.apicall('post',9000,`CreditSale/createcredit/${id}`,data)
+  return response
+}
+async function createCreditPayment(id,data) {
+  const response = await apicall.apicall('post',9000,`Payment/createpayment/${id}`,data)
+  return response
+}
+async function getCreditSales(id) {
+  const response = await apicall.apicall('get',9000,`CreditSale/getcredit/${id}`)
+  return response
+}
+
 
 
 
@@ -252,4 +265,4 @@ export default {
   deleteEmployee,createCustomer,getCustomerById,updateCustomer,deleteCustomer,createInventoryManagement,getInventoryManagementById,updateInventoryManagement,deleteInventoryManagement,
   createProduct,getProductById,updateProduct,deleteProduct,createSalesAndBilling,getSalesAndBillingById,updateSalesAndBilling,deleteSalesAndBilling,createDipStock,
   getDipStockById,updateDipStock,deleteDipStock,createPump,getPumpById,updatePump,createFuel,deletePump,editFuel,createCardPayment,createUPIPayment,getPumpSalesOnDate,getPumpSalesOnMonth,getPumpSalesOnYear
-}
+  ,createCreditSales,createCreditPayment,getCreditSales}

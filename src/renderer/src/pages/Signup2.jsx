@@ -11,7 +11,7 @@ export default function Signup2() {
         <Col md="7" lg="5" xl="4" className="col-wrapper">
           <Card className="card-sign">
             <Card.Header>
-              <Link to="/" className="header-logo mb-5">dashbyte</Link>
+              <Link to="/" className="header-logo mb-5">indhanX.com</Link>
               <Card.Title>Sign Up</Card.Title>
               <Card.Text>It's free to signup and only takes a minute.</Card.Text>
             </Card.Header>

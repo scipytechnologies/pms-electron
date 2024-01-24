@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import Header from '../../layouts/Header'
 import Footer from '../../layouts/Footer'
-import { Button, Card, Col,Form, Modal, Dropdown, ButtonGroup, Row, Table } from 'react-bootstrap'
+import { Button, Card, Col, Form, Modal, Dropdown, ButtonGroup, Row, Table } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import mainservice from '../../Services/mainservice'
 import { Grid } from 'gridjs-react'
@@ -18,8 +18,8 @@ function CustomerDetails() {
   const pumpId = useSelector((state) => state.loginedUser.PumpId)
   const customerData = useSelector((state) => state.pumpstore.Customer)
   const user = useSelector((state) => state.loginedUser)
-  console.log('data', customerData)
-  console.log('pumpof', pumpId)
+  const fuel = useSelector((state) => state.pumpstore.Fuel)
+  console.log(fuel)
 
   async function getCustomer() {
     setData(customerData)
@@ -67,167 +67,228 @@ function CustomerDetails() {
       console.log(res.message)
     }
   }
+  const [credit, setCredit] = useState([])
+  async function getCreditSaleDataById(id) {
+    const res = await mainservice.getCreditSales(id)
+    if (res.data != null) {
+      console.log(res.data)
+      setCredit(res.data.result1)
+    } else {
+      console.log(res.message)
+    }
+  }
+  const [Balance,SetBalance] = useState('')
 
   function handleOpen(id) {
     setShow(true)
-    getCustomerDataById(id)
+    getCustomerDataById(id.CustomerId)
+    getCreditSaleDataById(id.CustomerId)
+    SetBalance(id.CreditBalance)
+    
   }
   function handleClose() {
     setShow(false)
   }
-
-  const [showcredit, setShowcredit] = useState(false) 
-   const [showpay, setShowpay] = useState(false)
+  const [customer, setCustomer] = useState('')
+  const [showcredit, setShowcredit] = useState(false)
+  const [showpay, setShowpay] = useState(false)
   function handleCreditOpen(id) {
     setShowcredit(true)
-    // getCustomerDataById(id)
+    setCustomer(id)
   }
   function handleCreditClose() {
     setShowcredit(false)
+    setForm({ Quantity: 0 })
+    setSelectedProduct({ lablel: '', value: 0 })
   }
-  function handlePayOpen(id) {
+  const [paydata, setPayData] = useState({})
+  function handlePayOpen(data) {
     setShowpay(true)
-    // getCustomerDataById(id)
+    console.log(data)
+    setPayData(data)
   }
   function handlePayClose() {
     setShowpay(false)
   }
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({ Quantity: 0 })
   const onChangeHandler = (event) => {
     setForm({
       ...form,
       [event.target.name]: event.target.value
     })
+    console.log(form)
+  }
+  const [selectedProduct, setSelectedProduct] = useState({ label: '', value: 0 })
+  const ChangeHandler = (selectedOption) => {
+    setSelectedProduct(selectedOption)
+  }
+
+  const ProductOptions = (fuels) => {
+    return fuels.map((fuel) => {
+      const { FuelName, FuelPricePerLitre } = fuel
+      return { label: FuelName, value: FuelPricePerLitre }
+    })
+  }
+  const ProductData = ProductOptions(fuel)
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault()
+    const data = {
+      VehicleNumber: form.VehicleNumber,
+      Product: selectedProduct.label,
+      Quantity: form.Quantity,
+      Price: selectedProduct.value,
+      Customer: customer,
+      Amount: form.Quantity * selectedProduct.value
+    }
+    console.log(data)
+
+    const res = await mainservice.createCreditSales(user.PumpId, data)
+    if (res.data != null) {
+      console.log('Credit Sales Created')
+      handleClose()
+    } else {
+      console.log(res)
+    }
+  }
+  const [form2, setForm2] = useState({})
+  const onChangeHandler2 = (event) => {
+    setForm2({
+      ...form2,
+      [event.target.name]: event.target.value
+    })
+    console.log(form2)
+  }
+  const onSubmitHandler2 = async (event) => {
+    event.preventDefault()
+    const data = {
+      CustomerID: paydata.CustomerId,
+      Amount: form2.Amount,
+      Balance: paydata.CreditBalance - form2.Amount,
+      Customer: paydata.CustomerName
+    }
+    console.log(data)
+
+    const res = await mainservice.createCreditPayment(user.PumpId, data)
+    if (res.data != null) {
+      console.log('Credit Payment Created')
+      handleClose()
+    } else {
+      console.log(res)
+    }
   }
 
   return (
     <>
-    {/*////////////////////////////////////////////////////////////////// Add Credit Sales////////////////////////////////////////////////////////// // */}
-    <Modal show={showcredit} onHide={handleCreditClose} centered size="xl">
+      {/*////////////////////////////////////////////////////////////////// Add Credit Sales////////////////////////////////////////////////////////// // */}
+      <Modal show={showcredit} onHide={handleCreditClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Credit Sales</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <div className="setting-item">
+          {/* <div className="setting-item">
               <Row className="g-2 align-items-center">
              Arya Agency 22002
               </Row>
-            </div>
-        <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <h6>Vechicle Number</h6>
-                </Col>
-                <Col md>
-                  <Form.Control name="VechicleNumber" onChange={onChangeHandler} type="text" />
-                </Col>
-                <Col md>
-                  <h6>Product</h6>
-                </Col>
-                <Col md>
+            </div> */}
+          <div className="setting-item">
+            <Row className="g-2 align-items-center">
+              <Col md>
+                <h6>Vechicle Number</h6>
+              </Col>
+              <Col md>
+                <Form.Control name="VehicleNumber" onChange={onChangeHandler} type="text" />
+              </Col>
+              <Col md>
+                <h6>Product</h6>
+              </Col>
+              <Col md>
                 <Select
-                    isDisabled={false}
-                    isSearchable={true}
-                    name="Product"
-                    // options={fuelData}
-                    // onChange={ChangeSelect}
-                  />
-                </Col>
-              </Row>
-            </div>
-            <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <h6>Quantity</h6>
-                </Col>
-                <Col md>
-                  <Form.Control name="Quantity" onChange={onChangeHandler} type="text" />
-                </Col>
-                <Col md>
-                  <h6>Quantity</h6>
-                  <h6>Price</h6>
-                  <h6>Total Amount</h6>
-                
-                </Col>
-                <Col md>
-                <p>1220</p>
-                <p>1220</p>
-                <p>1220</p>
-                
-                </Col>
-              </Row>
-            </div>
+                  isDisabled={false}
+                  isSearchable={true}
+                  name="Product"
+                  options={ProductData}
+                  onChange={ChangeHandler}
+                />
+              </Col>
+            </Row>
+          </div>
+          <div className="setting-item">
+            <Row className="g-2 align-items-center">
+              <Col md>
+                <h6>Quantity</h6>
+              </Col>
+              <Col md>
+                <Form.Control name="Quantity" onChange={onChangeHandler} type="text" />
+              </Col>
+              <Col md>
+                <h6>Quantity</h6>
+                <h6>Price</h6>
+                <h6>Total Amount</h6>
+              </Col>
+              <Col md>
+                <p style={{ fontWeight: 'bold', fontSize: '15px' }}>{form.Quantity}</p>
+                <p style={{ fontWeight: 'bold', fontSize: '15px' }}>{selectedProduct.value}</p>
+                <p style={{ fontWeight: 'bold', fontSize: '15px' }}>
+                  {form.Quantity * selectedProduct.value}
+                </p>
+              </Col>
+            </Row>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={onSubmitHandler}>
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
-     {/*////////////////////////////////////////////////////////////////// Add Payment////////////////////////////////////////////////////////// // */}
-          <Modal show={showpay} onHide={handlePayClose} centered size="xl">
+      {/*////////////////////////////////////////////////////////////////// Add Payment////////////////////////////////////////////////////////// // */}
+      <Modal show={showpay} onHide={handlePayClose} centered size="md">
         <Modal.Header closeButton>
-          <Modal.Title>Customer Details</Modal.Title>
+          <Modal.Title>Payment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <div className="setting-item">
-              <Row className="g-2 align-items-center">
-             Arya Agency 22002
-              </Row>
-            </div>
-        <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <h6>Vechicle Number</h6>
-                </Col>
-                <Col md>
-                  <Form.Control name="VechicleNumber" onChange={onChangeHandler} type="text" />
-                </Col>
-                <Col md>
-                  <h6>Product</h6>
-                </Col>
-                <Col md>
-                <Select
-                    isDisabled={false}
-                    isSearchable={true}
-                    name="Product"
-                    // options={fuelData}
-                    // onChange={ChangeSelect}
-                  />
-                </Col>
-              </Row>
-            </div>
-            <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <h6>Quantity</h6>
-                </Col>
-                <Col md>
-                  <Form.Control name="Quantity" onChange={onChangeHandler} type="text" />
-                </Col>
-                <Col md>
-                  <h6>Quantity</h6>
-                  <h6>Price</h6>
-                  <h6>Total Amount</h6>
-                
-                </Col>
-                <Col md>
-                <p>1220</p>
-                <p>1220</p>
-                <p>1220</p>
-                
-                </Col>
-              </Row>
-            </div>
+          <div className="setting-item bg-info">
+            <Row className="g-2 align-items-center p-1">
+              <p style={{ color: 'black', fontSize: '14px' }}>
+                Customer Name : <b>{paydata.CustomerName}</b>
+              </p>
+            </Row>
+            <Row className="g-2 align-items-center p-1">
+              <p style={{ color: 'black', fontSize: '14px' }}>
+                Amount to be Paid : <b>{paydata.CreditBalance}</b>
+              </p>
+            </Row>
+          </div>
+          <div className="setting-item">
+            <Row className="g-2 align-items-center">
+              <Col md>
+                <h6>Amount Paid</h6>
+              </Col>
+              <Col md>
+                <Form.Control name="Amount" onChange={onChangeHandler2} type="text" />
+              </Col>
+            </Row>
+          </div>
+          <div className="setting-item">
+            <Row className="g-2 align-items-center">
+              <Col md>
+                <h6>Balance Amount</h6>
+              </Col>
+              <Col md>
+                <p>{paydata.CreditBalance - form2.Amount}</p>
+              </Col>
+            </Row>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={onSubmitHandler2}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -245,23 +306,23 @@ function CustomerDetails() {
                 <tbody>
                   <tr>
                     <th scope="row">Customer Name</th>
-                    <td>Arya Agency pvt Ltd</td>
+                    <td>{cust.Name}</td>
                   </tr>
                   <tr>
                     <th scope="row">Phone Number</th>
-                    <td>99658821552</td>
+                    <td>{cust.MobileNo}</td>
                   </tr>
                   <tr>
                     <th scope="row">Email</th>
-                    <td>hello@aryaagencypvtltd.com</td>
+                    <td>{cust.EmailID}</td>
                   </tr>
                   <tr>
                     <th scope="row">Address</th>
-                    <td>Arya Agency pvt Ltd ,Plamodu Jn Trivandrum Kerala India PIN 682751</td>
+                    <td>{cust.Address}</td>
                   </tr>
                   <tr>
                     <th scope="row">Office Number</th>
-                    <td>9655854755</td>
+                    <td>{cust.OfficePhoneNo}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -269,23 +330,27 @@ function CustomerDetails() {
                 <tbody>
                   <tr>
                     <th scope="row">Credit limit</th>
-                    <td>123</td>
+                    <td>{cust.CreditLimit}</td>
                   </tr>
                   <tr>
                     <th scope="row">Total Sales</th>
-                    <td>123</td>
+                    <td>Not Available</td>
                   </tr>
                   <tr>
                     <th scope="row">Payment Duration</th>
-                    <td>Month</td>
+                    <td>Not Available</td>
                   </tr>
                   <tr>
                     <th scope="row">Payment Duration</th>
-                    <td>5th of the Month</td>
+                    <td>Not Available</td>
                   </tr>
                   <tr>
                     <th scope="row">OutStanding Balance</th>
-                    <td>123</td>
+                    <td>
+                      <p style={{ color: 'black', fontSize: '18px', fontWeight: 'bold' }}>
+                        {Balance}/-
+                      </p>
+                    </td>
                   </tr>
                 </tbody>
               </Table>
@@ -318,380 +383,20 @@ function CustomerDetails() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>12/11/2023</td>
-                    <td>KL 01 BL 2245</td>
-                    <td>HSD</td>
-                    <td>120</td>
-                    <td>107.96</td>
-                    <td>12358</td>
-                    <td>Fullfilled</td>
-                  </tr>
+                  {credit.map((x) => {
+                    return (
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>12/11/2023</td>
+                        <td>{x.VehicleNumber}</td>
+                        <td>{x.Product}</td>
+                        <td>{x.Quantity}</td>
+                        <td>{x.Price}</td>
+                        <td>{x.Amount}</td>
+                        <td>{x.Status}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </Table>
             </div>
@@ -745,10 +450,19 @@ function CustomerDetails() {
                 _(
                   <>
                     <ButtonGroup>
-                      <Button size="sm" variant="warning" onClick={() => handleCreditOpen()}>
+                      <Button
+                        size="sm"
+                        variant="warning"
+                        onClick={() => handleCreditOpen(item.CustomerId)}
+                      >
                         Credit Sale
                       </Button>
-                      <Button style={{color:'white'}} size="sm" variant="primary" onClick={() => handlePayOpen()}>
+                      <Button
+                        style={{ color: 'white' }}
+                        size="sm"
+                        variant="primary"
+                        onClick={() => handlePayOpen(item)}
+                      >
                         Pay
                       </Button>
                     </ButtonGroup>
@@ -757,7 +471,7 @@ function CustomerDetails() {
                 _(
                   <>
                     <ButtonGroup>
-                      <Button size="sm" variant="white" onClick={() => handleOpen(item.CustomerId)}>
+                      <Button size="sm" variant="white" onClick={() => handleOpen(item)}>
                         <i className="ri-eye-line"></i>
                       </Button>
                     </ButtonGroup>

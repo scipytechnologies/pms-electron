@@ -11,6 +11,7 @@ import { event } from 'jquery'
 
 
 
+
 export default function Header({ onSkin }) {
   const fuel = useSelector((state) => state.pumpstore.Fuel)
   const user = useSelector((state) => state.loginedUser)
@@ -246,11 +247,11 @@ export default function Header({ onSkin }) {
         <i className="ri-menu-2-fill"></i>
       </Link>
 
-      <div className="form-search me-auto">
+      {/* <div className="form-search me-auto">
         <input type="text" className="form-control" placeholder="Search" />
         <i className="ri-search-line"></i>
-      </div>
-      <div className="d-flex justify-content-center w-25 me-auto p-2 ">
+      </div> */}
+      <div className="d-flex justify-content-center align-items-center w-25 me-auto p-2 ">
         <div style={{ width: '120px', fontWeight: 'bolder' }}>Fuel Price</div>
         <div className="w-100 form-search">
           <marquee direction="left">
@@ -278,16 +279,16 @@ export default function Header({ onSkin }) {
               border:0
             }}
           >
-            <i class="ri-edit-box-line"></i>
+            {/* <i class="ri-edit-box-line"></i> */}
           </Dropdown.Toggle>
           <Dropdown.Menu  style={{width:'400px'}}  className="mt-10-f me--10-f">
             <div className="dropdown-menu-header">
-              <h6 className="dropdown-menu-title">Fuel Price</h6>
+              <h6 className="dropdown-menu-title"> Manage Fuel</h6>
             </div>
             <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
-                  <h6>Fuel Name</h6>
+                  <h6>New Fuel</h6>
                   <Form.Control name="FuelName" type="text"  onChange={onChangeHandler} />
                 </Col> 
                 <Col md>
@@ -295,7 +296,7 @@ export default function Header({ onSkin }) {
                   <Form.Control name="FuelPricePerLitre" type="text"  onChange={onChangeHandler} />
                 </Col>
                 <Col>
-                  <Button style={{ width:'100%',marginTop:'19px'}} onClick={onSubmitHandler}>Add</Button>
+                  <Button style={{ color:'white', width:'100%',marginTop:'19px'}} onClick={onSubmitHandler}>Add</Button>
                 </Col>
               </Row>
             </div>
@@ -307,7 +308,7 @@ export default function Header({ onSkin }) {
         </Dropdown>
       </div>
 
-      <Dropdown className="dropdown-skin" align="end">
+      {/* <Dropdown className="dropdown-skin" align="end">
         <Dropdown.Toggle as={CustomToggle}>
           <i className="ri-settings-3-line"></i>
         </Dropdown.Toggle>
@@ -354,9 +355,9 @@ export default function Header({ onSkin }) {
             </Link>
           </nav>
         </Dropdown.Menu>
-      </Dropdown>
+      </Dropdown> */}
 
-      <Dropdown className="dropdown-notification ms-3 ms-xl-4" align="end">
+      {/* <Dropdown className="dropdown-notification ms-3 ms-xl-4" align="end">
         <Dropdown.Toggle as={CustomToggle}>
           <small>3</small>
           <i className="ri-notification-3-line"></i>
@@ -370,7 +371,7 @@ export default function Header({ onSkin }) {
             <Link to="#">Show all Notifications</Link>
           </div>
         </Dropdown.Menu>
-      </Dropdown>
+      </Dropdown> */}
 
       <Dropdown className="dropdown-profile ms-3 ms-xl-4" align="end">
         <Dropdown.Toggle as={CustomToggle}>
@@ -383,7 +384,7 @@ export default function Header({ onSkin }) {
             <div className="avatar avatar-xl online mb-3">
               <img src={userAvatar} alt="" />
             </div>
-            <h5 className="mb-1 text-dark fw-semibold">Shaira Diaz</h5>
+            <h5 className="mb-1 text-dark fw-semibold">{user.firstName} {user.lastName}</h5>
             <p className="fs-sm text-secondary">Premium Member</p>
 
             <nav className="nav">

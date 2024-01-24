@@ -321,7 +321,7 @@ export default function Contacts() {
                 <div className="me-4 mb-3 mb-sm-0"><Avatar img={img11} /></div>
                 <div className="flex-fill">
                   <h4 className="mb-1 text-dark fw-semibold">Abigaile Johnson</h4>
-                  <p>Software Engineer at Themepixels, Inc.</p>
+                  <p>Software Engineer at SciPy Technologies, Inc.</p>
                   <div className="d-flex">
                     <Button variant="primary" className="px-5">Message</Button>
                     <Button variant="" className="btn-icon btn-gray ms-1"><i className="ri-star-line"></i></Button>

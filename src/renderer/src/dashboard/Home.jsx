@@ -536,14 +536,14 @@ const optionEight = {
           </div>
           <div className="d-flex gap-2 mt-3 mt-md-0">
             <Button variant="" className="btn-white d-flex align-items-center gap-2">
-              <i className="ri-share-line fs-18 lh-1"></i>Share
+              <i className="ri-truck-line fs-18 lh-1"></i>Dip Stock
             </Button>
             <Button variant="" className="btn-white d-flex align-items-center gap-2">
-              <i className="ri-printer-line fs-18 lh-1"></i>Print
+              <i className="ri-calculator-line fs-18 lh-1"></i>Add Daily Sales   
             </Button>
-            <Button variant="primary" className="d-flex align-items-center gap-2">
+            {/* <Button variant="primary" className="d-flex align-items-center gap-2">
               <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Generate<span className="d-none d-sm-inline"> Report</span>
-            </Button>
+            </Button> */}
           </div>
         </div>
 
@@ -552,7 +552,7 @@ const optionEight = {
             <Card className="card-one">
               <Card.Body className="rounded bg-primary p-3 p-xl-4">
               <h4 style={{color:'white'}} className="main-title mb-0">Welcome {user.firstName} {user.lastName} to {pump.PumpName} Management System</h4>
-              <p style={{color:'white',fontSize:'12px',paddingTop:'5px'}}> demo paragraph here</p>
+              <p style={{color:'white',fontSize:'12px',paddingTop:'5px'}}>We are excited to welcome you to our state-of-the-art Petrol Station Management System Dashboard – your all-in-one solution for revolutionizing the way you manage and grow your petrol station business.</p>
               </Card.Body>
             </Card>
           </Col>
@@ -606,6 +606,70 @@ const optionEight = {
                   ))}
                 </Row>
                  </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="g-3 mt-2">
+        <Col>
+            <Card className="card-one">
+              <Card.Body style={{minHeight:'210px'}} className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4">
+              {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
+              <p style={{height:'100%'}}>Coming Soon...</p>
+
+
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card className="card-one">
+              <Card.Body style={{minHeight:'210px'}} className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4">
+              {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
+              <p style={{height:'100%'}}>Coming Soon...</p>
+
+
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card className="card-one bg-primary">
+              <Card.Body style={{minHeight:'210px'}} className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4">
+              {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
+              <p style={{ color:'white',height:'100%'}}>Coming Soon...</p>
+
+
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="g-3 mt-2">
+        <Col>
+            <Card className="card-one bg-dark">
+              <Card.Body style={{minHeight:'210px'}} className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4">
+              {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
+              <p style={{height:'100%',color:'white'}}>Coming Soon...</p>
+
+
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card className="card-one">
+              <Card.Body style={{minHeight:'210px'}} className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4">
+              {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
+              <p style={{height:'100%'}}>Coming Soon...</p>
+
+
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card className="card-one">
+              <Card.Body style={{minHeight:'210px'}} className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4">
+              {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
+              <p style={{height:'100%'}}>Coming Soon...</p>
+
+
+              </Card.Body>
             </Card>
           </Col>
         </Row>
