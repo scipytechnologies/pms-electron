@@ -248,7 +248,11 @@ async function getCreditSales(id) {
   const response = await apicall.apicall('get',9000,`CreditSale/getcredit/${id}`)
   return response
 }
-
+/////////////////////////////////{Ecommerce}////////////////////////////////////////////////
+async function createEcommerce(id, data){
+  const response = await apicall.apicall('post',9000,`Ecommerce/createEcommerce/${id}`, data)
+  return response
+}
 
 
 
@@ -265,4 +269,4 @@ export default {
   deleteEmployee,createCustomer,getCustomerById,updateCustomer,deleteCustomer,createInventoryManagement,getInventoryManagementById,updateInventoryManagement,deleteInventoryManagement,
   createProduct,getProductById,updateProduct,deleteProduct,createSalesAndBilling,getSalesAndBillingById,updateSalesAndBilling,deleteSalesAndBilling,createDipStock,
   getDipStockById,updateDipStock,deleteDipStock,createPump,getPumpById,updatePump,createFuel,deletePump,editFuel,createCardPayment,createUPIPayment,getPumpSalesOnDate,getPumpSalesOnMonth,getPumpSalesOnYear
-  ,createCreditSales,createCreditPayment,getCreditSales}
+  ,createCreditSales,createCreditPayment,getCreditSales,createEcommerce}
