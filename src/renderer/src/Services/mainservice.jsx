@@ -333,6 +333,22 @@ async function getChart(id) {
   const response = await apicall.apicall('get', 9000, `SalesAndBilling/getchart/${id}`)
   return response
 }
+/////////////////////////////////{Ecommerce}////////////////////////////////////////////////
+async function createEcommerce(id, data){
+  const response = await apicall.apicall('post',9000,`Ecommerce/createEcommerce/${id}`, data)
+  return response
+}
+async function getEcommerce(){
+  const response = await apicall.apicall('get',9000,'Ecommerce/getEcommerce')
+  return response
+}
+async function getByIdEcommerce(id){
+  const response = await apicall.apicall('get',9000,`Ecommerce/getByIdEcommerce/${id}`)
+  return response
+}
+
+
+
 export default {
   createEcommerce,
   getByIdEcommerce,
