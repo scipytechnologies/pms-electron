@@ -97,16 +97,16 @@ const Menu = [
         "link": "/pages/people"
       },
       {
-        "label": "View Sales",
-        "link": "/pages/people"
-      },
-      {
         "label": "Add Product",
         "link": "dashboard/category"
       },
       {
         "label": "View Product",
         "link": "dashboard/Product/ProductDetails"
+      },
+      {
+        "label": "View Sales",
+        "link": "dashboard/Product/ViewProduct"
       },
       {
         "label": "Report",

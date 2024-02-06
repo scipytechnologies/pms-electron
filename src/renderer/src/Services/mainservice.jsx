@@ -1,3 +1,4 @@
+import { applicationsMenu } from '../data/Menu'
 import apicall from './interceptor'
 
 async function Login(data) {
@@ -253,6 +254,14 @@ async function createEcommerce(id, data){
   const response = await apicall.apicall('post',9000,`Ecommerce/createEcommerce/${id}`, data)
   return response
 }
+async function getEcommerce(){
+  const response = await apicall.apicall('get',9000,'Ecommerce/getEcommerce')
+  return response
+}
+async function getByIdEcommerce(id){
+  const response = await apicall.apicall('get',9000,`Ecommerce/getByIdEcommerce/${id}`)
+  return response
+}
 
 
 
@@ -269,4 +278,4 @@ export default {
   deleteEmployee,createCustomer,getCustomerById,updateCustomer,deleteCustomer,createInventoryManagement,getInventoryManagementById,updateInventoryManagement,deleteInventoryManagement,
   createProduct,getProductById,updateProduct,deleteProduct,createSalesAndBilling,getSalesAndBillingById,updateSalesAndBilling,deleteSalesAndBilling,createDipStock,
   getDipStockById,updateDipStock,deleteDipStock,createPump,getPumpById,updatePump,createFuel,deletePump,editFuel,createCardPayment,createUPIPayment,getPumpSalesOnDate,getPumpSalesOnMonth,getPumpSalesOnYear
-  ,createCreditSales,createCreditPayment,getCreditSales,createEcommerce}
+  ,createCreditSales,createCreditPayment,getCreditSales,createEcommerce,getEcommerce,getByIdEcommerce}

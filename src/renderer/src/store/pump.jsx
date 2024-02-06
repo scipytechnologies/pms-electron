@@ -39,7 +39,8 @@ export const PumpSlice = createSlice({
         Nozzle,
         CardPayment,
         UPIPayment,
-        OtherPayment} = action.payload;
+        OtherPayment,
+        Ecommerce} = action.payload;
         state.PumpName= PumpName,
         state.PhoneNumber= PhoneNumber,
         state.Address= Address,
@@ -55,7 +56,8 @@ export const PumpSlice = createSlice({
         state.Nozzle= Nozzle,
         state.CardPayment= CardPayment,
         state.UPIPayment= UPIPayment,
-        state.OtherPayment= OtherPayment
+        state.OtherPayment= OtherPayment,
+        state.Ecommerce= Ecommerce
     },
   }
 })
