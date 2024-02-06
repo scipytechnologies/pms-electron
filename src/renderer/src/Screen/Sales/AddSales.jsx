@@ -17,7 +17,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../../Services/mainservice'
 import { pumpInfo } from '../../store/pump'
 
-
 export default function PostSales() {
   const navigate = useNavigate()
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -31,7 +30,6 @@ export default function PostSales() {
   const card = useSelector((state) => state.pumpstore.CardPayment)
   const upi = useSelector((state) => state.pumpstore.UPIPayment)
   const creditors = useSelector((state) => state.pumpstore.Customer)
-  
 
   const CustomerOptions = (x) => {
     return x.map((y) => {
@@ -207,10 +205,9 @@ export default function PostSales() {
       newFields[index]['Price'] = Fuel[0].FuelPricePerLitre
       newFields[index]['Opening'] = opening[0].Reading
       newFields[index]['NozzleName'] = opening[0].NozzleName
-
     }
     setFields(newFields)
-    console.log(fields);
+    console.log(fields)
     TotalReceivedAmount()
   }
   const [cardsAmount, setCardsAmount] = useState(0)
@@ -418,9 +415,6 @@ export default function PostSales() {
     console.log(form)
   }
 
-
-
-
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     const data = {
@@ -485,57 +479,53 @@ export default function PostSales() {
     CalculateExcessAmount()
   }, [receivedAmount, TotalSalesAmount])
 
-
-  
-
   //cardpost
-  const [cardform, setcardform] =  useState({ CardPayment: { Name: '' } });
+  const [cardform, setcardform] = useState({ CardPayment: { Name: '' } })
   const onChangeHandlercard = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target
     setcardform({
       ...cardform,
       CardPayment: {
         ...cardform.CardPayment,
-        [name]: value,
-      },
+        [name]: value
+      }
     })
   }
   const onSubmitHandlercard = async (event) => {
     event.preventDefault()
-    console.log("card",cardform);
-      try {
-      const res = await mainservice.createCardPayment(cardform, user.PumpId);
-      console.log("hi", user.PumpId);
+    console.log('card', cardform)
+    try {
+      const res = await mainservice.createCardPayment(cardform, user.PumpId)
+      console.log('hi', user.PumpId)
       console.log(res)
 
       if (res.data != null) {
-        console.log("result",res.data);
+        console.log('result', res.data)
       } else {
-        console.log(res);
+        console.log(res)
       }
     } catch (error) {
-      console.error('Error submitting card payment:', error);
+      console.error('Error submitting card payment:', error)
     }
   }
 
-  
   //upipost
-  const [upiform, setupiform] = useState({ UPIPayment: { Name: '' } });
+  const [upiform, setupiform] = useState({ UPIPayment: { Name: '' } })
   const onChangeHandlerupi = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target
     setupiform({
       ...upiform,
       UPIPayment: {
         ...cardform.UPIPayment,
-        [name]: value,
-      },
+        [name]: value
+      }
     })
   }
   const onSubmitHandlerupi = async (event) => {
     event.preventDefault()
-    console.log(upiform);
+    console.log(upiform)
     const res = await mainservice.createUPIPayment(upiform, user.PumpId)
-    console.log("hi",user.PumpId)
+    console.log('hi', user.PumpId)
     if (res.data != null) {
       console.log(res.data)
     } else {
@@ -717,8 +707,8 @@ export default function PostSales() {
                           })}
                         </tbody>
                         <div className="mt-3">
-                          <Button onClick={handleAddField}>
-                            <i class="ri-add-circle-fill"></i> Add Item
+                          <Button style={{ color: 'white' }} onClick={handleAddField}>
+                            Add Item
                           </Button>
                         </div>
                       </Table>
@@ -740,6 +730,7 @@ export default function PostSales() {
                     <h5 style={{ marginRight: '200px' }}>{receivedAmount.toFixed(2)}</h5>
                     <Button
                       variant="primary"
+                      style={{ color: 'white' }}
                       className="d-flex align-items-center gap-2"
                       onClick={() => setShow(true)}
                     >
@@ -795,10 +786,11 @@ export default function PostSales() {
             <div className="setting-item d-flex justify-content-end">
               <Button
                 variant="primary"
+                style={{ color: 'white' }}
                 className="d-flex align-items-center gap-2"
                 onClick={onSubmitHandler}
               >
-                <i className="ri-bar-chart-2-line fs-18 lh-1"></i> Save
+                Save
               </Button>
             </div>
           </Card.Body>
@@ -823,7 +815,7 @@ export default function PostSales() {
                       <Nav.Link eventKey="3">UPI</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="4">Others</Nav.Link>
+                      <Nav.Link eventKey="4">Credit Sales</Nav.Link>
                     </Nav.Item>
                   </Nav>
                 </Col>
@@ -832,9 +824,9 @@ export default function PostSales() {
                     <Tab.Pane eventKey="1">
                       <Card className="card-settings mt-4">
                         <Card.Header>
-                          <Card.Title>Tank Details</Card.Title>
+                          <Card.Title>Dinomination</Card.Title>
                           <Card.Text>
-                            Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.
+                            
                           </Card.Text>
                         </Card.Header>
                         <Card.Body>
@@ -1259,9 +1251,9 @@ export default function PostSales() {
                     <Tab.Pane eventKey="2">
                       <Card className="card-settings mt-4">
                         <div className="d-flex justify-content-end gap-2 mt-3 mt-md-0">
-
                           <Button
                             variant="primary"
+                            style={{ color: 'white' }}
                             className="d-flex align-items-center gap-2"
                             onClick={() => {
                               setCard(true)
@@ -1271,9 +1263,9 @@ export default function PostSales() {
                           </Button>
                         </div>
                         <Card.Header>
-                          <Card.Title>Tank Details</Card.Title>
+                          <Card.Title>Card Payments</Card.Title>
                           <Card.Text>
-                            Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.
+                            
                           </Card.Text>
                         </Card.Header>
                         <Card.Body className="p-0">
@@ -1347,8 +1339,8 @@ export default function PostSales() {
                                         })}
                                       </tbody>
                                       <div className="mt-3">
-                                        <Button onClick={handleAddField2}>
-                                          <i class="ri-add-circle-fill"></i> Add Item
+                                        <Button onClick={handleAddField2} style={{ color: 'white' }}>
+                                          Add Item
                                         </Button>
                                       </div>
                                     </Table>
@@ -1378,8 +1370,8 @@ export default function PostSales() {
                     <Tab.Pane eventKey="3">
                       <Card className="card-settings mt-4">
                         <div className="d-flex justify-content-end gap-2 mt-3 mt-md-0">
-
                           <Button
+                          style={{ color: 'white' }}
                             variant="primary"
                             className="d-flex align-items-center gap-2"
                             onClick={() => {
@@ -1390,9 +1382,9 @@ export default function PostSales() {
                           </Button>
                         </div>
                         <Card.Header>
-                          <Card.Title>Tank Details</Card.Title>
+                          <Card.Title>Digital Payments</Card.Title>
                           <Card.Text>
-                            Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.
+                            
                           </Card.Text>
                         </Card.Header>
                         <Card.Body className="p-0">
@@ -1466,8 +1458,8 @@ export default function PostSales() {
                                         })}
                                       </tbody>
                                       <div className="mt-3">
-                                        <Button onClick={handleAddField3}>
-                                          <i class="ri-add-circle-fill"></i> Add Item
+                                        <Button onClick={handleAddField3} style={{ color: 'white' }}>
+                                          Add Item
                                         </Button>
                                       </div>
                                     </Table>
@@ -1497,9 +1489,9 @@ export default function PostSales() {
                     <Tab.Pane eventKey="4">
                       <Card className="card-settings mt-4">
                         <Card.Header>
-                          <Card.Title>Tank Details</Card.Title>
+                          <Card.Title>Creditors</Card.Title>
                           <Card.Text>
-                            Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.
+                            
                           </Card.Text>
                         </Card.Header>
                         <Card.Body className="p-0">
@@ -1511,7 +1503,7 @@ export default function PostSales() {
                                     <Table size="sm" borderless className="mb-0" hover>
                                       <thead>
                                         <tr>
-                                          <th scope="col">Method</th>
+                                          <th scope="col">Customer</th>
                                           <th scope="col">Amount</th>
                                         </tr>
                                       </thead>
@@ -1573,8 +1565,8 @@ export default function PostSales() {
                                         })}
                                       </tbody>
                                       <div className="mt-3">
-                                        <Button onClick={handleAddField4}>
-                                          <i class="ri-add-circle-fill"></i> Add Item
+                                        <Button onClick={handleAddField4} style={{ color: 'white' }}>
+                                          Add Item
                                         </Button>
                                       </div>
                                     </Table>
@@ -1619,7 +1611,7 @@ export default function PostSales() {
             <Button variant="danger" onClick={clearData}>
               Reset
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleClose} style={{ color: 'white' }}>
               Save Changes
             </Button>
           </Modal.Footer>
@@ -1635,7 +1627,12 @@ export default function PostSales() {
                   <h6>Name</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="Name" onChange={onChangeHandlercard} type="text" placeholder='Name of Card'/>
+                  <Form.Control
+                    name="Name"
+                    onChange={onChangeHandlercard}
+                    type="text"
+                    placeholder="Name of Card"
+                  />
                 </Col>
               </Row>
             </div>
@@ -1644,7 +1641,7 @@ export default function PostSales() {
             <Button variant="secondary" onClick={handleCardClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSubmitHandlercard}>
+            <Button variant="primary" onClick={onSubmitHandlercard} style={{ color: 'white' }}>
               Save Changes
             </Button>
           </Modal.Footer>
@@ -1660,7 +1657,12 @@ export default function PostSales() {
                   <h6>Name</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="Name" onChange={onChangeHandlerupi} type="text" placeholder='Name of UPI'/>
+                  <Form.Control
+                    name="Name"
+                    onChange={onChangeHandlerupi}
+                    type="text"
+                    placeholder="Name of UPI"
+                  />
                 </Col>
               </Row>
             </div>
@@ -1669,7 +1671,7 @@ export default function PostSales() {
             <Button variant="secondary" onClick={handleUpiClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSubmitHandlerupi}>
+            <Button variant="primary" onClick={onSubmitHandlerupi} style={{ color: 'white' }}>
               Save Changes
             </Button>
           </Modal.Footer>

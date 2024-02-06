@@ -122,7 +122,7 @@ export default function PostEmployee() {
         <Card className="card-settings">
           <Card.Header>
             <Card.Title>Create a New Employee</Card.Title>
-            <Card.Text>short Description</Card.Text>
+            {/* <Card.Text>short Description</Card.Text> */}
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -136,7 +136,7 @@ export default function PostEmployee() {
                     value={uform.FirstName}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="eg.100-25484"
+                   
                   />
                 </Col>
                 <Col md>
@@ -148,7 +148,7 @@ export default function PostEmployee() {
                     value={uform.LastName}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="eg.100-25484"
+                   
                   />
                 </Col>
                 <Col md>
@@ -175,7 +175,7 @@ export default function PostEmployee() {
                     value={uform.PhoneNumber}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="eg.100-25484"
+                 
                   />
                 </Col>
                 <Col md>
@@ -187,7 +187,7 @@ export default function PostEmployee() {
                     value={uform.Email}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="eg.100-25484"
+                   
                   />
                 </Col>
               </Row>
@@ -204,7 +204,7 @@ export default function PostEmployee() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                    placeholder="Enter tagline"
+                 
                   />
                 </Col>
                 <Col>
@@ -217,7 +217,7 @@ export default function PostEmployee() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                    placeholder="Enter tagline"
+                
                   />
                 </Col>
               </Row>
@@ -234,7 +234,7 @@ export default function PostEmployee() {
                     // value={uform.AadhaarId}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Petrol"
+                 
                   />
                 </Col>
                 <Col md>
@@ -246,7 +246,7 @@ export default function PostEmployee() {
                     value={uform.VoterId}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="600 Litre"
+                 
                   />
                 </Col>
                 <Col md>
@@ -258,7 +258,7 @@ export default function PostEmployee() {
                     value={uform.PANCardNumber}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="35000/-"
+                  
                   />
                 </Col>
               </Row>
@@ -274,7 +274,7 @@ export default function PostEmployee() {
                     value={uform.PFNumber}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Petrol"
+               
                   />
                 </Col>
                 <Col md>
@@ -286,7 +286,7 @@ export default function PostEmployee() {
                     value={uform.ESINumber}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="600 Litre"
+              
                   />
                 </Col>
                 <Col md>
@@ -298,7 +298,7 @@ export default function PostEmployee() {
                     value={uform.UAN}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="35000/-"
+               
                   />
                 </Col>
               </Row>
@@ -314,7 +314,7 @@ export default function PostEmployee() {
                     value={uform.Designation}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Petrol"
+                   
                   />
                 </Col>
                 <Col md>
@@ -326,7 +326,7 @@ export default function PostEmployee() {
                     value={uform.Department}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="600 Litre"
+                
                   />
                 </Col>
                 <Col md>
@@ -338,7 +338,7 @@ export default function PostEmployee() {
                     value={uform.Salary}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="35000/-"
+                  
                   />
                 </Col>
               </Row>
@@ -347,7 +347,7 @@ export default function PostEmployee() {
               <Row className="g-2">
                 <Col md="5">
                   <h6>Note</h6>
-                  <p>Temporibus autem quibusdam et aut officiis.</p>
+                  <p></p>
                 </Col>
                 <Col md>
                   <Form.Control
@@ -356,7 +356,7 @@ export default function PostEmployee() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                    placeholder="Enter tagline"
+                 
                   />
                 </Col>
               </Row>
@@ -367,7 +367,7 @@ export default function PostEmployee() {
         <Card className="card-settings mt-4">
           <Card.Header>
             <Card.Title>Bank Details</Card.Title>
-            <Card.Text>Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.</Card.Text>
+            <Card.Text></Card.Text>
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -381,7 +381,7 @@ export default function PostEmployee() {
                     value={uform.AccountNumber}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Petrol"
+                 
                   />
                 </Col>
                 <Col md>
@@ -393,7 +393,7 @@ export default function PostEmployee() {
                     value={uform.IFSCCode}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="600 Litre"
+                   
                   />
                 </Col>
                 <Col md>
@@ -405,7 +405,7 @@ export default function PostEmployee() {
                     value={uform.Branch}
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="35000/-"
+                   
                   />
                 </Col>
               </Row>
@@ -420,13 +420,13 @@ export default function PostEmployee() {
               <Col xs="12">
                 {editMode ? (
                   <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={onUpdateHandler} type="submit">
+                    <Button onClick={onUpdateHandler} type="submit" style={{color:'white'}}>
                       Update
                     </Button>
                   </div>
                 ) : (
-                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={onSubmitHandler} type="submit">
+                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }} >
+                    <Button onClick={onSubmitHandler} type="submit" style={{color:'white'}}>
                       Submit
                     </Button>
                   </div>

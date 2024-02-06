@@ -29,6 +29,7 @@ window.addEventListener('load', function () {
 })
 
 export default function App() {
+  localStorage.setItem('sidebar-skin', 'dark')
   const dispatch = useDispatch()
   const active = useSelector((state) => state.loginedUser.isConnected)
   async function Auth() {
@@ -68,7 +69,7 @@ export default function App() {
         firstName: userData.data.firstName,
         lastName: userData.data.LastName,
         PumpId: userData.data.PumpId,
-        email: userData.data.email
+        email: userData.data.email,
       }
       dispatch(setUserProfile(newUser))
       fetchPump(userData.data.PumpId)

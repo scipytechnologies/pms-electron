@@ -101,10 +101,11 @@ function SalesAndBilling() {
           </div>
           <Button
             variant="primary"
+            style={{color:'white'}}
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addSales')}
           >
-            <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add Sales
+            <i className="ri-shopping-cart-line"></i>Add Sales
             <span className="d-none d-sm-inline"></span>
           </Button>
         </div>
@@ -369,10 +370,10 @@ function SalesAndBilling() {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={handlePrint}>
+            <Button  style={{color:'white'}} variant="danger" onClick={handlePrint}>
               Print
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button style={{color:'white'}} variant="primary" onClick={handleClose}>
               Save Changes
             </Button>
           </Modal.Footer>

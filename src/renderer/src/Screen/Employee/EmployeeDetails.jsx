@@ -226,6 +226,7 @@ function EmployeeDetails() {
             variant="primary"
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addEmployee')}
+            style={{color:'white'}}
           >
             <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add Employee
             <span className="d-none d-sm-inline"></span>

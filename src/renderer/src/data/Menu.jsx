@@ -20,7 +20,7 @@ const Menu = [
       },
       {
         "label": "Credit History",
-        "link": "/pages/activity"
+        "link": "dashboard/Customer/paymentHistory"
       }
     ]
   },
@@ -56,7 +56,7 @@ const Menu = [
       },
       {
         "label": "Report",
-        "link": "/pages/activity"
+        "link": "dashboard/Sales/SalesReport"
       }
     ]
   },
@@ -113,6 +113,11 @@ const Menu = [
         "link": "/pages/activity"
       }
     ]
+  },
+   {
+    "label": "Settings",
+    "link": "/pages/settings",
+    "icon": "ri-settings-5-line"
   }
 ];
 const dashboardMenu = [

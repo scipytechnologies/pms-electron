@@ -116,7 +116,7 @@ export default function PostCustomer() {
   }
 
   async function updateCustomer(uform) {
-    const res = await mainservice.updateCustomer(id, uform)
+    const res = await mainservice.updateCustomer(id,user.PumpId,uform)
     console.log("updateId", id)
     if (res.data != null) {
       navigate('/dashboard/Customer/CustomerDetails')

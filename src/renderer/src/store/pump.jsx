@@ -16,15 +16,19 @@ const initialState = {
   Nozzle: [],
   CardPayment: [],
   UPIPayment: [],
-  OtherPayment: []
+  OtherPayment: [],
+  Payment: [],
+  CreditSales: [],
+  Shift: []
 }
 
 export const PumpSlice = createSlice({
   name: 'pumpstore',
   initialState,
   reducers: {
-    pumpInfo : (state,action ) => {
-        const { PumpName,
+    pumpInfo: (state, action) => {
+      const {
+        PumpName,
         PhoneNumber,
         Address,
         email,
@@ -39,28 +43,35 @@ export const PumpSlice = createSlice({
         Nozzle,
         CardPayment,
         UPIPayment,
-        OtherPayment} = action.payload;
-        state.PumpName= PumpName,
-        state.PhoneNumber= PhoneNumber,
-        state.Address= Address,
-        state.email= email,
-        state.Tank= Tank,
-        state.Employee= Employee,
-        state.Fuel= Fuel,
-        state.Customer= Customer,
-        state.InventoryManagement= InventoryManagement,
-        state.Product= Product,
-        state.SalesAndBilling= SalesAndBilling,
-        state.DipStock= DipStock,
-        state.Nozzle= Nozzle,
-        state.CardPayment= CardPayment,
-        state.UPIPayment= UPIPayment,
-        state.OtherPayment= OtherPayment
-    },
+        OtherPayment,
+        Payment,
+        Shift,
+        CreditSales
+      } = action.payload
+      ;(state.PumpName = PumpName),
+        (state.PhoneNumber = PhoneNumber),
+        (state.Address = Address),
+        (state.email = email),
+        (state.Tank = Tank),
+        (state.Employee = Employee),
+        (state.Fuel = Fuel),
+        (state.Customer = Customer),
+        (state.InventoryManagement = InventoryManagement),
+        (state.Product = Product),
+        (state.SalesAndBilling = SalesAndBilling),
+        (state.DipStock = DipStock),
+        (state.Nozzle = Nozzle),
+        (state.CardPayment = CardPayment),
+        (state.UPIPayment = UPIPayment),
+        (state.OtherPayment = OtherPayment),
+        (state.Payment = Payment),
+        (state.Shift = Shift),
+        (state.CreditSales = CreditSales)
+    }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const {pumpInfo} = PumpSlice.actions
+export const { pumpInfo } = PumpSlice.actions
 
 export default PumpSlice.reducer

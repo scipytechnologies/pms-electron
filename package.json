@@ -1,6 +1,6 @@
 {
   "name": "pms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An Electron application with React",
   "main": "./out/main/index.js",
   "author": "example.com",
@@ -48,7 +48,7 @@
     "cryptofont": "^0.1.1",
     "dompurify": "^2.4.3",
     "electron": "^25.6.0",
-    "electron-builder": "^24.6.3",
+    "electron-builder": "^24.9.1",
     "electron-vite": "^1.0.27",
     "eslint": "^8.47.0",
     "eslint-plugin-react": "^7.33.2",

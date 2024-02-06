@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     id:' ',
     isConnected : false,
-    role:'owner',
+    role:'',
     firstName:'',
     lastName:'',
     PumpId:'',
@@ -21,8 +21,7 @@ const initialState = {
             state.isConnected = true
        },
        setRole : (state,action) => {
-        // state.role = action.payload
-        state.role = "owner"
+        state.role = action.payload
        },
        setUserProfile :(state,action) =>{
         const {firstName,lastName,PumpId,email} = action.payload;
@@ -30,7 +29,7 @@ const initialState = {
         state.firstName = firstName;
         state.lastName = lastName;
         state.PumpId = PumpId;
-        state.email = email
+        state.email = email;
        } 
         
   }

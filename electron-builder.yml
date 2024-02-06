@@ -8,6 +8,8 @@ files:
   - '!electron.vite.config.{js,ts,mjs,cjs}'
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+asar : true
+extends: null 
 asarUnpack:
   - resources/**
 win:
@@ -38,5 +40,7 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  token: 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
+  owner: scipytechnologies
+  repo: Autoupdator

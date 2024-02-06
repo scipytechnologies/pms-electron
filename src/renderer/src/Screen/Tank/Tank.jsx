@@ -156,6 +156,7 @@ export default function Tank() {
               <i className="ri-printer-line fs-18 lh-1"></i>Print
             </Button> */}
             <Button
+            style={{color:'white'}}
               variant="primary"
               className="d-flex align-items-center gap-2"
               onClick={() => {

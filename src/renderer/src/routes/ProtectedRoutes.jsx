@@ -22,7 +22,7 @@ import Profile from "../pages/Profile";
 import People from "../pages/People";
 import Activity from "../pages/Activity";
 import Events from "../pages/Events";
-import Settings from "../pages/Settings";
+import Settings from "../Screen/General/Settings";
 import Home from "../dashboard/Home";
 import Tank from "../Screen/Tank/Tank";
 import DipStock from "../Screen/Tank/dipStock";
@@ -40,6 +40,8 @@ import ProductDetails from "../Screen/Product/ProductDetails";
 import SalesAndBilling from "../Screen/Sales/SalesDetails";
 import StockDetails from "../Screen/Tank/StockDetails";
 import TankDetails from "../Screen/Tank/TankDetails";
+import SalesReport from "../Screen/Sales/SalesReport";
+import PaymentHistory from "../Screen/Customer/PaymentHistory";
 
 
 const protectedRoutes = [
@@ -72,13 +74,15 @@ const protectedRoutes = [
   { path: "pages/events", element: <Events /> },
   { path: "pages/settings", element: <Settings /> },
 
-  { path: "dashboard/Customer/CustomerDetails", element: <CustomerDetails /> },
+  { path: "dashboard/Customer/CustomerDetails", element: <CustomerDetails /> }, { path: "dashboard/Customer/paymentHistory", element: <PaymentHistory /> },
   { path: "dashboard/Employee/EmployeeDetails", element: <EmployeeDetails /> },
   { path: "dashboard/Inventory/InventoryDetails", element: <InventoryDetails /> },
   { path: "dashboard/Product/ProductDetails", element: <ProductDetails /> },
   { path: "dashboard/Sales/SalesDetails", element: <SalesAndBilling /> },
   { path: "dashboard/DipStock/StockDetails", element: <StockDetails /> },
   { path: "dashboard/Tank/TankDetails", element: <TankDetails /> },
+  { path: "dashboard/Sales/SalesReport", element: <SalesReport/> },
+
  
 ]
 

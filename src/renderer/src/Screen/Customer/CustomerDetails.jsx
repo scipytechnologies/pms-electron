@@ -77,14 +77,13 @@ function CustomerDetails() {
       console.log(res.message)
     }
   }
-  const [Balance,SetBalance] = useState('')
+  const [Balance, SetBalance] = useState('')
 
   function handleOpen(id) {
     setShow(true)
     getCustomerDataById(id.CustomerId)
     getCreditSaleDataById(id.CustomerId)
     SetBalance(id.CreditBalance)
-    
   }
   function handleClose() {
     setShow(false)
@@ -145,8 +144,8 @@ function CustomerDetails() {
 
     const res = await mainservice.createCreditSales(user.PumpId, data)
     if (res.data != null) {
-      console.log('Credit Sales Created')
-      handleClose()
+      handleCreditClose()
+      fetchPump(user.PumpId)
     } else {
       console.log(res)
     }
@@ -161,18 +160,18 @@ function CustomerDetails() {
   }
   const onSubmitHandler2 = async (event) => {
     event.preventDefault()
+    
     const data = {
       CustomerID: paydata.CustomerId,
       Amount: form2.Amount,
       Balance: paydata.CreditBalance - form2.Amount,
-      Customer: paydata.CustomerName
+      Customer: paydata.CustomerName,
+      PumpID: user.PumpId
     }
-    console.log(data)
-
     const res = await mainservice.createCreditPayment(user.PumpId, data)
     if (res.data != null) {
-      console.log('Credit Payment Created')
-      handleClose()
+      console.log(res.data._id);
+      navigate(`/dashboard/Customer/paymentHistory?redirect=true&id=${res.data._id}`)
     } else {
       console.log(res)
     }
@@ -237,11 +236,11 @@ function CustomerDetails() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button style={{color:'white'}} variant="secondary" onClick={handleCreditClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={onSubmitHandler}>
-            Save Changes
+          <Button style={{color:'white'}} variant="primary" onClick={onSubmitHandler}>
+            Submit
           </Button>
         </Modal.Footer>
       </Modal>
@@ -285,11 +284,11 @@ function CustomerDetails() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button style={{color:'white'}} variant="secondary" onClick={handlePayClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={onSubmitHandler2}>
-            Save Changes
+          <Button style={{color:'white'}} variant="primary" onClick={onSubmitHandler2}>
+            Submit
           </Button>
         </Modal.Footer>
       </Modal>
@@ -406,9 +405,6 @@ function CustomerDetails() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
         </Modal.Footer>
       </Modal>
       <Header onSkin={setSkin} />
@@ -430,11 +426,12 @@ function CustomerDetails() {
           </div>
 
           <Button
+          style={{color:'white'}}
             variant="primary"
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addCustomer')}
           >
-            <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add Customer
+            <i className="ri-user-add-fill"></i>Add Customer
             <span className="d-none d-sm-inline"></span>
           </Button>
         </div>
