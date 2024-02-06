@@ -4,13 +4,22 @@ import { Col, Row, Form, Nav, Card, Button, Table } from 'react-bootstrap'
 import Footer from '../../layouts/Footer'
 import Header from '../../layouts/Header'
 import { useSearchParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import mainservice from '../../Services/mainservice'
+import Select from 'react-select'
+import { useSelector, useDispatch } from 'react-redux'
+import { pumpInfo } from '../../store/pump'
 
 export default function PostInventory() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
+  const dispatch = useDispatch()
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const user = useSelector((state) => state.loginedUser)
+  const inventorys = useSelector((state) => state.pumpstore.Product)
+  console.log("selectedcategory",selectedCategory)
+
+  console.log("selectedItem",selectedItem)
 
   const switchSkin = (skin) => {
     if (skin === 'dark') {
@@ -77,6 +86,29 @@ export default function PostInventory() {
     console.log(fields)
   }
 
+  const InventoryOptions = (inventorys) => {
+    return inventorys.map((inventory) => {
+      const { CategoryName, ProductId } = inventory
+      return { label: CategoryName, value: ProductId }
+    })
+  }
+
+  const InventoryData = InventoryOptions(inventorys)
+
+  const [selectedInventory, setSelectedInventory] = useState(null)
+  console.log("selectedinventory",selectedInventory)
+  const categoryChangeHandler = (selectedOption) => {
+    setSelectedCategory(selectedOption)
+    if (selectedOption) {
+      const productId = selectedOption.value;
+      getProductbyid(productId);
+    }
+  }
+
+  const itemChangeHandler = (selectedOption) => {
+    setSelectedInventory(selectedOption)
+  }
+
   const [form, setform] = useState({})
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -90,13 +122,40 @@ export default function PostInventory() {
     });
     console.log(uform);
   }
+
+  async function getProductbyid(productId) {
+    const res = await mainservice.getProductById(productId)
+    if (res.data != null) {
+      const products = res.data.result2.product;
+      const selectedItemOptions = products.map(product => ({
+        label: product.Name
+      }));
+      setSelectedItem(selectedItemOptions);
+    }
+    else {
+      console.log(res.message)
+    }
+  }
+
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    console.log(form);
-    const res = await mainservice.createInventoryManagement(form, user.PumpId)
-    console.log("pumpid",user.PumpId)
+    
+    const data = {
+      CategoryName: selectedCategory.label,
+      SKUNo: form.SKUNo,
+      ItemName: selectedInventory.label,
+      Brand: form.Brand,
+      PumpId: user.PumpId,
+      CurrentStock: form.CurrentStock,
+      Price: form.Price,
+      ExpiryDate: form.ExpiryDate,
+      Description: form.Description,
+    }
+    console.log(data)
+    const res = await mainservice.createInventoryManagement(data, user.PumpId)
+    console.log("pumpid", user.PumpId)
     if (res.data != null) {
-      console.log(res.data)
+      console.log("response", res)
     } else {
       console.log(res)
     }
@@ -169,29 +228,41 @@ export default function PostInventory() {
                   <h6>SKU</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="SKUNo" value={uform.SKUNo} placeholder="eg.100-25484" onChange={onChangeHandler}/>
+                  <Form.Control type="text" name="SKUNo" value={uform.SKUNo} placeholder="eg.100-25484" onChange={onChangeHandler} />
                 </Col>
               </Row>
             </div>
             <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
+                  <h6>Category</h6>
+                </Col>
+                <Col md>
+                  <Select
+                    isDisabled={false}
+                    isSearchable={true}
+                    name="CategoryName"
+                    options={InventoryData}
+                    onChange={categoryChangeHandler}
+                  />
+                </Col>
+                <Col md>
                   <h6>Item Name</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="ItemName" value={uform.ItemName} placeholder="eg.100-25484" onChange={onChangeHandler}/>
+                  <Select
+                    isDisabled={false}
+                    isSearchable={true}
+                    name="ItemName"
+                    options={selectedItem}
+                    onChange={itemChangeHandler}
+                  />
                 </Col>
                 <Col md>
                   <h6>Brand</h6>
                 </Col>
                 <Col md>
                   <Form.Control type="text" name="Brand" value={uform.Brand} placeholder="Petrol" onChange={onChangeHandler} />
-                </Col>
-                <Col md>
-                  <h6>Category</h6>
-                </Col>
-                <Col md>
-                  <Form.Control type="text" name="ItemCategory" value={uform.ItemCategory} placeholder="eg.100-25484" onChange={onChangeHandler} />
                 </Col>
               </Row>
             </div>
@@ -202,7 +273,7 @@ export default function PostInventory() {
                   <h6>Current Stock</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="CurrentStock" value={uform.CurrentStock} placeholder="600 Litre" onChange={onChangeHandler}/>
+                  <Form.Control type="text" name="CurrentStock" value={uform.CurrentStock} placeholder="600 Litre" onChange={onChangeHandler} />
                 </Col>
                 <Col md>
                   <h6>Price</h6>
@@ -214,7 +285,7 @@ export default function PostInventory() {
                   <h6>Expiry Date</h6>
                 </Col>
                 <Col md>
-                <Form.Control type="Date" name="ExpiryDate" value={uform.ExpiryDate} placeholder="Date" onChange={onChangeHandler}/>
+                  <Form.Control type="Date" name="ExpiryDate" value={uform.ExpiryDate} placeholder="Date" onChange={onChangeHandler} />
                 </Col>
               </Row>
             </div>
@@ -226,7 +297,7 @@ export default function PostInventory() {
                   <p>Temporibus autem quibusdam et aut officiis.</p>
                 </Col>
                 <Col md>
-                  <Form.Control as="textarea" rows="3" name="Description" value={uform.Description} placeholder="Enter tagline" onChange={onChangeHandler}/>
+                  <Form.Control as="textarea" rows="3" name="Description" value={uform.Description} placeholder="Enter tagline" onChange={onChangeHandler} />
                 </Col>
               </Row>
             </div>

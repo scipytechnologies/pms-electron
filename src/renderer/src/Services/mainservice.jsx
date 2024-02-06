@@ -1,3 +1,4 @@
+import { applicationsMenu } from '../data/Menu'
 import apicall from './interceptor'
 
 async function Login(data) {
@@ -333,6 +334,9 @@ async function getChart(id) {
   return response
 }
 export default {
+  createEcommerce,
+  getByIdEcommerce,
+  getEcommerce,
   GetUserById,
   Login,
   SignUp,

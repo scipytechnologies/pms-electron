@@ -46,7 +46,8 @@ export const PumpSlice = createSlice({
         OtherPayment,
         Payment,
         Shift,
-        CreditSales
+        CreditSales,
+        Ecommerce
       } = action.payload
       ;(state.PumpName = PumpName),
         (state.PhoneNumber = PhoneNumber),
@@ -66,7 +67,8 @@ export const PumpSlice = createSlice({
         (state.OtherPayment = OtherPayment),
         (state.Payment = Payment),
         (state.Shift = Shift),
-        (state.CreditSales = CreditSales)
+        (state.CreditSales = CreditSales),
+        (state.Ecommerce = Ecommerce)
     }
   }
 })

@@ -42,6 +42,7 @@ import StockDetails from "../Screen/Tank/StockDetails";
 import TankDetails from "../Screen/Tank/TankDetails";
 import SalesReport from "../Screen/Sales/SalesReport";
 import PaymentHistory from "../Screen/Customer/PaymentHistory";
+import ViewProduct from "../Screen/Product/ViewProduct"
 
 
 const protectedRoutes = [
@@ -82,7 +83,7 @@ const protectedRoutes = [
   { path: "dashboard/DipStock/StockDetails", element: <StockDetails /> },
   { path: "dashboard/Tank/TankDetails", element: <TankDetails /> },
   { path: "dashboard/Sales/SalesReport", element: <SalesReport/> },
-
+  { path: "dashboard/Product/ViewProduct", element: <ViewProduct /> }
  
 ]
 

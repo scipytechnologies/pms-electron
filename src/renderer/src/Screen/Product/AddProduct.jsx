@@ -77,7 +77,7 @@ export default function PostProduct() {
          "Name": uform?.Name,
          "Description": uform?.Description,
          "Category": uform?.Category,
-         "Tax": uform?.Tax,
+         "GST": uform?.GST,
          "Brand": uform?.Brand,
          "Price": uform?.Price,
          "OnSale": uform?.OnSale,
@@ -189,10 +189,10 @@ export default function PostProduct() {
                   <Form.Control type="text" name="Brand" value={uform.Brand} placeholder="Petrol" onChange={onChangeHandler}/>
                 </Col>
                 <Col md>
-                  <h6>Tax</h6>
+                  <h6>GST</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="Tax" value={uform.Tax} placeholder="600 Litre" onChange={onChangeHandler}/>
+                  <Form.Control type="text" name="GST" value={uform.GST} placeholder="600 Litre" onChange={onChangeHandler}/>
                 </Col>
               </Row>
             </div>

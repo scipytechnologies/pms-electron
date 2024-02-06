@@ -6,16 +6,18 @@ import { Link, useNavigate } from "react-router-dom"
 import mainservice from "../../Services/mainservice";
 import { Grid } from "gridjs-react";
 import { _ } from "gridjs-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux'
+import { pumpInfo } from '../../store/pump'
 
 function InventoryDetails() {
     const currentSkin = (localStorage.getItem('skin-mode')) ? 'dark' : '';
     const [skin, setSkin] = useState(currentSkin);
     const navigate = useNavigate()
-    const [user, setUser] = useState("")
-    const [data, setData] =  useState([])
+    const dispatch = useDispatch()
+    const [data, setData] = useState([])
     const inventoryData = useSelector((state) => state.pumpstore.InventoryManagement)
     const pumpId = useSelector((state) => state.loginedUser.PumpId)
+    const user = useSelector((state) => state.loginedUser)
 
     async function getInventoryManagement() {
         setData(inventoryData)
@@ -24,22 +26,33 @@ function InventoryDetails() {
         getInventoryManagement()
     }, [])
 
-    async function deleteInventoryManagement(pumpId,inventoryId) {
-        const res = await mainservice.deleteInventoryManagement(pumpId,inventoryId);
-        if(res.data != null) {
+    async function deleteInventoryManagement(pumpId, inventoryId) {
+        const res = await mainservice.deleteInventoryManagement(pumpId, inventoryId);
+        if (res.data != null) {
             console.log("deleted");
             getInventoryManagement()
         }
-        else{
+        else {
             console.log(res.message);
         }
     }
 
     const onDeleteHandler = (item) => {
         const inventoryId = item.InventoryManagementId
-        console.log("invenId",inventoryId);
-        deleteInventoryManagement(pumpId,inventoryId);
+        console.log("invenId", inventoryId);
+        deleteInventoryManagement(pumpId, inventoryId);
     }
+
+    const fetchPump = async (id) => {
+        const pumpdetails = await mainservice.getPumpById(id)
+        if (pumpdetails.data != null) {
+            dispatch(pumpInfo(pumpdetails.data.result2))
+            console.log(pumpdetails.data.result2)
+        }
+    }
+    useEffect(() => {
+        fetchPump(user.PumpId)
+    }, [])
 
     return (
 
@@ -66,7 +79,8 @@ function InventoryDetails() {
                         <Grid
                             data={inventoryData.map((item) => [
                                 item.InventoryManagementId,
-                                item.InventoryManagementName,
+                                item.CategoryName,
+                                item.ItemName,
                                 _(
                                     <>
                                         <ButtonGroup>
@@ -93,7 +107,7 @@ function InventoryDetails() {
                                 )
                             ])
                             }
-                            columns={['Inventory Management Id', 'Inventory Management Name', 'Action']}
+                            columns={['Inventory Management Id', 'Category Name', 'Item Name', 'Action']}
                             search={true}
                             pagination={true}
                             sort={true}
@@ -102,7 +116,7 @@ function InventoryDetails() {
                                 table: 'table table-bordered mb-0',
                             }}
                         />
-                    </Card.Body>                 
+                    </Card.Body>
                 </Card>
                 <Footer />
             </div>
