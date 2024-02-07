@@ -11,12 +11,13 @@ import { isConnected, loggeduser, setUserProfile, setRole } from './store/logine
 import { pumpInfo } from './store/pump'
 import Redirect from './routeProtection/ForceRedirect'
 import ProtectedRoute from './routeProtection/ProtectedRoute'
-
+import Splash from './assets/splash.mp4'
 // import css
 import './assets/css/remixicon.css'
 
 // import scss
 import './scss/style.scss'
+import VideoSplashScreen from './VideoSplashScreen'
 
 // set skin on load
 window.addEventListener('load', function () {
@@ -56,11 +57,10 @@ export default function App() {
 
   const fetchPump = async (id) => {
     const pumpdetails = await mainservice.getPumpById(id)
-      if (pumpdetails.data != null) {
-         dispatch(pumpInfo(pumpdetails.data.result2))
-      }
+    if (pumpdetails.data != null) {
+      dispatch(pumpInfo(pumpdetails.data.result2))
     }
-  
+  }
 
   const fetchData = async (id) => {
     const userData = await mainservice.GetUserById(id)
@@ -69,7 +69,7 @@ export default function App() {
         firstName: userData.data.firstName,
         lastName: userData.data.LastName,
         PumpId: userData.data.PumpId,
-        email: userData.data.email,
+        email: userData.data.email
       }
       dispatch(setUserProfile(newUser))
       fetchPump(userData.data.PumpId)
@@ -82,31 +82,43 @@ export default function App() {
     Auth()
     // console.log(id);
   }, [])
+
+  const [showSplashScreen, setShowSplashScreen] = useState(true)
+
+  const handleVideoEnd = () => {
+    setShowSplashScreen(false)
+  }
+
   return (
     <React.Fragment>
-      <Routes>
-        <Route path="/" element={<Main />}>
-          {protectedRoutes.map((route, index) => {
+      {showSplashScreen && (
+        <VideoSplashScreen videoSrc={Splash} onVideoEnd={handleVideoEnd} />
+      )}
+      {!showSplashScreen && (
+        <Routes>
+          <Route path="/" element={<Main />}>
+            {protectedRoutes.map((route, index) => {
+              return (
+                <Route
+                  path={route.path}
+                  element={<ProtectedRoute user={active}>{route.element} </ProtectedRoute>}
+                  key={index}
+                />
+              )
+            })}
+          </Route>
+          {publicRoutes.map((route, index) => {
             return (
               <Route
                 path={route.path}
-                element={<ProtectedRoute user={active}>{route.element} </ProtectedRoute>}
+                element={<Redirect user={active}> {route.element} </Redirect>}
                 key={index}
               />
             )
           })}
-        </Route>
-        {publicRoutes.map((route, index) => {
-          return (
-            <Route
-              path={route.path}
-              element={<Redirect user={active}> {route.element} </Redirect>}
-              key={index}
-            />
-          )
-        })}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      )}
     </React.Fragment>
   )
 }
