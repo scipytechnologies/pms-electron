@@ -1,10 +1,10 @@
 {
-  "name": "pms",
-  "version": "1.0.1",
-  "description": "An Electron application with React",
+  "name": "indhanx",
+  "version": "0.0.1",
+  "description": "IndhanX - Fuel Management System",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://www.electronjs.org",
+  "author": "indhanx.com",
+  "homepage": "https://www.indhanx.com",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",

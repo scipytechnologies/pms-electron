@@ -56,7 +56,7 @@ export default function Home() {
         labels: {
             style: {
                 colors: '#555',
-                fontSize: '12px',
+                fontSize: '9px',
                 fontWeight: 'bold',
             },
         },
@@ -81,7 +81,7 @@ export default function Home() {
     plotOptions: {
         bar: {
             horizontal: false, // Change to true for horizontal bars
-            columnWidth: '50%', // Adjust the width of the bars if needed
+            columnWidth: '60%', // Adjust the width of the bars if needed
             dataLabels: {
                 position: 'top', // Show data labels on top of columns
             },
@@ -90,16 +90,10 @@ export default function Home() {
     dataLabels: {
         enabled: false,
         style: {
-            colors: ['#333'],
-            fontSize: '12px',
+            colors: ['white'],
+            fontSize: '9px',
             fontWeight: 'bold',
         },
-    },
-    stroke: {
-        show: true,
-        width: 2,
-        colors: ['#01a174'],
-        dashArray: [0, 2, 5],
     },
     colors: ['#01a174'],
 };
@@ -970,7 +964,7 @@ export default function Home() {
                 <ReactApexChart
                   options={chartOptions}
                   series={[{ name: 'Sales', data: salesData.totalSales }]}
-                  type="area"
+                  type="bar"
                   height={350}
                 />
               </Card.Body>

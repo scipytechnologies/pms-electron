@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: pms
+appId: com.indhanx.app
+productName: IndhanX
 directories:
   buildResources: build
 files:
@@ -13,7 +13,7 @@ extends: null
 asarUnpack:
   - resources/**
 win:
-  executableName: pms
+  executableName: IndhanX
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -41,6 +41,6 @@ appImage:
 npmRebuild: false
 publish:
   provider: github
-  token: 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
+  token: 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
   owner: scipytechnologies
   repo: Autoupdator
