@@ -17,8 +17,10 @@ export default function Tank() {
   const dispatch = useDispatch()
   const [show, setShow] = useState(false)
   const [nozzleModal, setNozzleModal] = useState(false)
+  const [evaporationModal, setEvaporationModal] = useState(false)
   const [form, setForm] = useState({})
   const [nozzleForm, setNozzleForm] = useState({})
+  const [evaporationForm, setEvaporationForm] = useState({})
   const [tanks, setTanks] = useState([])
   const [TankID, setTankID] = useState('')
   function handleClose() {
@@ -26,6 +28,10 @@ export default function Tank() {
   }
   function handleCloseAddNozzle() {
     setNozzleModal(false)
+    setTankID('')
+  }
+  function handleCloseEvaporation() {
+    setEvaporationModal(false)
     setTankID('')
   }
 
@@ -75,6 +81,15 @@ export default function Tank() {
       [event.target.name]: event.target.value
     })
   }
+
+  const onChangeEvaporation = (event) => {
+    setEvaporationForm({
+      ...evaporationForm,
+      [event.target.name]: event.target.value
+    })
+    console.log("evaporationform", evaporationForm)
+  }
+
   const onChangeNozzle = (event) => {
     setNozzleForm({
       ...nozzleForm,
@@ -89,6 +104,22 @@ export default function Tank() {
       dispatch(pumpInfo(pumpdetails.data.result2))
     }
   }
+
+  const onSubmitEvaporation = async (event) => {
+    event.preventDefault()
+    let data = { ...evaporationForm, Tankid: TankID}
+    console.log("pumpid",user.PumpId)
+    const res = await mainservice.createEvaporation(data , user.PumpId)
+    if (res.data != null) {
+      console.log("res",res)
+      fetchPump(user.PumpId)
+    } else {
+      console.log(res)
+    }
+    console.log('successdata', data)
+    handleClose()
+  }
+
 
   const onSubmitNozzle = async (event) => {
     event.preventDefault()
@@ -156,7 +187,7 @@ export default function Tank() {
               <i className="ri-printer-line fs-18 lh-1"></i>Print
             </Button> */}
             <Button
-            style={{color:'white'}}
+              style={{ color: 'white' }}
               variant="primary"
               className="d-flex align-items-center gap-2"
               onClick={() => {
@@ -167,6 +198,71 @@ export default function Tank() {
             </Button>
           </div>
         </div>
+
+
+        <Modal show={evaporationModal} onHide={handleCloseEvaporation} size="lg" centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Add New Evaporation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="setting-item">
+              <Row className="g-2 align-items-center">
+                <Col md>
+                  <h6>Tank</h6>
+                </Col>
+                <Col md>
+                  <Form.Control name="Tank" onChange={onChangeEvaporation} type="text" placeholder='Tank' />
+                </Col>
+                <Col md>
+                  <h6>Initial Quantity</h6>
+                </Col>
+                <Col md>
+                  <Form.Control name="InitialQuantity" onChange={onChangeEvaporation} type="text" placeholder='Initial Quantity' />
+                </Col>
+              </Row>
+            </div>
+            <div className="setting-item">
+              <Row className="g-2 align-items-center">
+                <Col md>
+                  <h6>Actual Quantity</h6>
+                </Col>
+                <Col md>
+                  <Form.Control name="ActualQuantity" onChange={onChangeEvaporation} type="text" placeholder='Actual Quantity' />
+                </Col>
+                <Col md>
+                  <h6>Missing</h6>
+                </Col>
+                <Col md>
+                  <Form.Control name="Missing" onChange={onChangeEvaporation} type="text" placeholder='Missing' />
+                </Col>
+              </Row>
+            </div>
+            <div className="setting-item">
+              <Row className="g-2 align-items-center">
+                <Col md>
+                  <h6>Date</h6>
+                </Col>
+                <Col md>
+                  <Form.Control name="Date" onChange={onChangeEvaporation} type="Date" placeholder='Date' />
+                </Col>
+                <Col md>
+                  <h6>Tested By</h6>
+                </Col>
+                <Col md>
+                  <Form.Control name="TestedBy" onChange={onChangeEvaporation} type="text" placeholder='Tested By' />
+                </Col>
+              </Row>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEvaporation}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={onSubmitEvaporation}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <Modal show={nozzleModal} onHide={handleCloseAddNozzle} size="lg" centered>
           <Modal.Header closeButton>
@@ -284,6 +380,17 @@ export default function Tank() {
                       <i className="ri-database-2-line"></i>
                       <h6>TANK No.{index + 1}</h6>
                     </div>
+                    <Button
+                      className="p-1"
+                      style={{ position: 'absolute', right: '45px' }}
+                      variant="white"
+                      onClick={() => {
+                        setEvaporationModal(true)
+                        setTankID(item._id)
+                      }}
+                    >
+                      <i class="ri-gas-station-fill"></i>
+                    </Button>
                     <Button
                       className="p-1"
                       variant="white"

@@ -80,8 +80,8 @@ async function getEmployee() {
   return response
 }
 
-async function updateEmployee(id, data) {
-  const response = await apicall.apicall('put', 9000, `employee/updateemployee/${id}`, data)
+async function updateEmployee(id, pumpid, data) {
+  const response = await apicall.apicall('put', 9000, `employee/updateemployee/${id}/${pumpid}`, data)
   return response
 }
 
@@ -235,13 +235,13 @@ async function getDipStockById(id) {
   return response
 }
 
-async function updateDipStock(id, data) {
-  const response = await apicall.apicall('put', 9000, `DipStockRouter/updateDipStock/${id}`, data)
+async function updateDipStock(id, pumpid, data) {
+  const response = await apicall.apicall('put', 9000, `DipStockRouter/updateDipStock/${id}/${pumpid}`, data)
   return response
 }
 
-async function deleteDipStock(id) {
-  const response = await apicall.apicall('delete', 9000, `DipStockRouter/deleteDipStock/${id}`)
+async function deleteDipStock(pumpId,DipStockId) {
+  const response = await apicall.apicall('delete', 9000, `DipStockRouter/deleteDipStock/${pumpId}/${DipStockId}`)
   return response
 }
 /////////////////////////{Pump}//////////////////////////////////
@@ -346,8 +346,20 @@ async function getByIdEcommerce(id){
   const response = await apicall.apicall('get',9000,`Ecommerce/getByIdEcommerce/${id}`)
   return response
 }
+////////////////////////////{Fuel Test}/////////////////////////////////////////////////////////
+async function createFuelTest(id, data){
+  const response = await apicall.apicall('post',9000,`FuelTest/createFuelTest/${id}`, data)
+  return response
+}
+
+/////////////////////////////////{Evaporation}////////////////////////////////////////////////////////
+async function createEvaporation(data, id){
+  const response = await apicall.apicall('post',9000,`Evaporation/createEvaporation/${id}`, data)
+  return response
+}
 
 
+////////////////////////////////////////////////////////////////////////////////////////
 
 export default {
   createEcommerce,
@@ -411,5 +423,7 @@ export default {
   getCreditPayment,
   getColab,
   DeleteColab,
-  getChart
+  getChart,
+  createFuelTest,
+  createEvaporation
 }

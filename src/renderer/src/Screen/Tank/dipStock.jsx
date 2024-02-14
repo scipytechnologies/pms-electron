@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import { Col, Row, Form, Nav, Card, Button, Table } from 'react-bootstrap'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
+import { Col, Row, Form, Nav, Card, Button, Table, CardBody } from 'react-bootstrap'
 import Footer from '../../layouts/Footer'
 import HeaderMobile from '../../layouts/HeaderMobile'
 import Avatar from '../../components/Avatar'
@@ -14,6 +14,7 @@ import Header from '../../layouts/Header'
 import mainservice from '../../Services/mainservice'
 import { useSelector, useDispatch } from 'react-redux'
 import Select from 'react-select'
+import { identity } from '@fullcalendar/core/internal'
 
 export default function DipStock() {
   const user = useSelector((state) => state.loginedUser)
@@ -21,6 +22,7 @@ export default function DipStock() {
   const [skin, setSkin] = useState(currentSkin)
   const [form, setform] = useState({})
   const [tanks, setTanks] = useState([])
+  const navigate = useNavigate()
 
   const switchSkin = (skin) => {
     if (skin === 'dark') {
@@ -142,9 +144,10 @@ export default function DipStock() {
   }
 
   async function updateDipStock(uform) {
-    const res = await mainservice.updateDipStock(id, uform)
+    const res = await mainservice.updateDipStock(id, user.PumpId, uform)
     console.log('updateId', id)
     if (res.data != null) {
+      navigate('/dashboard/DipStock/StockDetails')
       console.log(res.data, 'Employee Details Updated')
     } else {
       console.log(res.data)
@@ -161,6 +164,7 @@ export default function DipStock() {
     if (id) {
       setEditMode(true)
       const res = await mainservice.getDipStockById(id)
+      console.log("getdipid", id)
       setUform(res.data.result2)
       console.log(res.data.result2, 'this')
     }
@@ -186,7 +190,7 @@ export default function DipStock() {
             <Link to="#">Tank  </Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-        Manage Dip Stock
+            Manage Dip Stock
           </li>
         </ol>
         <h2 className="main-title">Manage Dip Stock</h2>
@@ -204,7 +208,7 @@ export default function DipStock() {
                 </Col>
                 <Col md>
                   <Form.Control
-                    type="Date"
+                    type="date"
                     name="Date"
                     value={uform.Date}
                     onChange={onChangeHandler}
@@ -305,110 +309,6 @@ export default function DipStock() {
           </Card.Body>
         </Card>
 
-        <Card className="card-settings mt-4">
-          <Card.Header>
-            <Card.Title>Tank Details</Card.Title>
-            {/* <Card.Text>Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.</Card.Text> */}
-          </Card.Header>
-          <Card.Body className="p-0">
-            <div className="setting-item">
-              <Row className="g-2">
-                <div>
-                  <Row className="g-2 align-items-center">
-                    <Col md="5">
-                      <h6>Tank Distribution</h6>
-                      {/* <p>Neque porro quisquam est qui dolorem.</p> */}
-                    </Col>
-                    <Col md>
-                      <Table size="sm" borderless className="mb-0" hover>
-                        <thead>
-                          <tr>
-                            <th scope="col">Tank</th>
-                            <th scope="col">Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {fields.map((field, index) => {
-                            return (
-                              <tr>
-                                <td scope="row">
-                                  <div className="mt-2">
-                                    <div key={index}>
-                                      <Select
-                                        styles={{
-                                          control: (baseStyles) => ({
-                                            ...baseStyles,
-                                            border: 0
-                                          })
-                                        }}
-                                        options={options}
-                                        isSearchable={true}
-                                        // onChange={(x) => onSelectHandler(x, 'Tank')}
-                                        onChange={(event) =>
-                                          handleChangeField(index, {
-                                            target: { name: 'Tank', value: event.value }
-                                          })
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">
-                                    <div key={index}>
-                                      <Form.Control
-                                        type="text"
-                                        name="Quantity"
-                                        value={field.ItemName}
-                                        placeholder="Item Name"
-                                        onChange={(event) => handleChangeField(index, event)}
-                                      />
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="mt-2">
-                                    <div className="input-group ">
-                                      <Button
-                                        className="ms-2"
-                                        variant="danger"
-                                        onClick={() => handleRemoveField(index)}
-                                      >
-                                        <i class="ri-delete-bin-5-fill"></i>
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                        <div className="mt-3">
-                          <Button onClick={handleAddField} style={{ color: 'white' }}>
-                            Add Tank
-                          </Button>
-                        </div>
-                      </Table>
-                    </Col>
-                  </Row>
-                </div>
-              </Row>
-            </div>
-            <div className="setting-item">
-              <Row className="g-2">
-                <Col md="5"></Col>
-                <Col md>
-                  <h6>Total Quantity Filled</h6>
-                  <h5>{quantityFilled}</h5>
-                </Col>
-                <Col md>
-                  <h6>Remaining Quantity</h6>
-                  <h5>{form.Quantity - quantityFilled}</h5>
-                </Col>
-              </Row>
-            </div>
-          </Card.Body>
-        </Card>
 
         <Card className="card-settings mt-4">
           <Card.Body className="p-0">
@@ -422,7 +322,133 @@ export default function DipStock() {
                     </Button>
                   </div>
                 ) : (
-                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end',  }}>
+                  <Card className="card-settings mt-4">
+                    <Card.Header>
+                      <Card.Title>Tank Details</Card.Title>
+                      {/* <Card.Text>Debitis aut rerum necessitatibus saepe eveniet ut et voluptates.</Card.Text> */}
+                    </Card.Header>
+                    <Card.Body className="p-0">
+                      <div className="setting-item">
+                        <Row className="g-2">
+                          <div>
+                            <Row className="g-2 align-items-center">
+                              <Col md="5">
+                                <h6>Tank Distribution</h6>
+                                {/* <p>Neque porro quisquam est qui dolorem.</p> */}
+                              </Col>
+                              <Col md>
+                                <Table size="sm" borderless className="mb-0" hover>
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Tank</th>
+                                      <th scope="col">Quantity</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {fields.map((field, index) => {
+                                      return (
+                                        <tr>
+                                          <td scope="row">
+                                            <div className="mt-2">
+                                              <div key={index}>
+                                                <Select
+                                                  styles={{
+                                                    control: (baseStyles) => ({
+                                                      ...baseStyles,
+                                                      border: 0
+                                                    })
+                                                  }}
+                                                  options={options}
+                                                  isSearchable={true}
+                                                  onChange={(event) =>
+                                                    handleChangeField(index, {
+                                                      target: { name: 'Tank', value: event.value }
+                                                    })
+                                                  }
+                                                />
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="mt-2">
+                                              <div key={index}>
+                                                <Form.Control
+                                                  type="text"
+                                                  name="Quantity"
+                                                  value={field.ItemName}
+                                                  placeholder="Item Name"
+                                                  onChange={(event) => handleChangeField(index, event)}
+                                                />
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="mt-2">
+                                              <div className="input-group ">
+                                                <Button
+                                                  className="ms-2"
+                                                  variant="danger"
+                                                  onClick={() => handleRemoveField(index)}
+                                                >
+                                                  <i class="ri-delete-bin-5-fill"></i>
+                                                </Button>
+                                              </div>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      )
+                                    })}
+                                  </tbody>
+                                  <div className="mt-3">
+                                    <Button onClick={handleAddField} style={{ color: 'white' }}>
+                                      Add Tank
+                                    </Button>
+                                  </div>
+                                </Table>
+                              </Col>
+                            </Row>
+                          </div>
+                        </Row>
+                      </div>
+                      <div className="setting-item">
+                        <Row className="g-2">
+                          <Col md="5"></Col>
+                          <Col md>
+                            <h6>Total Quantity Filled</h6>
+                            <h5>{quantityFilled}</h5>
+                          </Col>
+                          <Col md>
+                            <h6>Remaining Quantity</h6>
+                            <h5>{form.Quantity - quantityFilled}</h5>
+                          </Col>
+                        </Row>
+                      </div>
+                      <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end', }}>
+                        <Button onClick={onSubmitHandler} type="submit" style={{ color: 'white' }}>
+                          Submit
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                )}
+              </Col>{' '}
+            </div>
+          </Card.Body>
+        </Card>
+
+        {/* <Card className="card-settings mt-4">
+          <Card.Body className="p-0">
+            <div className="setting-item d-flex justify-content-end">
+              {' '}
+              <Col xs="12">
+                {editMode ? (
+                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button onClick={onUpdateHandler} style={{ color: 'white' }} type="submit">
+                      Update
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end', }}>
                     <Button onClick={onSubmitHandler} type="submit" style={{ color: 'white' }}>
                       Submit
                     </Button>
@@ -431,10 +457,10 @@ export default function DipStock() {
               </Col>{' '}
             </div>
           </Card.Body>
-        </Card>
+        </Card> */}
 
         <Footer />
       </div>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
