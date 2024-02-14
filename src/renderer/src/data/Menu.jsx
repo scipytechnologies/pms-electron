@@ -97,7 +97,12 @@ const Menu = [
       {
         label: 'View Sales',
         link: 'dashboard/viewProductSales'
+      },
+      {
+        label: 'Add Product',
+        link: 'dashboard/addproduct'
       }
+
     ]
   },
   {

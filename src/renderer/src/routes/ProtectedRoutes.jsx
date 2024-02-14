@@ -42,6 +42,8 @@ import SalesReport from '../Screen/Sales/SalesReport'
 import PaymentHistory from '../Screen/Customer/PaymentHistory'
 import Product from '../Screen/Products/Products'
 import ViewProductSales from '../Screen/Products/ViewSales'
+import AddProduct from '../Screen/Products/AddProduct'
+import ManageProducts from '../Screen/Products/ManageProducts'
 
 const protectedRoutes = [
   { path: '', element: <Home /> },
@@ -81,7 +83,8 @@ const protectedRoutes = [
   { path: 'dashboard/Tank/TankDetails', element: <TankDetails /> },
   { path: 'dashboard/Sales/SalesReport', element: <SalesReport /> },
   { path: 'dashboard/products', element: <Product /> },
-  { path: 'dashboard/viewProductSales', element: <ViewProductSales /> }
+  { path: 'dashboard/viewProductSales', element: <ViewProductSales /> },
+   { path: 'dashboard/manageProducts', element: <ManageProducts /> },{ path: 'dashboard/addproduct', element: <AddProduct /> }
 ]
 
 export default protectedRoutes
