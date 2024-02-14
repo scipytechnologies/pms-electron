@@ -15,6 +15,7 @@ function EmployeeDetails() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
   const navigate = useNavigate()
+  const [data, setData] = useState([])
   const user = useSelector((state) => state.loginedUser)
 
   const employeeData = useSelector((state) => state.pumpstore.Employee)

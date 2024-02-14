@@ -71,9 +71,10 @@ export default function PostEmployee() {
   }
 
   async function updateEmployee(uform) {
-    const res = await mainservice.updateEmployee(id, uform)
+    const res = await mainservice.updateEmployee(id, user.PumpId, uform)
     console.log('updateId', id)
     if (res.data != null) {
+      navigate('/dashboard/Employee/EmployeeDetails')
       console.log(res.data, 'Employee Details Updated')
     } else {
       console.log(res.data)

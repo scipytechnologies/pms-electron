@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
 import userAvatar from '../assets/img/img1.jpg'
 import notification from '../data/Notification'
+import Select from 'react-select'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../Services/mainservice'
@@ -15,7 +16,16 @@ import { event } from 'jquery'
 export default function Header({ onSkin }) {
   const fuel = useSelector((state) => state.pumpstore.Fuel)
   const user = useSelector((state) => state.loginedUser)
+  const employees = useSelector((state) => state.pumpstore.Employee)
+  const nozzle = useSelector((state) => state.pumpstore.Nozzle)
   const dispatch = useDispatch()
+  const [isChecked, setIsChecked] = useState(false);
+  const [inputform, setInputForm] = useState([])
+  const [fuelform, setFuelForm] = useState({
+    EmployeeName: '',
+    NozzleName: '',
+  });
+  const labelText = isChecked ? 'Pass' : 'Fail';
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <Link
       to=""
@@ -30,12 +40,33 @@ export default function Header({ onSkin }) {
     </Link>
   ))
 
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+
   const fetchPump = async (id) => {
     const pumpdetails = await mainservice.getPumpById(id)
-      if (pumpdetails.data != null) {
-         dispatch(pumpInfo(pumpdetails.data.result2))
-      }
+    if (pumpdetails.data != null) {
+      dispatch(pumpInfo(pumpdetails.data.result2))
     }
+  }
+
+  const EmployeeOptions = (employees) => {
+    return employees.map((employee) => {
+      const { EmployeeName, EmployeeId } = employee
+      return { label: EmployeeName, value: EmployeeId }
+    })
+  }
+
+  const NozzleOptions = (nozzles) => {
+    return nozzles.map((nozzle) => {
+      const { NozzleName, _id } = nozzle
+      return { label: NozzleName, value: _id }
+    })
+  }
+  const NozzleData = NozzleOptions(nozzle)
+  const EmployeeData = EmployeeOptions(employees)
 
   const [form, setForm] = useState({})
   const onChangeHandler = (event) => {
@@ -46,9 +77,52 @@ export default function Header({ onSkin }) {
     console.log(form)
   }
 
+  const ChangeSelectHandler = (selectedOption, action) => {
+    setFuelForm(prevFuelForm => ({
+      ...prevFuelForm,
+      [action.name]: {
+        label: selectedOption.label,
+        value: selectedOption.value
+      }
+    }))
+  };
+
+  const ChangeInputHandler = (event) => {
+    const { name, value } = event.target;
+    setInputForm({
+      ...inputform,
+      [name]: value
+    })
+    console.log("hiinput", inputform)
+  }
+
+  useEffect(() => {
+    console.log("hiselect", fuelform);
+  }, [fuelform]);
+
+  const SubmitHandler = async (event) => {
+    event.preventDefault()
+    const formData = {
+      ...inputform,
+      EmployeeName: fuelform.EmployeeName.label,
+      EmployeeId: fuelform.EmployeeName.value,
+      NozzleId: fuelform.NozzleName.value,
+      TestResult: isChecked
+    };
+
+    console.log("wholedata",formData)
+    const res = await mainservice.createFuelTest(user.PumpId, formData)
+    if (res.data != null) {
+      fetchPump(user.PumpId)
+      console.log("console.res", res)
+    } else {
+      console.log(res)
+    }
+  }
+
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    const res = await mainservice.createFuel(user.PumpId,{ Fuel: form })
+    const res = await mainservice.createFuel(user.PumpId, { Fuel: form })
     if (res.data != null) {
       fetchPump(user.PumpId)
     } else {
@@ -57,8 +131,8 @@ export default function Header({ onSkin }) {
   }
 
   const onRemoveHandler = async (id) => {
-    console.log( id);
-    const res = await mainservice.deleteFuel(user.PumpId,id)
+    console.log(id);
+    const res = await mainservice.deleteFuel(user.PumpId, id)
     if (res.data != null) {
       fetchPump(user.PumpId)
     } else {
@@ -104,16 +178,16 @@ export default function Header({ onSkin }) {
         return updatedEditModes;
       });
     };
-  
-    const handleSaveClick = async (index,item) => {
+
+    const handleSaveClick = async (index, item) => {
       // Implement save logic here
       setEditModes((prevEditModes) => {
         const updatedEditModes = [...prevEditModes];
         updatedEditModes[index] = !updatedEditModes[index]; // Toggle edit mode
-    
+
         const UpdatehData = async () => {
           try {
-            const res = await mainservice.editFuel(user.PumpId,item._id,form);
+            const res = await mainservice.editFuel(user.PumpId, item._id, form);
             if (res.data != null) {
               fetchPump(user.PumpId);
             } else {
@@ -123,15 +197,15 @@ export default function Header({ onSkin }) {
             console.error("An error occurred:", error);
           }
         };
-    
+
         UpdatehData(); // Call the asynchronous function here
-    
+
         return updatedEditModes;
       });
     };
-    
-    
-  
+
+
+
     const notiList = fuel.map((item, index) => (
       <li className="list-group-item" key={index}>
         <div><i className="ri-price-tag-3-line"></i></div>
@@ -143,20 +217,22 @@ export default function Header({ onSkin }) {
           <span>Price per litre</span>
         </div>
         <div style={{ height: '50px' }}>
-          { !editModes[index] ? 
-          <Form.Control
-            disabled={true}
-            value={item.FuelPricePerLitre}
-            name="FuelName"
-            type="text"
-          />:
+          {!editModes[index] ?
             <Form.Control
-            disabled={false} 
-            name="FuelName"
-            type="text"
-            onChange={(event)=>{setForm({FuelName:item.FuelName,FuelPricePerLitre : event.target.value}) 
-            console.log(form);}}
-          />}
+              disabled={true}
+              value={item.FuelPricePerLitre}
+              name="FuelName"
+              type="text"
+            /> :
+            <Form.Control
+              disabled={false}
+              name="FuelName"
+              type="text"
+              onChange={(event) => {
+                setForm({ FuelName: item.FuelName, FuelPricePerLitre: event.target.value })
+                console.log(form);
+              }}
+            />}
         </div>
         <div>
           {editModes[index] ? (
@@ -188,7 +264,7 @@ export default function Header({ onSkin }) {
         </div>
       </li>
     ));
-  
+
     return <ul className="list-group">{notiList}</ul>;
   }
 
@@ -271,17 +347,17 @@ export default function Header({ onSkin }) {
           <Dropdown.Toggle
             className="d-flex justify-content-center"
             style={{
-              backgroundColor:'white',
+              backgroundColor: 'white',
               alignItems: 'center',
               width: '50px',
               fontWeight: 'bolder',
-              color:'black',
-              border:0
+              color: 'black',
+              border: 0
             }}
           >
             {/* <i class="ri-edit-box-line"></i> */}
           </Dropdown.Toggle>
-          <Dropdown.Menu  style={{width:'400px'}}  className="mt-10-f me--10-f">
+          <Dropdown.Menu style={{ width: '400px' }} className="mt-10-f me--10-f">
             <div className="dropdown-menu-header">
               <h6 className="dropdown-menu-title"> Manage Fuel</h6>
             </div>
@@ -289,14 +365,14 @@ export default function Header({ onSkin }) {
               <Row className="g-2 align-items-center">
                 <Col md>
                   <h6>New Fuel</h6>
-                  <Form.Control name="FuelName" type="text"  onChange={onChangeHandler} />
-                </Col> 
+                  <Form.Control name="FuelName" type="text" onChange={onChangeHandler} />
+                </Col>
                 <Col md>
                   <h6>Price</h6>
-                  <Form.Control name="FuelPricePerLitre" type="text"  onChange={onChangeHandler} />
+                  <Form.Control name="FuelPricePerLitre" type="text" onChange={onChangeHandler} />
                 </Col>
                 <Col>
-                  <Button style={{ color:'white', width:'100%',marginTop:'19px'}} onClick={onSubmitHandler}>Add</Button>
+                  <Button style={{ color: 'white', width: '100%', marginTop: '19px' }} onClick={onSubmitHandler}>Add</Button>
                 </Col>
               </Row>
             </div>
@@ -306,6 +382,107 @@ export default function Header({ onSkin }) {
           </div> */}
           </Dropdown.Menu>
         </Dropdown>
+      </div>
+
+
+      {/* FuelTest */}
+      <div className="d-flex justify-content-end align-items-center w-100 p-0 ">
+        <div className="dropdown" style={{ position: 'absolute', right: '120px' }}>
+          {/* <div style={{ width: '80px', fontWeight: 'bolder' }}>Test Fuel</div> */}
+          <Dropdown className="dropdown-notification " align="end">
+            <Dropdown.Toggle
+              className="d-flex justify-content-left"
+              style={{
+                backgroundColor: 'white',
+                alignItems: 'center',
+                width: '50px',
+                fontWeight: 'bolder',
+                color: 'black',
+                border: 0
+              }}
+            >
+              <span style={{ width: '80px' }}>Test Fuel</span>
+              <span style={{ marginLeft: 'auto' }}>
+              </span>
+              {/* <i class="ri-edit-box-line"></i> */}
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ width: '400px' }} className="mt-10-f me--10-f">
+              <div className="dropdown-menu-header">
+                <h6 className="dropdown-menu-title"> Fuel Testing</h6>
+              </div>
+              <div className="setting-item">
+                <Row className="g-4 align-items-center">
+                  <Col md>
+                    <h6>Date</h6>
+                    <Form.Control name="Date" type='Date' onChange={ChangeInputHandler} />
+                  </Col>
+                  <Col md>
+                    <h6>Employee Name</h6>
+                    <Select
+                      isDisabled={false}
+                      isSearchable={true}
+                      name="EmployeeName"
+                      options={EmployeeData}
+                      onChange={ChangeSelectHandler}
+
+                    />
+                  </Col>
+                </Row>
+                <Row className="g-4 align-items-center mt-0">
+                  <Col>
+                    <h6>Nozzle</h6>
+                    <Select
+                      isDisabled={false}
+                      isSearchable={true}
+                      name="NozzleName"
+                      options={NozzleData}
+                      onChange={ChangeSelectHandler}
+
+                    />
+                  </Col>
+                  <Col md>
+                    <h6>Opening</h6>
+                    <Form.Control name="Opening" type='text' onChange={ChangeInputHandler} />
+                  </Col>
+                </Row>
+                <Row className="g-4 align-items-center mt-0">
+                  <Col md>
+                    <h6>Closing</h6>
+                    <Form.Control name="Closing" type='text' onChange={ChangeInputHandler} />
+                  </Col>
+                  <Col md>
+                    <h6>Quantity</h6>
+                    <Form.Control name="Quantity" type='text' onChange={ChangeInputHandler} />
+                  </Col>
+                </Row>
+                <Row className="g-2 align-items-center mt-0" style={{ marginRight: '30px' }}>
+                  <Col md>
+                    <div className="form-check form-switch" style={{ display: 'flex', alignItems: 'center' }}>
+                      <h6 style={{ marginRight: '40px' }}>Test Result</h6>
+                      <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                        <input
+                          className="form-check-input mr-0"
+                          name="TestResult"
+                          type="checkbox"
+                          id="flexSwitchCheckChecked"
+                          checked={isChecked}
+                          onChange={handleCheckboxChange}
+                        />
+                      </label>
+                      <span style={{ marginLeft: '8px', color: isChecked ? 'green' : 'red' }}>{labelText}</span>
+                    </div>
+
+                  </Col>
+                  <Col>
+                    <Button onClick={SubmitHandler} type="submit" style={{ color: 'white', width: '50%', marginTop: '19px', marginLeft: '90px' }}>
+                      Submit
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </div>
 
       {/* <Dropdown className="dropdown-skin" align="end">
@@ -413,6 +590,7 @@ export default function Header({ onSkin }) {
           </div>
         </Dropdown.Menu>
       </Dropdown>
+
     </div>
   )
 }
