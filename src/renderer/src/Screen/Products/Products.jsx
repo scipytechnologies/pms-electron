@@ -183,9 +183,9 @@ export default function Product() {
                       <div className="">
                         <small> Brand : {item.Brand} </small>
                       </div>
-                      <div className="">
+                      {/* <div className="">
                         <small>Description : {item.ProductDescription} </small>
-                      </div>
+                      </div> */}
                       <div className="mutual-badge mb-3">
                         {/* <ul>
                           {connection.mutual.map((item, ind) => (
