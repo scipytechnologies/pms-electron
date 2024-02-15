@@ -64,7 +64,9 @@ export default function ManageProducts() {
   }
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    const res = await mainservice.updateProduct(productId, form)
+    console.log(form);
+    const data ={...form,...{'OnSale':true,Category:selectedcategory}}
+    const res = await mainservice.updateProduct(productId,data)
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
@@ -172,9 +174,9 @@ export default function ManageProducts() {
                             <div className="">
                               <small> Brand : {item.Brand} </small>
                             </div>
-                            <div className="">
+                            {/* <div className="">
                               <small>Description : {item.ProductDescription} </small>
-                            </div>
+                            </div> */}
                             <div className="d-flex justify-content-between mutual-badge mb-1 mt-1">
                               <div className="w-100">
 
