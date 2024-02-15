@@ -357,6 +357,22 @@ async function createEvaporation(data, id){
   const response = await apicall.apicall('post',9000,`Evaporation/createEvaporation/${id}`, data)
   return response
 }
+async function getEvaporation() {
+  const response = apicall.apicall('get',9000,'Evaporation/getEvaporation')
+  return response
+}
+async function getEvaporationById(id) {
+  const response = apicall.apicall('get',9000,`Evaporation/getEvaporationById/${id}`)
+  return response
+}
+async function editEvaporation(id,data) {
+  const response = apicall.apicall('put',9000,`Evaporation/editEvaporation/${id}`, data)
+  return response
+}
+async function deleteEvaporation(id, pumpid) {
+  const response = apicall.apicall('delete',9000,`Evaporation/deleteEvaporation/${id}/${pumpid}`)
+  return response
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -425,5 +441,6 @@ export default {
   DeleteColab,
   getChart,
   createFuelTest,
-  createEvaporation
+  createEvaporation,
+  getEvaporation,getEvaporationById,editEvaporation,deleteEvaporation
 }

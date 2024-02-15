@@ -19,7 +19,9 @@ const initialState = {
   OtherPayment: [],
   Payment: [],
   CreditSales: [],
-  Shift: []
+  Shift: [],
+  FuelTesting: [],
+  Evaporation: []
 }
 
 export const PumpSlice = createSlice({
@@ -47,7 +49,9 @@ export const PumpSlice = createSlice({
         Payment,
         Shift,
         CreditSales,
-        Ecommerce
+        Ecommerce,
+        FuelTesting,
+        Evaporation
       } = action.payload
       ;(state.PumpName = PumpName),
         (state.PhoneNumber = PhoneNumber),
@@ -68,7 +72,9 @@ export const PumpSlice = createSlice({
         (state.Payment = Payment),
         (state.Shift = Shift),
         (state.CreditSales = CreditSales),
-        (state.Ecommerce = Ecommerce)
+        (state.Ecommerce = Ecommerce),
+        (state.FuelTesting = FuelTesting),
+        (state.Evaporation = Evaporation)
     }
   }
 })
