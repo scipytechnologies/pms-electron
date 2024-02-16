@@ -327,7 +327,7 @@ export default function Header({ onSkin }) {
         <input type="text" className="form-control" placeholder="Search" />
         <i className="ri-search-line"></i>
       </div> */}
-      <div className="d-flex justify-content-center align-items-center w-25 me-auto p-2 ">
+      <div className="d-flex justify-content-center align-items-center w-50 me-auto p-2 ">
         <div style={{ width: '120px', fontWeight: 'bolder' }}>Fuel Price</div>
         <div className="w-100 form-search">
           <marquee direction="left">

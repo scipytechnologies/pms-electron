@@ -128,7 +128,8 @@ export default function PostInventory() {
     if (res.data != null) {
       const products = res.data.result2.product;
       const selectedItemOptions = products.map(product => ({
-        label: product.Name
+        label: product.Name,
+        value: product.Name 
       }));
       setSelectedItem(selectedItemOptions);
     }
@@ -219,10 +220,9 @@ export default function PostInventory() {
         <Card className="card-settings">
           <Card.Header>
             <Card.Title>Create a New Inventory</Card.Title>
-            <Card.Text>short Description</Card.Text>
           </Card.Header>
           <Card.Body className="p-0">
-            <div className="setting-item">
+            {/* <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
                   <h6>SKU</h6>
@@ -231,7 +231,7 @@ export default function PostInventory() {
                   <Form.Control type="text" name="SKUNo" value={uform.SKUNo} placeholder="eg.100-25484" onChange={onChangeHandler} />
                 </Col>
               </Row>
-            </div>
+            </div> */}
             <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
@@ -258,12 +258,6 @@ export default function PostInventory() {
                     onChange={itemChangeHandler}
                   />
                 </Col>
-                <Col md>
-                  <h6>Brand</h6>
-                </Col>
-                <Col md>
-                  <Form.Control type="text" name="Brand" value={uform.Brand} placeholder="Petrol" onChange={onChangeHandler} />
-                </Col>
               </Row>
             </div>
 
@@ -276,17 +270,23 @@ export default function PostInventory() {
                   <Form.Control type="text" name="CurrentStock" value={uform.CurrentStock} placeholder="600 Litre" onChange={onChangeHandler} />
                 </Col>
                 <Col md>
+                  <h6>Brand</h6>
+                </Col>
+                <Col md>
+                  <Form.Control type="text" name="Brand" value={uform.Brand} placeholder="Petrol" onChange={onChangeHandler} />
+                </Col>
+                {/* <Col md>
                   <h6>Price</h6>
                 </Col>
                 <Col md>
                   <Form.Control type="text" name="Price" value={uform.Price} placeholder="35000/-" onChange={onChangeHandler} />
-                </Col>
-                <Col md>
+                </Col> */}
+                {/* <Col md>
                   <h6>Expiry Date</h6>
                 </Col>
                 <Col md>
                   <Form.Control type="Date" name="ExpiryDate" value={uform.ExpiryDate} placeholder="Date" onChange={onChangeHandler} />
-                </Col>
+                </Col> */}
               </Row>
             </div>
 
@@ -294,7 +294,6 @@ export default function PostInventory() {
               <Row className="g-2">
                 <Col>
                   <h6>Description</h6>
-                  <p>Temporibus autem quibusdam et aut officiis.</p>
                 </Col>
                 <Col md>
                   <Form.Control as="textarea" rows="3" name="Description" value={uform.Description} placeholder="Enter tagline" onChange={onChangeHandler} />

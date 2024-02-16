@@ -389,7 +389,7 @@ export default function Tank() {
                         setTankID(item._id)
                       }}
                     >
-                      <i class="ri-gas-station-fill"></i>
+                      <i class="ri-windy-line"></i>
                     </Button>
                     <Button
                       className="p-1"
