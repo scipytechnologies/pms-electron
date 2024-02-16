@@ -64,10 +64,11 @@ function EvaporationLoss() {
           <Card.Body>
             <Grid
               data={evaporationData.map((item) => [
-                item.EvaporationId,
+                item.Date,
                 item.Tank,
                 item.InitialQuantity,
                 item.ActualQuantity,
+                item.Missing,
                 _(
                   <>
                     <ButtonGroup>
@@ -83,10 +84,11 @@ function EvaporationLoss() {
                 )
               ])}
               columns={[
-                'Evaporation Id',
+                'Date',
                 'Tank',
                 'Initial Quantity',
                 'Actual Quantity',
+                'Evapourated'
               ]}
               search={true}
               pagination={true}

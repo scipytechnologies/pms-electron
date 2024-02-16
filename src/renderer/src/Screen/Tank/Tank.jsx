@@ -23,6 +23,8 @@ export default function Tank() {
   const [evaporationForm, setEvaporationForm] = useState({})
   const [tanks, setTanks] = useState([])
   const [TankID, setTankID] = useState('')
+  const [TankData, setTankData] = useState('')
+
   function handleClose() {
     setShow(false)
   }
@@ -81,13 +83,20 @@ export default function Tank() {
       [event.target.name]: event.target.value
     })
   }
-
+  const [missing, setMissing] = useState(0)
+  function CalculateQuant(x) {
+    const missing =TankData.Quantity - x
+    console.log(TankData.Quantity - x);
+    setMissing(missing)
+  }
   const onChangeEvaporation = (event) => {
     setEvaporationForm({
       ...evaporationForm,
       [event.target.name]: event.target.value
     })
-    console.log("evaporationform", evaporationForm)
+    if ([event.target.name] == 'ActualQuantity') {
+      CalculateQuant(event.target.value)
+    }
   }
 
   const onChangeNozzle = (event) => {
@@ -107,11 +116,11 @@ export default function Tank() {
 
   const onSubmitEvaporation = async (event) => {
     event.preventDefault()
-    let data = { ...evaporationForm, Tankid: TankID}
-    console.log("pumpid",user.PumpId)
-    const res = await mainservice.createEvaporation(data , user.PumpId)
+    let data = { ...evaporationForm, Tankid: TankData._id ,Tank: TankData.TankNumber,InitialQuantity:TankData.Quantity,Missing:missing }
+    console.log(data)
+    const res = await mainservice.createEvaporation(data, user.PumpId)
     if (res.data != null) {
-      console.log("res",res)
+      console.log('res', res)
       fetchPump(user.PumpId)
     } else {
       console.log(res)
@@ -119,7 +128,6 @@ export default function Tank() {
     console.log('successdata', data)
     handleClose()
   }
-
 
   const onSubmitNozzle = async (event) => {
     event.preventDefault()
@@ -199,7 +207,7 @@ export default function Tank() {
           </div>
         </div>
 
-
+        {/* Evap */}
         <Modal show={evaporationModal} onHide={handleCloseEvaporation} size="lg" centered>
           <Modal.Header closeButton>
             <Modal.Title>Add New Evaporation</Modal.Title>
@@ -207,17 +215,24 @@ export default function Tank() {
           <Modal.Body>
             <div className="setting-item">
               <Row className="g-2 align-items-center">
-                <Col md>
+                {/* <Col md>
                   <h6>Tank</h6>
                 </Col>
                 <Col md>
                   <Form.Control name="Tank" onChange={onChangeEvaporation} type="text" placeholder='Tank' />
-                </Col>
+                </Col> */}
                 <Col md>
                   <h6>Initial Quantity</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="InitialQuantity" onChange={onChangeEvaporation} type="text" placeholder='Initial Quantity' />
+                  <Form.Control
+                    disabled={true}
+                    value={TankData.Quantity}
+                    name="InitialQuantity"
+                    onChange={onChangeEvaporation}
+                    type="text"
+                    placeholder="Initial Quantity"
+                  />
                 </Col>
               </Row>
             </div>
@@ -227,13 +242,25 @@ export default function Tank() {
                   <h6>Actual Quantity</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="ActualQuantity" onChange={onChangeEvaporation} type="text" placeholder='Actual Quantity' />
+                  <Form.Control
+                    name="ActualQuantity"
+                    onChange={onChangeEvaporation}
+                    type="text"
+                    placeholder="Actual Quantity"
+                  />
                 </Col>
                 <Col md>
                   <h6>Missing</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="Missing" onChange={onChangeEvaporation} type="text" placeholder='Missing' />
+                  <Form.Control
+                    disabled={true}
+                    value={missing}
+                    name="Missing"
+                    onChange={onChangeEvaporation}
+                    type="text"
+                    placeholder="Missing"
+                  />
                 </Col>
               </Row>
             </div>
@@ -243,13 +270,23 @@ export default function Tank() {
                   <h6>Date</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="Date" onChange={onChangeEvaporation} type="Date" placeholder='Date' />
+                  <Form.Control
+                    name="Date"
+                    onChange={onChangeEvaporation}
+                    type="Date"
+                    placeholder="Date"
+                  />
                 </Col>
                 <Col md>
                   <h6>Tested By</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="TestedBy" onChange={onChangeEvaporation} type="text" placeholder='Tested By' />
+                  <Form.Control
+                    name="TestedBy"
+                    onChange={onChangeEvaporation}
+                    type="text"
+                    placeholder="Tested By"
+                  />
                 </Col>
               </Row>
             </div>
@@ -263,7 +300,7 @@ export default function Tank() {
             </Button>
           </Modal.Footer>
         </Modal>
-
+        {/* Nozzle */}
         <Modal show={nozzleModal} onHide={handleCloseAddNozzle} size="lg" centered>
           <Modal.Header closeButton>
             <Modal.Title>Add New Nozzle</Modal.Title>
@@ -295,7 +332,7 @@ export default function Tank() {
             </Button>
           </Modal.Footer>
         </Modal>
-
+        {/* add Tank */}
         <Modal show={show} onHide={handleClose} size="lg" centered>
           <Modal.Header closeButton>
             <Modal.Title>Add New Tank</Modal.Title>
@@ -370,6 +407,7 @@ export default function Tank() {
             </Button>
           </Modal.Footer>
         </Modal>
+        {/* Main */}
         <Row className="g-3">
           {tanks.map((item, index) => (
             <Col xs="6" md="3" xl="3" key={index}>
@@ -386,10 +424,10 @@ export default function Tank() {
                       variant="white"
                       onClick={() => {
                         setEvaporationModal(true)
-                        setTankID(item._id)
+                        setTankData(item)
                       }}
                     >
-                      <i class="ri-gas-station-fill"></i>
+                      <i class="ri-windy-line"></i>
                     </Button>
                     <Button
                       className="p-1"
