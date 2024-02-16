@@ -37,6 +37,14 @@ const Menu = [
       {
         label: 'DipStock History',
         link: 'dashboard/DipStock/StockDetails'
+      },
+      {
+        label: 'Test History',
+        link: 'dashboard/FuelTest/TestHistory'
+      },
+      {
+        label: 'Evaporation Loss',
+        link: 'dashboard/Evaporation/EvaporationLoss'
       }
     ]
   },
