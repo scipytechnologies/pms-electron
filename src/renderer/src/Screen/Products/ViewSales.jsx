@@ -104,7 +104,8 @@ function ViewProductSales() {
           <Button
             variant="primary"
             className="d-flex align-items-center gap-2"
-            onClick={() => navigate('/dashboard/category')}
+            style= {{ color: 'white' }}
+            onClick={() => navigate('/dashboard/products')}
           >
             <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add Product
             <span className="d-none d-sm-inline"></span>
@@ -137,7 +138,7 @@ function ViewProductSales() {
                     ])
                   : []
               }
-              columns={['Date', 'Sales Id', 'TotalSaleAmount', 'Action']}
+              columns={['Date', 'Sales Id', 'Total Sale Amount', 'Action']}
               search={true}
               pagination={true}
               sort={true}

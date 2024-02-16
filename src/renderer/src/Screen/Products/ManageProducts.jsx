@@ -48,9 +48,12 @@ export default function ManageProducts() {
   const [modalProduct, setModalProduct] = useState([])
   const [quantities, setQuantities] = useState(1)
   const [cart, setCart] = useState([])
+  const [data, setData] = useState([])
   const [selectedcategory, setSelectedcategory] = useState([])
   const [selectedcategoryid, setSelectedcategoryid] = useState([])
   const [totalGST, setTotalGST] = useState(0)
+  console.log("selectedProduct", selectedProduct)
+  console.log("selectedcategoryid", selectedcategoryid)
 
   function handleClose() {
     setShow(false)
@@ -65,8 +68,8 @@ export default function ManageProducts() {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     console.log(form);
-    const data ={...form,...{'OnSale':true,Category:selectedcategory}}
-    const res = await mainservice.updateProduct(productId,data)
+    const data = { ...form, ...{ 'OnSale': true, Category: selectedcategory } }
+    const res = await mainservice.updateProduct(productId, data)
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
@@ -75,6 +78,36 @@ export default function ManageProducts() {
       console.log(res)
     }
   }
+
+  const SubmitHandler = async (cat,id) => {
+    const res = await mainservice.onSales(cat, id)
+    if (res.data != null) {
+      console.log(res.data)
+      fetchPump(user.PumpId)
+    }
+    else {
+      console.log(res)
+    }
+  }
+
+  async function deleteProduct(cat,id) {
+    const res = await mainservice.deleteProduct(cat,id)
+    if (res.data != null) {
+      console.log(res)
+      getProductbyid(productId)
+    } else {
+      console.log(res.message)
+    }
+  }
+
+  const onDeleteHandler = (item) => {
+    const cat = selectedcategoryid;
+    console.log("categoryid",cat)
+    const id = item._id;
+    console.log("id",id)
+    deleteProduct(cat,id)
+  }
+
   async function getProductbyid(productId) {
     const res = await mainservice.getProductById(productId)
     if (res.data != null) {
@@ -116,14 +149,17 @@ export default function ManageProducts() {
                 <Link to="#">Dashboard</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Product Details
+                Category
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                Product
               </li>
             </ol>
-            <h4 className="main-title mb-0">Welcome to Dashboard</h4>
+            <h4 className="main-title mb-0">Products</h4>
           </div>
 
           <div className="d-flex align-items-center gap-2 mt-3 mt-md-0">
-            <Button onClick={() => setShow(true)}>Add Product</Button>
+            <Button style={{ color: 'white' }} onClick={() => setShow(true)}>Add Product</Button>
           </div>
         </div>
 
@@ -132,14 +168,6 @@ export default function ManageProducts() {
             <Card className="card-one">
               <Card.Header>
                 <Card.Title as="h6">Products</Card.Title>
-                <Nav className="nav-icon nav-icon-sm ms-auto">
-                  <Nav.Link href="">
-                    <i className="ri-refresh-line"></i>
-                  </Nav.Link>
-                  <Nav.Link href="">
-                    <i className="ri-more-2-fill"></i>
-                  </Nav.Link>
-                </Nav>
               </Card.Header>
               <Card.Body className="p-3">
                 <Row>
@@ -180,32 +208,37 @@ export default function ManageProducts() {
                             <div className="d-flex justify-content-between mutual-badge mb-1 mt-1">
                               <div className="w-100">
 
-                                { item.OnSale && item.OnSale === true ?  <Button
-                                  className="w-100"
-                                  style={{ color: 'white' }}
-                                  variant="primary"
+                                {item.OnSale && item.OnSale === true ?
+                                  <Button
+                                    className="w-100"
+                                    style={{ color: 'white' }}
+                                    variant="primary"
+                                    onClick={() => SubmitHandler(selectedcategoryid, item._id)}
                                   //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
-                                >
-                                  On Sale
-                                </Button>:<Button
-                                  className="w-100"
-                                  style={{ color: 'white' }}
-                                  variant="secondary"
+                                  >
+                                    On Sale
+                                  </Button> : <Button
+                                    className="w-100"
+                                    style={{ color: 'white' }}
+                                    variant="secondary"
+                                    onClick={() => SubmitHandler(selectedcategoryid, item._id)}
                                   //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
-                                >
-                                  Off Sale
-                                </Button>}
-                             
-                                
+                                  >
+                                    Off Sale
+                                  </Button>}
+
+
                               </div>
                               <div className="w-20">
                                 <Button
                                   className="w-100"
                                   style={{ color: 'white' }}
                                   variant="danger"
-                                  //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
+                                  onClick={() => onDeleteHandler(item)}
+
+                                //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
                                 >
-                                  |||
+                                  <i className="ri-delete-bin-fill"></i>
                                 </Button>
                               </div>
                             </div>
@@ -234,7 +267,6 @@ export default function ManageProducts() {
                     name="Name"
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Name"
                   />
                 </Col>
                 <Col md>
@@ -247,7 +279,6 @@ export default function ManageProducts() {
                     onChange={onChangeHandler}
                     type="text"
                     value={selectedcategory}
-                    placeholder="Category"
                   />
                 </Col>
               </Row>
@@ -262,7 +293,6 @@ export default function ManageProducts() {
                     name="Brand"
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Brand"
                   />
                 </Col>
                 <Col md>
@@ -273,7 +303,6 @@ export default function ManageProducts() {
                     name="Price"
                     onChange={onChangeHandler}
                     type="text"
-                    placeholder="Price"
                   />
                 </Col>
               </Row>
@@ -289,7 +318,6 @@ export default function ManageProducts() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows={3}
-                    placeholder="Description"
                   />
                 </Col>
               </Row>
@@ -299,7 +327,7 @@ export default function ManageProducts() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSubmitHandler}>
+            <Button variant="primary" style={{ color: 'white' }} onClick={onSubmitHandler}>
               Save Changes
             </Button>
           </Modal.Footer>

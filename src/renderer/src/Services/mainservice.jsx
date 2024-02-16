@@ -171,6 +171,16 @@ async function deleteProduct(categoryId, id) {
   )
   return response
 }
+
+async function deleteCategory(pumpid, id) {
+  const response = await apicall.apicall('delete', 9000, `ProductRouter/deleteCategory/${pumpid}/${id}`)
+  return response
+}
+
+async function onSales(cat,id) {
+  const response = await apicall.apicall('put', 9000, `ProductRouter/onsale/${cat}/${id}`)
+  return response
+}
 //////////////////////////////{Sales}////////////////////////////////////////
 async function createSalesAndBilling(id, data) {
   const response = await apicall.apicall(
@@ -442,5 +452,5 @@ export default {
   getChart,
   createFuelTest,
   createEvaporation,
-  getEvaporation,getEvaporationById,editEvaporation,deleteEvaporation
+  getEvaporation,getEvaporationById,editEvaporation,deleteEvaporation,onSales,deleteCategory
 }

@@ -13,6 +13,7 @@ export default function AddProduct() {
   const navigate = useNavigate()
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
+  const [data, setData] = useState([])
 
   const switchSkin = (skin) => {
     if (skin === 'dark') {
@@ -37,12 +38,32 @@ export default function AddProduct() {
 
   const [form, setform] = useState({})
   const [productData, setProductData] = useState([])
+  console.log("productData", productData)
   const onChangeHandler = (event) => {
     const { name, value } = event.target
     setform({
       ...form,
       [event.target.name]: event.target.value
     })
+  }
+  
+  async function deletecategory(pumpid, id) {
+    const res = await mainservice.deleteCategory(pumpid, id)
+    if (res.data != null) {
+      console.log(res)
+      fetchPump(user.PumpId)
+    }
+    else {
+      console.log(res.message)
+    }
+  }
+
+  const onDeleteHandler = (category) => {
+    const pumpid = user.PumpId
+    console.log(pumpid)
+    const id = category.ProductId
+    console.log(id)
+    deletecategory(pumpid, id)
   }
 
   const onSubmitHandler = async (event) => {
@@ -87,23 +108,10 @@ export default function AddProduct() {
                 <Link to="#">Dashboard</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Product Management
+                Category
               </li>
             </ol>
-            <h4 className="main-title mb-0">Welcome to Dashboard</h4>
-          </div>
-
-          <div className="d-flex align-items-center gap-2 mt-3 mt-md-0">
-            <Button variant="white" className="btn-icon">
-              <i className="ri-share-line fs-18 lh-1"></i>
-            </Button>
-            <Button variant="white" className="btn-icon">
-              <i className="ri-printer-line fs-18 lh-1"></i>
-            </Button>
-            <Button variant="primary" className="d-flex align-items-center gap-2">
-              <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Generate
-              <span className="d-none d-sm-inline"> Report</span>
-            </Button>
+            <h4 className="main-title mb-0">Categories</h4>
           </div>
         </div>
 
@@ -112,14 +120,6 @@ export default function AddProduct() {
             <Card className="card-one">
               <Card.Header>
                 <Card.Title as="h6">Categories</Card.Title>
-                <Nav className="nav-icon nav-icon-sm ms-auto">
-                  <Nav.Link href="">
-                    <i className="ri-refresh-line"></i>
-                  </Nav.Link>
-                  <Nav.Link href="">
-                    <i className="ri-more-2-fill"></i>
-                  </Nav.Link>
-                </Nav>
               </Card.Header>
               <Card.Body className="p-3">
                 <Row>
@@ -163,7 +163,7 @@ export default function AddProduct() {
                             <Col> {category.Description}</Col>
                             <Col sm="12" md="2" lg="2">
                               <Button
-                                style={{ marginRight: '5px' }}
+                                style={{ marginRight: '5px', color: 'white' }}
                                 as={Link}
                                 to={`/dashboard/manageProducts?productId=${category.ProductId}`}
                                 variant="primary"
@@ -173,7 +173,7 @@ export default function AddProduct() {
                               </Button>
                             </Col>
                             <Col sm="6" md="1" lg="1">
-                              <Button variant="danger" className="btn-icon">
+                              <Button variant="danger" className="btn-icon" onClick={() => onDeleteHandler(category)}>
                                 <i className="ri-delete-bin-fill"></i>
                               </Button>
                             </Col>
@@ -190,14 +190,6 @@ export default function AddProduct() {
             <Card className="card-one">
               <Card.Header>
                 <Card.Title as="h6">Create a New Category</Card.Title>
-                <Nav className="nav-icon nav-icon-sm ms-auto">
-                  <Nav.Link href="">
-                    <i className="ri-refresh-line"></i>
-                  </Nav.Link>
-                  <Nav.Link href="">
-                    <i className="ri-more-2-fill"></i>
-                  </Nav.Link>
-                </Nav>
               </Card.Header>
               <Card.Body className="p-3">
                 <div className="setting-item ">
@@ -209,7 +201,6 @@ export default function AddProduct() {
                       <Form.Control
                         type="text"
                         name="CategoryName"
-                        placeholder="Category Name"
                         onChange={onChangeHandler}
                       />
                     </Col>
@@ -223,7 +214,6 @@ export default function AddProduct() {
                       <Form.Control
                         type="textarea"
                         name="Description"
-                        placeholder="Description"
                         onChange={onChangeHandler}
                       />
                     </Col>
@@ -238,6 +228,7 @@ export default function AddProduct() {
                       <Button
                         type="submit"
                         variant="primary"
+                        style={{ color: 'white' }}
                         className="d-flex  align-items-center gap-2 my-2"
                         onClick={onSubmitHandler}
                       >
