@@ -14,6 +14,7 @@ import Select from 'react-select'
 export default function Tank() {
   const user = useSelector((state) => state.loginedUser)
   const nozzle = useSelector((state) => state.pumpstore.Nozzle)
+  const employees = useSelector((state) => state.pumpstore.Employee)
   const dispatch = useDispatch()
   const [show, setShow] = useState(false)
   const [nozzleModal, setNozzleModal] = useState(false)
@@ -58,6 +59,20 @@ export default function Tank() {
     }
   }
 
+  const EmployeeOption = (employees) => {
+    return employees.map((employee) => {
+      const { EmployeeName, EmployeeId } = employee
+      return { label: EmployeeName, value: EmployeeId }
+    })
+  }
+
+  const EmployeeData = EmployeeOption(employees)
+
+  const [selectedEmployee, setSelectedEmployee] = useState(null)
+  const ChangeHandler = (selectedOption) => {
+    setSelectedEmployee(selectedOption)
+  }
+
   const fuel = useSelector((state) => state.pumpstore.Fuel)
   const FuelOptions = (fuels) => {
     return fuels.map((fuel) => {
@@ -85,7 +100,7 @@ export default function Tank() {
   }
   const [missing, setMissing] = useState(0)
   function CalculateQuant(x) {
-    const missing =TankData.Quantity - x
+    const missing = TankData.Quantity - x
     console.log(TankData.Quantity - x);
     setMissing(missing)
   }
@@ -116,7 +131,7 @@ export default function Tank() {
 
   const onSubmitEvaporation = async (event) => {
     event.preventDefault()
-    let data = { ...evaporationForm, Tankid: TankData._id ,Tank: TankData.TankNumber,InitialQuantity:TankData.Quantity,Missing:missing }
+    let data = { ...evaporationForm, Tankid: TankData._id, Tank: TankData.TankNumber, InitialQuantity: TankData.Quantity, Missing: missing, TestedBy: selectedEmployee.label }
     console.log(data)
     const res = await mainservice.createEvaporation(data, user.PumpId)
     if (res.data != null) {
@@ -281,11 +296,12 @@ export default function Tank() {
                   <h6>Tested By</h6>
                 </Col>
                 <Col md>
-                  <Form.Control
+                  <Select
+                    isDisabled={false}
+                    isSearchable={true}
                     name="TestedBy"
-                    onChange={onChangeEvaporation}
-                    type="text"
-                    placeholder="Tested By"
+                    options={EmployeeData}
+                    onChange={ChangeHandler}
                   />
                 </Col>
               </Row>

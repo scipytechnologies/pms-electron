@@ -11,7 +11,7 @@ import { pumpInfo } from '../../store/pump'
 
 
 function EvaporationLoss() {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
   const navigate = useNavigate()
@@ -53,7 +53,7 @@ function EvaporationLoss() {
                 <Link to="/dashboard/EmployeeDetails">Evaporation</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-              Evaporation Details
+                Evaporation Details
               </li>
             </ol>
             <h4 className="main-title mt-2 mb-0">Evaporation Details</h4>
@@ -63,26 +63,35 @@ function EvaporationLoss() {
         <Card>
           <Card.Body>
             <Grid
-              data={evaporationData.map((item) => [
-                item.Date,
-                item.Tank,
-                item.InitialQuantity,
-                item.ActualQuantity,
-                item.Missing,
-                _(
-                  <>
-                    <ButtonGroup>
-                      <Button className="p-0" variant="white">
-                        <Dropdown drop="end">
-                          <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
-                            <i className="ri-more-2-fill" color="primary"></i>
-                          </Dropdown.Toggle>
-                        </Dropdown>
-                      </Button>
-                    </ButtonGroup>
-                  </>
-                )
-              ])}
+              data={
+                evaporationData
+                  ? data.map((item) => [
+                    _(
+                      new Date(item.Date).toLocaleDateString('en-GB', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                      })
+                    ),
+                    item.Tank,
+                    item.InitialQuantity,
+                    item.ActualQuantity,
+                    item.Missing,
+                    _(
+                      <>
+                        <ButtonGroup>
+                          <Button className="p-0" variant="white">
+                            <Dropdown drop="end">
+                              <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
+                                <i className="ri-more-2-fill" color="primary"></i>
+                              </Dropdown.Toggle>
+                            </Dropdown>
+                          </Button>
+                        </ButtonGroup>
+                      </>
+                    )
+                  ]) : []
+              }
               columns={[
                 'Date',
                 'Tank',

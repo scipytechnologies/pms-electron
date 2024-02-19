@@ -27,9 +27,12 @@ function InventoryDetails() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [data, setData] = useState([])
+  const [selectedmode, setSelectedMode] = useState([])
+  const [id, setId] = useState({})
   const inventoryData = useSelector((state) => state.pumpstore.InventoryManagement)
   const pumpId = useSelector((state) => state.loginedUser.PumpId)
   const user = useSelector((state) => state.loginedUser)
+  console.log("data", data)
 
   async function getInventoryManagement() {
     setData(inventoryData)
@@ -65,21 +68,23 @@ function InventoryDetails() {
   function handleClose() {
     setShow(false)
   }
-  function handleOpen() {
+  function handleOpen(id) {
     setShow(true)
+    setId(id)
   }
   const [view, setView] = useState(false)
   const [inventory, setInventory] = useState({})
+  console.log("inventory", inventoryData)
   function handleViewClose() {
     setView(false)
   }
-  const [track,setTrack] =useState([])
+  const [track, setTrack] = useState([])
   async function handleViewOpen(id) {
     const data = await mainservice.getInventoryManagementById(id)
     console.log(data)
     setInventory(data.data.result2)
-    if(data.data.result2.InventoryHistory){
-        setTrack(data.data.result2.InventoryHistory)
+    if (data.data.result2.InventoryHistory) {
+      setTrack(data.data.result2.InventoryHistory)
     }
     setView(true)
   }
@@ -88,14 +93,33 @@ function InventoryDetails() {
   const onChangeHandler = (event) => {
     setform({
       ...form,
+      Mode: selectedmode.value,
       [event.target.name]: event.target.value
     })
   }
 
+  const ChangeHandler = (selectedOption) => {
+    setSelectedMode(selectedOption)
+    console.log("selectedmode", selectedmode)
+  }
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault()
+    console.log(form)
+    console.log("id",id)
+    const res = await mainservice.updatehistory(id, form)
+    if (res.data != null) {
+      navigate('/dashboard/Inventory/InventoryDetails')
+      console.log(res)
+    } else {
+      console.log(res.message)
+    }
+  }
+
   const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
+    { value: 'AddtoStore', label: 'AddtoStore' },
+    { value: 'AddStock', label: 'AddStock' },
+    { value: 'Damaged', label: 'Damaged' }
   ]
   useEffect(() => {
     fetchPump(user.PumpId)
@@ -142,7 +166,7 @@ function InventoryDetails() {
                 _(
                   <>
                     <ButtonGroup>
-                      <Button size="sm" variant="warning" onClick={() => handleOpen()}>
+                      <Button size="sm" variant="warning" onClick={() => handleOpen(item.InventoryManagementId)}>
                         Manage Stock
                       </Button>
                     </ButtonGroup>
@@ -186,7 +210,7 @@ function InventoryDetails() {
                 'Item Name',
                 'Current Stock',
                 'Manage Stock',
-                ''
+                'Action'
               ]}
               search={true}
               pagination={true}
@@ -250,18 +274,20 @@ function InventoryDetails() {
                     <tr>
                       <th scope="col"> Date</th>
                       <th scope="col"> Mode</th>
-                      <th scope="col"> Quantity</th>
+                      <th scope="col"> Stock</th>
                       <th scope="col"> Current Stock</th>
+                      <th scope="col"> Note</th>
                     </tr>
                   </thead>
                   <tbody>
-                    { track.map((x) => {
+                    {track.map((x) => {
                       return (
                         <tr>
                           <td scope="row">{x.Date}</td>
                           <td>{x.Mode}</td>
                           <td>{x.Stock}</td>
                           <th>{x.CurrentStock}</th>
+                          <th>{x.Note}</th>
                         </tr>
                       )
                     })}
@@ -271,7 +297,7 @@ function InventoryDetails() {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button style={{ color: 'white' }} variant="secondary">
+            <Button style={{ color: 'white' }} onClick={handleViewClose} variant="secondary">
               Close
             </Button>
             <Button style={{ color: 'white' }} variant="primary">
@@ -290,8 +316,8 @@ function InventoryDetails() {
               </Col>
               <Form.Control
                 type="Date"
-                name="CurrentStock"
-                placeholder="600 Litre"
+                name="Date"
+                placeholder="dd-mm-yy"
                 onChange={onChangeHandler}
               />
             </Col>
@@ -299,7 +325,10 @@ function InventoryDetails() {
               <Col md>
                 <h6>Mode</h6>
               </Col>
-              <Select options={options} />
+              <Select
+                options={options}
+                onChange={ChangeHandler}
+              />
             </Col>
             <Col md className="p-1">
               <Col md>
@@ -307,17 +336,39 @@ function InventoryDetails() {
               </Col>
               <Form.Control
                 type="number"
+                name="Stock"
+                placeholder="Stock"
+                onChange={onChangeHandler}
+              />
+            </Col>
+            <Col md className="p-1">
+              <Col md>
+                <h6>CurrentStock</h6>
+              </Col>
+              <Form.Control
+                type="text"
                 name="CurrentStock"
-                placeholder="600 Litre"
+                placeholder="Current Stock"
+                onChange={onChangeHandler}
+              />
+            </Col>
+            <Col md className="p-1">
+              <Col md>
+                <h6>Note</h6>
+              </Col>
+              <Form.Control
+                type="text"
+                name="Note"
+                placeholder="Note"
                 onChange={onChangeHandler}
               />
             </Col>
           </Modal.Body>
           <Modal.Footer>
-            <Button style={{ color: 'white' }} variant="secondary">
+            <Button style={{ color: 'white' }} onClick={handleClose} variant="secondary">
               Close
             </Button>
-            <Button style={{ color: 'white' }} variant="primary">
+            <Button style={{ color: 'white' }} onClick={onSubmitHandler} variant="primary">
               Submit
             </Button>
           </Modal.Footer>
