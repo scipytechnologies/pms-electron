@@ -106,8 +106,7 @@ function InventoryDetails() {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     console.log(form)
-    console.log("id",id)
-    const res = await mainservice.updatehistory(id, form)
+    const res = await mainservice.updatehistory(id,pumpId,form)
     if (res.data != null) {
       navigate('/dashboard/Inventory/InventoryDetails')
       console.log(res)
@@ -117,8 +116,8 @@ function InventoryDetails() {
   }
 
   const options = [
-    { value: 'AddtoStore', label: 'AddtoStore' },
-    { value: 'AddStock', label: 'AddStock' },
+    { value: 'Add to Store', label: 'Add to Store' },
+    { value: 'Add New Stock', label: 'Add New Stock' },
     { value: 'Damaged', label: 'Damaged' }
   ]
   useEffect(() => {
@@ -338,17 +337,6 @@ function InventoryDetails() {
                 type="number"
                 name="Stock"
                 placeholder="Stock"
-                onChange={onChangeHandler}
-              />
-            </Col>
-            <Col md className="p-1">
-              <Col md>
-                <h6>CurrentStock</h6>
-              </Col>
-              <Form.Control
-                type="text"
-                name="CurrentStock"
-                placeholder="Current Stock"
                 onChange={onChangeHandler}
               />
             </Col>
