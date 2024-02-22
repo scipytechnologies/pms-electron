@@ -84,7 +84,7 @@ function EmployeeDetails() {
         </Modal.Header>
         <Modal.Body>
           <div className=" d-flex w-100">
-            <div style={{ height: '280px' }} className="w-25 border m-3"></div>
+            <div style={{ height: '280px', backgroundImage:"url(https://www.nabapravat.com/img/team/avatar.svg)", backgroundRepeat:'no-repeat',backgroundSize:"cover" }} className="w-25 border m-3"></div>
             <div style={{ height: '280px' }} className="w-75 border m-3">
               <p className="m-2">Personal Details</p>
               <Table borderless size="xl" striped className="mb-0">

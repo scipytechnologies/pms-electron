@@ -568,30 +568,30 @@ const [quantity,setQuantity] =useState('')
       <Dropdown className="dropdown-profile ms-3 ms-xl-4" align="end">
         <Dropdown.Toggle as={CustomToggle}>
           <div className="avatar online">
-            <img src={userAvatar} alt="" />
+            <img src="https://www.nabapravat.com/img/team/avatar.svg" alt="" />
           </div>
         </Dropdown.Toggle>
         <Dropdown.Menu className="mt-10-f">
           <div className="dropdown-menu-body">
             <div className="avatar avatar-xl online mb-3">
-              <img src={userAvatar} alt="" />
+              <img src="https://www.nabapravat.com/img/team/avatar.svg" alt="" />
             </div>
             <h5 className="mb-1 text-dark fw-semibold">
               {user.firstName} {user.lastName}
             </h5>
-            <p className="fs-sm text-secondary">Premium Member</p>
+            <p className="fs-sm text-secondary">{user.role}</p>
 
-            <nav className="nav">
+            {/* <nav className="nav">
               <Link to="">
                 <i className="ri-edit-2-line"></i> Edit Profile
               </Link>
               <Link to="">
                 <i className="ri-profile-line"></i> View Profile
               </Link>
-            </nav>
+            </nav> */}
             <hr />
             <nav className="nav">
-              <Link to="">
+              {/* <Link to="">
                 <i className="ri-question-line"></i> Help Center
               </Link>
               <Link to="">
@@ -599,7 +599,7 @@ const [quantity,setQuantity] =useState('')
               </Link>
               <Link to="">
                 <i className="ri-user-settings-line"></i> Account Settings
-              </Link>
+              </Link> */}
               <Link to="/pages/signin">
                 <i className="ri-logout-box-r-line"></i> Log Out
               </Link>

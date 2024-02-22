@@ -443,7 +443,7 @@ function CustomerDetails() {
                 .slice()
                 .reverse()
                 .map((item) => [
-                  item.serialNumber,
+                  "ID"+item.serialNumber.toString().padStart(3, '0'),
                   item.CustomerName,
                   item.MobileNo,
                   item.CreditBalance,
