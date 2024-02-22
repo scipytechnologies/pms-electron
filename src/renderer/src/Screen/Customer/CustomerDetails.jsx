@@ -19,7 +19,7 @@ function CustomerDetails() {
   const customerData = useSelector((state) => state.pumpstore.Customer)
   const user = useSelector((state) => state.loginedUser)
   const fuel = useSelector((state) => state.pumpstore.Fuel)
-  console.log(fuel)
+  console.log(customerData)
 
   async function getCustomer() {
     setData(customerData)
@@ -160,7 +160,7 @@ function CustomerDetails() {
   }
   const onSubmitHandler2 = async (event) => {
     event.preventDefault()
-    
+
     const data = {
       CustomerID: paydata.CustomerId,
       Amount: form2.Amount,
@@ -170,7 +170,7 @@ function CustomerDetails() {
     }
     const res = await mainservice.createCreditPayment(user.PumpId, data)
     if (res.data != null) {
-      console.log(res.data._id);
+      console.log(res.data._id)
       navigate(`/dashboard/Customer/paymentHistory?redirect=true&id=${res.data._id}`)
     } else {
       console.log(res)
@@ -236,10 +236,10 @@ function CustomerDetails() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button style={{color:'white'}} variant="secondary" onClick={handleCreditClose}>
+          <Button style={{ color: 'white' }} variant="secondary" onClick={handleCreditClose}>
             Close
           </Button>
-          <Button style={{color:'white'}} variant="primary" onClick={onSubmitHandler}>
+          <Button style={{ color: 'white' }} variant="primary" onClick={onSubmitHandler}>
             Submit
           </Button>
         </Modal.Footer>
@@ -284,10 +284,10 @@ function CustomerDetails() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button style={{color:'white'}} variant="secondary" onClick={handlePayClose}>
+          <Button style={{ color: 'white' }} variant="secondary" onClick={handlePayClose}>
             Close
           </Button>
-          <Button style={{color:'white'}} variant="primary" onClick={onSubmitHandler2}>
+          <Button style={{ color: 'white' }} variant="primary" onClick={onSubmitHandler2}>
             Submit
           </Button>
         </Modal.Footer>
@@ -426,7 +426,7 @@ function CustomerDetails() {
           </div>
 
           <Button
-          style={{color:'white'}}
+            style={{ color: 'white' }}
             variant="primary"
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addCustomer')}
@@ -439,68 +439,71 @@ function CustomerDetails() {
         <Card>
           <Card.Body>
             <Grid
-              data={customerData.slice().reverse().map((item) => [
-                item.CustomerId,
-                item.CustomerName,
-                item.MobileNo,
-                item.CreditBalance,
-                _(
-                  <>
-                    <ButtonGroup>
-                      <Button
-                        size="sm"
-                        variant="warning"
-                        onClick={() => handleCreditOpen(item.CustomerId)}
-                      >
-                        Credit Sale
-                      </Button>
-                      <Button
-                        style={{ color: 'white' }}
-                        size="sm"
-                        variant="primary"
-                        onClick={() => handlePayOpen(item)}
-                      >
-                        Pay
-                      </Button>
-                    </ButtonGroup>
-                  </>
-                ),
-                _(
-                  <>
-                    <ButtonGroup>
-                      <Button size="sm" variant="white" onClick={() => handleOpen(item)}>
-                        <i className="ri-eye-line"></i>
-                      </Button>
-                    </ButtonGroup>
-                    <Button className="p-0" variant="white">
-                      <Dropdown drop="end">
-                        <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
-                          <i className="ri-more-2-fill" color="primary"></i>
-                        </Dropdown.Toggle>
+              data={customerData
+                .slice()
+                .reverse()
+                .map((item) => [
+                  item.serialNumber,
+                  item.CustomerName,
+                  item.MobileNo,
+                  item.CreditBalance,
+                  _(
+                    <>
+                      <ButtonGroup>
+                        <Button
+                          size="sm"
+                          variant="warning"
+                          onClick={() => handleCreditOpen(item.CustomerId)}
+                        >
+                          Credit Sale
+                        </Button>
+                        <Button
+                          style={{ color: 'white' }}
+                          size="sm"
+                          variant="primary"
+                          onClick={() => handlePayOpen(item)}
+                        >
+                          Pay
+                        </Button>
+                      </ButtonGroup>
+                    </>
+                  ),
+                  _(
+                    <>
+                      <ButtonGroup>
+                        <Button size="sm" variant="white" onClick={() => handleOpen(item)}>
+                          <i className="ri-eye-line"></i>
+                        </Button>
+                      </ButtonGroup>
+                      <Button className="p-0" variant="white">
+                        <Dropdown drop="end">
+                          <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
+                            <i className="ri-more-2-fill" color="primary"></i>
+                          </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                          <Dropdown.Item
-                            onClick={() =>
-                              navigate(`/dashboard/addCustomer/?id=${item.CustomerId}`)
-                            }
-                          >
-                            Edit
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            style={{ color: 'red' }}
-                            onClick={() => onDeleteHandler(item)}
-                          >
-                            Delete
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Button>
-                  </>
-                )
-              ])}
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() =>
+                                navigate(`/dashboard/addCustomer/?id=${item.CustomerId}`)
+                              }
+                            >
+                              Edit
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              style={{ color: 'red' }}
+                              onClick={() => onDeleteHandler(item)}
+                            >
+                              Delete
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </Button>
+                    </>
+                  )
+                ])}
               columns={[
-                'Customer Id',
+                'ID',
                 'Customer Name',
                 'Phone Number',
                 'OutStanding Balance',

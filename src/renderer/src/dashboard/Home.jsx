@@ -928,10 +928,14 @@ export default function Home() {
             </ol>
           </div>
           <div className="d-flex gap-2 mt-3 mt-md-0">
-            <Button variant="" className="btn-white d-flex align-items-center gap-2">
+            <Button variant="" className="btn-white d-flex align-items-center gap-2" onClick={() =>
+                              navigate(`/dashboard/DipStock/StockDetails`)
+                            }  >
               <i className="ri-truck-line fs-18 lh-1"></i>Dip Stock
             </Button>
-            <Button variant="" className="btn-white d-flex align-items-center gap-2">
+            <Button variant="" className="btn-white d-flex align-items-center gap-2"  onClick={() =>
+                              navigate(`/dashboard/addSales`)
+                            } >
               <i className="ri-calculator-line fs-18 lh-1"></i>Add Daily Sales
             </Button>
             {/* <Button variant="primary" className="d-flex align-items-center gap-2">
