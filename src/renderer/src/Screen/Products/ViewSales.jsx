@@ -116,7 +116,7 @@ function ViewProductSales() {
             <Grid
               data={
                 productData
-                  ? data.map((item) => [
+                  ? data.slice().reverse().map((item) => [
                       _(
                         new Date(item.Date).toLocaleDateString('en-GB', {
                           year: 'numeric',

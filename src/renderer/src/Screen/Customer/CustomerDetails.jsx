@@ -439,7 +439,7 @@ function CustomerDetails() {
         <Card>
           <Card.Body>
             <Grid
-              data={customerData.map((item) => [
+              data={customerData.slice().reverse().map((item) => [
                 item.CustomerId,
                 item.CustomerName,
                 item.MobileNo,
