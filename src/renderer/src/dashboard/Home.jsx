@@ -978,7 +978,7 @@ export default function Home() {
                     <Col xs="6" key={index}>
                       <label className="fs-sm fw-medium mb-1">{item.TankNumber}</label>
                       <h3 className="card-value mb-2">
-                        {item.Quantity} &nbsp; <small style={{color:'#01a174'}}>{item.Quantity/item.Volume*100}%</small>
+                        {item.Quantity} &nbsp; <small style={{color:'#01a174'}}>{(item.Quantity/item.Volume*100).toFixed(2)}%</small>
                       </h3>
                       <div className="d-flex justify-content-between"> <p style={{fontSize:'14px'}}>Total Volume : {item.Volume}</p> <p style={{fontSize:'14px'}}>Fuel : {item.Product}</p>   </div>
                         
