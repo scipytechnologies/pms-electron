@@ -115,7 +115,7 @@ function PaymentHistory() {
         <Card>
           <Card.Body>
             <Grid
-              data={data.map((item) => [
+              data={data.slice().reverse().map((item) => [
                 _(
                   new Date(item.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
