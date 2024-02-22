@@ -144,8 +144,8 @@ async function deleteInventoryManagement(pumpId, inventoryId) {
   return response
 }
 
-async function updatehistory(id, data) {
-  const response = await apicall.apicall('put', 9000,`InventoryManagementRouter/updatehistory/${id}`, data)
+async function updatehistory(id,pumpId, data) {
+  const response = await apicall.apicall('put', 9000,`InventoryManagementRouter/updatehistory/${id}/${pumpId}`, data)
   return response
 }
 ///////////////////////{Product}////////////////////////////////////////
