@@ -928,10 +928,14 @@ export default function Home() {
             </ol>
           </div>
           <div className="d-flex gap-2 mt-3 mt-md-0">
-            <Button variant="" className="btn-white d-flex align-items-center gap-2">
+            <Button variant="" className="btn-white d-flex align-items-center gap-2" onClick={() =>
+                              navigate(`/dashboard/DipStock/StockDetails`)
+                            }  >
               <i className="ri-truck-line fs-18 lh-1"></i>Dip Stock
             </Button>
-            <Button variant="" className="btn-white d-flex align-items-center gap-2">
+            <Button variant="" className="btn-white d-flex align-items-center gap-2"  onClick={() =>
+                              navigate(`/dashboard/addSales`)
+                            } >
               <i className="ri-calculator-line fs-18 lh-1"></i>Add Daily Sales
             </Button>
             {/* <Button variant="primary" className="d-flex align-items-center gap-2">
@@ -978,7 +982,7 @@ export default function Home() {
                     <Col xs="6" key={index}>
                       <label className="fs-sm fw-medium mb-1">{item.TankNumber}</label>
                       <h3 className="card-value mb-2">
-                        {item.Quantity} &nbsp; <small style={{color:'#01a174'}}>{item.Quantity/item.Volume*100}%</small>
+                        {item.Quantity} &nbsp; <small style={{color:'#01a174'}}>{(item.Quantity/item.Volume*100).toFixed(2)}%</small>
                       </h3>
                       <div className="d-flex justify-content-between"> <p style={{fontSize:'14px'}}>Total Volume : {item.Volume}</p> <p style={{fontSize:'14px'}}>Fuel : {item.Product}</p>   </div>
                         
