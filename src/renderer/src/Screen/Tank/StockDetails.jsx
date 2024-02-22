@@ -118,7 +118,7 @@ function StockDetails() {
                 <Card>
                     <Card.Body>
                         <Grid
-                            data={productData .map((item) => [
+                            data={productData.slice().reverse().map((item) => [
                                 _(
                                     new Date(item.Date).toLocaleDateString('en-GB', {
                                         year: 'numeric',

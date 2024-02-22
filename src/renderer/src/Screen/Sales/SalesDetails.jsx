@@ -114,7 +114,7 @@ function SalesAndBilling() {
             <Grid
               data={
                 salesData
-                  ? data.map((item) => [
+                  ? data.slice().reverse().map((item) => [
                       item.Date,
                       item.Employee,
                       item.Shift,

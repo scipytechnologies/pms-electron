@@ -65,7 +65,7 @@ function TestHistory() {
             <Grid
               data={
                 testHistoryData
-                  ? data.map((item) => [
+                  ? data.slice().reverse().map((item) => [
                     _(
                       new Date(item.Date).toLocaleDateString('en-GB', {
                         year: 'numeric',

@@ -237,7 +237,7 @@ function EmployeeDetails() {
         <Card>
           <Card.Body>
             <Grid
-              data={employeeData.map((item) => [
+              data={employeeData.slice().reverse().map((item) => [
                 item.EmployeeId,
                 item.EmployeeName,
                 item.DOB,
