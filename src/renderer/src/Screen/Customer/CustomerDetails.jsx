@@ -382,11 +382,11 @@ function CustomerDetails() {
                   </tr>
                 </thead>
                 <tbody>
-                  {credit.map((x) => {
+                  {credit.map((x, index) => {
                     return (
                       <tr>
-                        <th scope="row">1</th>
-                        <td>12/11/2023</td>
+                        <th scope="row">{index + 1}</th>
+                        <td>{x.createdAt}</td>
                         <td>{x.VehicleNumber}</td>
                         <td>{x.Product}</td>
                         <td>{x.Quantity}</td>
@@ -443,7 +443,7 @@ function CustomerDetails() {
                 .slice()
                 .reverse()
                 .map((item) => [
-                  "ID"+item.serialNumber.toString().padStart(3, '0'),
+                  'ID' + item.serialNumber.toString().padStart(3, '0'),
                   item.CustomerName,
                   item.MobileNo,
                   item.CreditBalance,
