@@ -154,8 +154,8 @@ async function createProduct(data, id) {
   return response
 }
 
-async function getProduct() {
-  const response = await apicall.apicall('get', 9000, 'ProductRouter/getProduct')
+async function getProduct(id) {
+  const response = await apicall.apicall('get', 9000, `ProductRouter/getProduct/${id}`)
   return response
 }
 async function getProductById(id) {
