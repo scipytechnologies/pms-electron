@@ -115,6 +115,7 @@ function SalesAndBilling() {
               data={
                 salesData
                   ? data.slice().reverse().map((item) => [
+                    '#'+ item.serialNumber,
                       item.Date,
                       item.Employee,
                       item.Shift,
@@ -144,7 +145,7 @@ function SalesAndBilling() {
                     ])
                   : []
               }
-              columns={['Name', 'Employee', 'Shift', 'Total Sales Amount', 'Action']}
+              columns={['BillNumber','Name', 'Employee', 'Shift', 'Total Sales Amount', 'Action']}
               search={true}
               pagination={true}
               sort={true}
@@ -185,7 +186,7 @@ function SalesAndBilling() {
                   Date : <b>{sale.Date}</b>
                 </div>
                 <div className="w-100" style={{ textAlign: 'right' }}>
-                  Sales Number : <b>{sale._id}</b>
+                  Sales Number : <b>{'#'+ sale.serialNumber}</b>
                 </div>
               </div>
             </div>

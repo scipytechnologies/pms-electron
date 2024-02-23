@@ -124,7 +124,7 @@ function ViewProductSales() {
                           day: '2-digit'
                         })
                       ),
-                      item.SalesId,
+                      "#"+item.serialNumber,
                       item.TotalSaleAmount,
                       _(
                         <>
@@ -180,7 +180,7 @@ function ViewProductSales() {
               </div>
               <div className="w-50">
                 <div className="w-100" style={{ textAlign: 'right' }}>
-                  Sales Number : <b>{sale.SalesId}</b>
+                  Sales Number : <b>{"#"+sale.serialNumber}</b>
                 </div>
               </div>
             </div>

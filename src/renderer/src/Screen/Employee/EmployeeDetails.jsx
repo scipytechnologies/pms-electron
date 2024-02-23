@@ -238,7 +238,7 @@ function EmployeeDetails() {
           <Card.Body>
             <Grid
               data={employeeData.slice().reverse().map((item) => [
-                item.EmployeeId,
+                item.serialNumber,
                 item.EmployeeName,
                 item.DOB,
                 item.Designation,
