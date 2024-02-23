@@ -71,6 +71,16 @@ function SalesAndBilling() {
     setShow(false)
   }
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
@@ -101,7 +111,7 @@ function SalesAndBilling() {
           </div>
           <Button
             variant="primary"
-            style={{color:'white'}}
+            style={{ color: 'white' }}
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addSales')}
           >
@@ -115,18 +125,18 @@ function SalesAndBilling() {
               data={
                 salesData
                   ? data.slice().reverse().map((item) => [
-                    '#'+ item.serialNumber,
-                      item.Date,
-                      item.Employee,
-                      item.Shift,
-                      item.TotalAmount,
-                      _(
-                        <>
-                          <ButtonGroup>
-                            <Button size="sm" variant="white" onClick={() => handleOpen(item.ID)}>
-                              <i className="ri-eye-line"></i>
-                            </Button>
-                            {/* <Button className="p-0" variant="white">
+                    '#' + item.serialNumber,
+                    formatDate(item.Date),
+                    item.Employee,
+                    item.Shift,
+                    item.TotalAmount,
+                    _(
+                      <>
+                        <ButtonGroup>
+                          <Button size="sm" variant="white" onClick={() => handleOpen(item.ID)}>
+                            <i className="ri-eye-line"></i>
+                          </Button>
+                          {/* <Button className="p-0" variant="white">
                                                 <Dropdown drop="end">
                                                     <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
                                                         <i className="ri-more-2-fill" color="primary"></i>
@@ -139,13 +149,13 @@ function SalesAndBilling() {
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </Button> */}
-                          </ButtonGroup>
-                        </>
-                      )
-                    ])
+                        </ButtonGroup>
+                      </>
+                    )
+                  ])
                   : []
               }
-              columns={['BillNumber','Name', 'Employee', 'Shift', 'Total Sales Amount', 'Action']}
+              columns={['BillNumber', 'Name', 'Employee', 'Shift', 'Total Sales Amount', 'Action']}
               search={true}
               pagination={true}
               sort={true}
@@ -158,8 +168,8 @@ function SalesAndBilling() {
         </Card>
         <Footer />
 
-        <Modal style={{minWidth:'1200px'}} show={show} onHide={handleClose} size="lg" centered>
-          <Modal.Body style={{ padding: '30px', minHeight: '700px'}} ref={componentRef}>
+        <Modal style={{ minWidth: '1200px' }} show={show} onHide={handleClose} size="lg" centered>
+          <Modal.Body style={{ padding: '30px', minHeight: '700px' }} ref={componentRef}>
             <div className="m-3">
               <div style={{ fontWeight: 'bold', fontSize: '30px', textAlign: 'center' }}>
                 {pump.PumpName}
@@ -186,7 +196,7 @@ function SalesAndBilling() {
                   Date : <b>{sale.Date}</b>
                 </div>
                 <div className="w-100" style={{ textAlign: 'right' }}>
-                  Sales Number : <b>{'#'+ sale.serialNumber}</b>
+                  Sales Number : <b>{'#' + sale.serialNumber}</b>
                 </div>
               </div>
             </div>
@@ -226,7 +236,7 @@ function SalesAndBilling() {
             <div className="d-flex">
               <div style={{ height: '100%', flexWrap: 'wrap' }} className=" d-flex w-70">
                 <div className="w-50 ">
-                <h6 style={{ marginTop: '20px' }} >Card Payment</h6>
+                  <h6 style={{ marginTop: '20px' }} >Card Payment</h6>
                   <Table striped bordered size="sm" className="mb-0">
                     <thead>
                       <tr>
@@ -235,17 +245,19 @@ function SalesAndBilling() {
                       </tr>
                     </thead>
                     <tbody>
-                      {card.map((x)=>{return(
-                      <tr>
-                        <th scope="row">{x.Machine}</th>
-                        <td>{x.Price}</td>
-                      </tr> ) })}
+                      {card.map((x) => {
+                        return (
+                          <tr>
+                            <th scope="row">{x.Machine}</th>
+                            <td>{x.Price}</td>
+                          </tr>)
+                      })}
                     </tbody>
                   </Table>
                 </div>
                 <div style={{ paddingLeft: '20px' }} className="  w-50 ">
-                <h6 style={{ marginTop: '20px' }}>UPI Payment</h6>
-                  <Table  striped bordered size="sm" className="mb-0">
+                  <h6 style={{ marginTop: '20px' }}>UPI Payment</h6>
+                  <Table striped bordered size="sm" className="mb-0">
                     <thead>
                       <tr>
                         <th scope="col">UPI Method</th>
@@ -253,17 +265,19 @@ function SalesAndBilling() {
                       </tr>
                     </thead>
                     <tbody>
-                      {upi.map((x)=>{return( 
-                      <tr>
-                        <th scope="row">{x.Method}</th>
-                        <td>{x.Price}</td>
-                      </tr>
-                    )})}
+                      {upi.map((x) => {
+                        return (
+                          <tr>
+                            <th scope="row">{x.Method}</th>
+                            <td>{x.Price}</td>
+                          </tr>
+                        )
+                      })}
                     </tbody>
                   </Table>
                 </div>
                 <div className=" w-100 ">
-                <h6 style={{ marginTop: '20px' }} >Creditors</h6>
+                  <h6 style={{ marginTop: '20px' }} >Creditors</h6>
                   <Table striped bordered size="sm" className="mb-0">
                     <thead>
                       <tr>
@@ -272,18 +286,20 @@ function SalesAndBilling() {
                       </tr>
                     </thead>
                     <tbody>
-                      {creditors.map((x)=>{return( 
-                      <tr>
-                        <th scope="row">{x.Method}</th>
-                        <td>{x.Price}</td>
-                      </tr>
-                     )})}
+                      {creditors.map((x) => {
+                        return (
+                          <tr>
+                            <th scope="row">{x.Method}</th>
+                            <td>{x.Price}</td>
+                          </tr>
+                        )
+                      })}
                     </tbody>
                   </Table>
                 </div>
               </div>
               <div style={{ paddingLeft: '20px' }} className="w-30">
-              <h6 style={{ marginTop: '20px' }} >Dinomination</h6>
+                <h6 style={{ marginTop: '20px' }} >Dinomination</h6>
                 <Table striped bordered size="sm" className="mb-0">
                   <thead>
                     <tr>
@@ -328,7 +344,7 @@ function SalesAndBilling() {
                       <th scope="row">2</th>
                       <td>{cash[0].Two}</td>
                     </tr>
-                    <tr>  
+                    <tr>
                       <th scope="row">1</th>
                       <td>{cash[0].One}</td>
                     </tr>
@@ -345,8 +361,8 @@ function SalesAndBilling() {
               </div>
               <div style={{ height: '100%', flexWrap: 'wrap' }} className=" d-flex w-50">
                 <div className="w-100 ">
-                <h6 style={{ marginTop: '20px' }} > Summary </h6>
-                  <Table  striped bordered size="sm" className="mb-0">
+                  <h6 style={{ marginTop: '20px' }} > Summary </h6>
+                  <Table striped bordered size="sm" className="mb-0">
                     <tbody>
                       <tr>
                         <th scope="row">Total Amount</th>
@@ -371,10 +387,10 @@ function SalesAndBilling() {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button  style={{color:'white'}} variant="danger" onClick={handlePrint}>
+            <Button style={{ color: 'white' }} variant="danger" onClick={handlePrint}>
               Print
             </Button>
-            <Button style={{color:'white'}} variant="primary" onClick={handleClose}>
+            <Button style={{ color: 'white' }} variant="primary" onClick={handleClose}>
               Save Changes
             </Button>
           </Modal.Footer>

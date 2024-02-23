@@ -45,6 +45,16 @@ function EmployeeDetails() {
     deleteEmployee(pumpId,employeeId)
   }
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+  
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
+
   const [show, setShow] = useState(false)
   const [emp, setEmp] = useState({})
 
@@ -240,7 +250,7 @@ function EmployeeDetails() {
               data={employeeData.slice().reverse().map((item) => [
                 item.serialNumber,
                 item.EmployeeName,
-                item.DOB,
+                formatDate(item.DOB),
                 item.Designation,
                 item.PhoneNumber,
                 _(

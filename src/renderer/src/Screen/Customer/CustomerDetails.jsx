@@ -31,6 +31,16 @@ function CustomerDetails() {
     fetchPump(user.PumpId)
   }, [])
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+  
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
+
   async function deleteCustomer(pumpId, customerId) {
     try {
       const res = await mainservice.deleteCustomer(pumpId, customerId)
@@ -386,7 +396,7 @@ function CustomerDetails() {
                     return (
                       <tr>
                         <th scope="row">{index + 1}</th>
-                        <td>{x.createdAt}</td>
+                        <td>{formatDate(x.createdAt)}</td>
                         <td>{x.VehicleNumber}</td>
                         <td>{x.Product}</td>
                         <td>{x.Quantity}</td>
