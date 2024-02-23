@@ -159,7 +159,7 @@ function InventoryDetails() {
           <Card.Body>
             <Grid
               data={inventoryData.slice().reverse().map((item) => [
-                item.InventoryManagementId,
+                item.serialNumber,
                 item.CategoryName,
                 item.ItemName,
                 item.CurrentStock,

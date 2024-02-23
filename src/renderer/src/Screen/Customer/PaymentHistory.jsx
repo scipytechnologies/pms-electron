@@ -116,6 +116,7 @@ function PaymentHistory() {
           <Card.Body>
             <Grid
               data={data.slice().reverse().map((item) => [
+                item.serialNumber,
                 _(
                   new Date(item.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -149,7 +150,7 @@ function PaymentHistory() {
                   </>
                 )
               ])}
-              columns={['Date', 'Customer', 'Paid Amount', 'Balance', 'Action']}
+              columns={['Bill No.','Date', 'Customer', 'Paid Amount', 'Balance', 'Action']}
               search={true}
               pagination={true}
               sort={true}
