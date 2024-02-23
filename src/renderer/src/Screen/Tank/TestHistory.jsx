@@ -32,7 +32,7 @@ function TestHistory() {
     const pumpdetails = await mainservice.getPumpById(id)
     if (pumpdetails.data != null) {
       dispatch(pumpInfo(pumpdetails.data.result2))
-      console.log(pumpdetails.data.result2)
+      console.log("hi",pumpdetails.data.result2)
     }
   }
   useEffect(() => {

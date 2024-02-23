@@ -96,6 +96,7 @@ export default function DipStock() {
     console.log(user)
     const res = await mainservice.createDipStock(user.PumpId, data)
     if (res.data != null) {
+      navigate('/dashboard/DipStock/StockDetails')
       console.log(res.data)
     } else {
       console.log(res)

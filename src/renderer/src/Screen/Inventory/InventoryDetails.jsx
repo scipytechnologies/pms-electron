@@ -146,6 +146,7 @@ function InventoryDetails() {
 
           <Button
             variant="primary"
+            style={{ color:'white'}}
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addinventory')}
           >

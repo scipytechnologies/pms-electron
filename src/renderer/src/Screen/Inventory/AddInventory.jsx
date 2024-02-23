@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Col, Row, Form, Nav, Card, Button, Table } from 'react-bootstrap'
 import Footer from '../../layouts/Footer'
 import Header from '../../layouts/Header'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import mainservice from '../../Services/mainservice'
 import Select from 'react-select'
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,6 +13,7 @@ export default function PostInventory() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const user = useSelector((state) => state.loginedUser)
@@ -156,6 +157,7 @@ export default function PostInventory() {
     const res = await mainservice.createInventoryManagement(data, user.PumpId)
     console.log("pumpid", user.PumpId)
     if (res.data != null) {
+      navigate('/dashboard/Inventory/InventoryDetails')
       console.log("response", res)
     } else {
       console.log(res)
@@ -313,7 +315,7 @@ export default function PostInventory() {
                     <Button onClick={onUpdateHandler} type="submit">Update</Button>
                   </div> :
                   <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={onSubmitHandler} type="submit">Submit</Button>
+                    <Button style={{ color:'white'}} onClick={onSubmitHandler} type="submit">Submit</Button>
                   </div>}
 
               </Col>{' '}

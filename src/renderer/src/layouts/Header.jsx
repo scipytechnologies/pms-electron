@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
 import userAvatar from '../assets/img/img1.jpg'
 import notification from '../data/Notification'
@@ -16,6 +16,7 @@ export default function Header({ onSkin }) {
   const employees = useSelector((state) => state.pumpstore.Employee)
   const nozzle = useSelector((state) => state.pumpstore.Nozzle)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [isChecked, setIsChecked] = useState(false)
   const [inputform, setInputForm] = useState([])
   const [fuelform, setFuelForm] = useState({
@@ -119,6 +120,7 @@ const [quantity,setQuantity] =useState('')
     console.log('wholedata', formData)
     const res = await mainservice.createFuelTest(user.PumpId, formData)
     if (res.data != null) {
+      navigate('/dashboard/FuelTest/TestHistory')
       fetchPump(user.PumpId)
       console.log('console.res', res)
     } else {

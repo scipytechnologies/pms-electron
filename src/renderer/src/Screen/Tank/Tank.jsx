@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Col, Nav, ProgressBar, Row, Modal, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../../layouts/Footer'
 import Header from '../../layouts/Header'
 import { dp3 } from '../../data/DashboardData'
@@ -16,6 +16,7 @@ export default function Tank() {
   const nozzle = useSelector((state) => state.pumpstore.Nozzle)
   const employees = useSelector((state) => state.pumpstore.Employee)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [nozzleModal, setNozzleModal] = useState(false)
   const [evaporationModal, setEvaporationModal] = useState(false)
@@ -136,6 +137,7 @@ export default function Tank() {
     const res = await mainservice.createEvaporation(data, user.PumpId)
     if (res.data != null) {
       console.log('res', res)
+      navigate('/dashboard/Evaporation/EvaporationLoss')
       fetchPump(user.PumpId)
     } else {
       console.log(res)
@@ -311,7 +313,7 @@ export default function Tank() {
             <Button variant="secondary" onClick={handleCloseEvaporation}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSubmitEvaporation}>
+            <Button style={{ color: 'white'}} variant="primary" onClick={onSubmitEvaporation}>
               Save Changes
             </Button>
           </Modal.Footer>
@@ -343,7 +345,7 @@ export default function Tank() {
             <Button variant="secondary" onClick={handleCloseAddNozzle}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSubmitNozzle}>
+            <Button style={{ color: 'white'}} variant="primary" onClick={onSubmitNozzle}>
               Save Changes
             </Button>
           </Modal.Footer>
