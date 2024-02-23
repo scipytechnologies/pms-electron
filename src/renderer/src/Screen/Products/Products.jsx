@@ -45,7 +45,9 @@ export default function Product() {
     cat.map((x) => {
       if (x.product) {
         x.product.map((y) => {
-          data.push(y)
+          if (y.OnSale) {
+            data.push(y)
+          }
         })
       }
     })
@@ -93,7 +95,7 @@ export default function Product() {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     let TotalSalesAmount = getTotalPrice()
-   const data = {
+    const data = {
       SalesId: '123',
       GST: (TotalSalesAmount * 18) / 100,
       TotalSaleAmount: TotalSalesAmount,
