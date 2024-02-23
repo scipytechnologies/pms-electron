@@ -41,6 +41,17 @@ function InventoryDetails() {
     getInventoryManagement()
   }, [])
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+  
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
+  
+
   async function deleteInventoryManagement(pumpId, inventoryId) {
     const res = await mainservice.deleteInventoryManagement(pumpId, inventoryId)
     if (res.data != null) {
@@ -85,6 +96,7 @@ function InventoryDetails() {
     setInventory(data.data.result2)
     if (data.data.result2.InventoryHistory) {
       setTrack(data.data.result2.InventoryHistory)
+      console.log("hello...", data.data.result2)
     }
     setView(true)
   }
@@ -106,7 +118,7 @@ function InventoryDetails() {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     console.log(form)
-    const res = await mainservice.updatehistory(id,pumpId,form)
+    const res = await mainservice.updatehistory(id, pumpId, form)
     if (res.data != null) {
       navigate('/dashboard/Inventory/InventoryDetails')
       console.log(res)
@@ -146,7 +158,7 @@ function InventoryDetails() {
 
           <Button
             variant="primary"
-            style={{ color:'white'}}
+            style={{ color: 'white' }}
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addinventory')}
           >
@@ -245,7 +257,11 @@ function InventoryDetails() {
                 </tr>{' '}
                 <tr>
                   <th>Created Date</th>
-                  <td > {inventory.createdAt}</td>
+                  <td > {new Date(inventory.createdAt).toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                  })}</td>
 
                   <th>Current Stock</th>
                   <td>
@@ -283,7 +299,7 @@ function InventoryDetails() {
                     {track.map((x) => {
                       return (
                         <tr>
-                          <td scope="row">{x.Date}</td>
+                          <td scope="row">{formatDate(x.Date)}</td>
                           <td>{x.Mode}</td>
                           <td>{x.Stock}</td>
                           <th>{x.CurrentStock}</th>

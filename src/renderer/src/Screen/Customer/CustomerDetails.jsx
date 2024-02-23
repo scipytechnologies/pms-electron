@@ -229,7 +229,7 @@ function CustomerDetails() {
                 <p style={{ fontWeight: 'bold', fontSize: '15px' }}>{form.Quantity}</p>
                 <p style={{ fontWeight: 'bold', fontSize: '15px' }}>{selectedProduct.value}</p>
                 <p style={{ fontWeight: 'bold', fontSize: '15px' }}>
-                  {form.Quantity * selectedProduct.value}
+                  {(form.Quantity * selectedProduct.value).toFixed(2)}
                 </p>
               </Col>
             </Row>
