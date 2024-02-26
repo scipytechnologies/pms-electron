@@ -45,6 +45,16 @@ function ViewProductSales() {
 
   const [show, setShow] = useState(false)
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
   function handleOpen(item) {
     setShow(true)
     getProductDataById(item.ID)
@@ -104,7 +114,7 @@ function ViewProductSales() {
           <Button
             variant="primary"
             className="d-flex align-items-center gap-2"
-            style= {{ color: 'white' }}
+            style={{ color: 'white' }}
             onClick={() => navigate('/dashboard/products')}
           >
             <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add Product
@@ -117,25 +127,20 @@ function ViewProductSales() {
               data={
                 productData
                   ? data.slice().reverse().map((item) => [
-                      _(
-                        new Date(item.Date).toLocaleDateString('en-GB', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit'
-                        })
-                      ),
-                      "#"+item.serialNumber,
-                      item.TotalSaleAmount,
-                      _(
-                        <>
-                          <ButtonGroup>
-                            <Button size="sm" variant="white" onClick={() => handleOpen(item)}>
-                              <i className="ri-eye-line"></i>
-                            </Button>
-                          </ButtonGroup>
-                        </>
-                      )
-                    ])
+
+                    formatDate(item.Date),
+                    "#" + item.serialNumber,
+                    item.TotalSaleAmount,
+                    _(
+                      <>
+                        <ButtonGroup>
+                          <Button size="sm" variant="white" onClick={() => handleOpen(item)}>
+                            <i className="ri-eye-line"></i>
+                          </Button>
+                        </ButtonGroup>
+                      </>
+                    )
+                  ])
                   : []
               }
               columns={['Date', 'Sales Id', 'Total Sale Amount', 'Action']}
@@ -180,7 +185,7 @@ function ViewProductSales() {
               </div>
               <div className="w-50">
                 <div className="w-100" style={{ textAlign: 'right' }}>
-                  Sales Number : <b>{"#"+sale.serialNumber}</b>
+                  Sales Number : <b>{"#" + sale.serialNumber}</b>
                 </div>
               </div>
             </div>

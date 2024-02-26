@@ -28,6 +28,16 @@ function EvaporationLoss() {
     evaporationDetails()
   }, [])
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
   const fetchPump = async (id) => {
     const pumpdetails = await mainservice.getPumpById(id)
     if (pumpdetails.data != null) {
@@ -66,13 +76,8 @@ function EvaporationLoss() {
               data={
                 evaporationData
                   ? data.slice().reverse().map((item) => [
-                    _(
-                      new Date(item.Date).toLocaleDateString('en-GB', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit'
-                      })
-                    ),
+
+                    formatDate(item.Date),
                     item.Tank,
                     item.InitialQuantity,
                     item.ActualQuantity,

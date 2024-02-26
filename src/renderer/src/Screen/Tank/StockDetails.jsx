@@ -25,7 +25,7 @@ function StockDetails() {
 
     useEffect(() => {
         setData(pump.DipStock)
-    }, [pump])  
+    }, [pump])
 
     const fetchPump = async (id) => {
         const pumpdetails = await mainservice.getPumpById(id)
@@ -46,6 +46,16 @@ function StockDetails() {
     const [product, setProduct] = useState([])
     console.log("productstate", product)
     console.log("salestate", sale)
+
+    function formatDate(inputDate) {
+        const date = new Date(inputDate);
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    }
 
 
     async function getDipstockDataById(id) {
@@ -76,8 +86,8 @@ function StockDetails() {
         getDipStock()
     }, []);
 
-    async function deleteDipStock(pumpId,DipStockId) {
-        const res = await mainservice.deleteDipStock(pumpId,DipStockId);
+    async function deleteDipStock(pumpId, DipStockId) {
+        const res = await mainservice.deleteDipStock(pumpId, DipStockId);
         if (res.data != null) {
             console.log("deleted");
             getDipStock()
@@ -89,10 +99,10 @@ function StockDetails() {
 
     const onDeleteHandler = (item) => {
         const pumpId = user.PumpId
-        console.log("pumpId",pumpId)
+        console.log("pumpId", pumpId)
         const DipStockId = item.DipStockId
-        console.log("dipstockid",item.DipStockId);
-        deleteDipStock(pumpId,DipStockId);
+        console.log("dipstockid", item.DipStockId);
+        deleteDipStock(pumpId, DipStockId);
     }
 
     return (
@@ -110,7 +120,7 @@ function StockDetails() {
                         <h4 className="main-title mt-2 mb-0">DipStock Details</h4>
                     </div>
 
-                    <Button style={{ color:'white'}} variant="primary" className="d-flex align-items-center gap-2" onClick={() => navigate('/dashboard/dipStock')}>
+                    <Button style={{ color: 'white' }} variant="primary" className="d-flex align-items-center gap-2" onClick={() => navigate('/dashboard/dipStock')}>
                         <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add DipStock<span className="d-none d-sm-inline"></span>
                     </Button>
                 </div>
@@ -119,13 +129,8 @@ function StockDetails() {
                     <Card.Body>
                         <Grid
                             data={productData.slice().reverse().map((item) => [
-                                _(
-                                    new Date(item.Date).toLocaleDateString('en-GB', {
-                                        year: 'numeric',
-                                        month: '2-digit',
-                                        day: '2-digit'
-                                    })
-                                ),
+                             
+                                formatDate(item.Date),
                                 item.InvoiceNumber,
                                 item.Product,
                                 item.Quantity,
@@ -216,7 +221,7 @@ function StockDetails() {
                                         <td>{product.Product}</td>
                                         <td>{product.Quantity}</td>
                                         <td>{product.Price}</td>
-                                    </tr>  
+                                    </tr>
                                 </tbody>
                             </Table>
                         </div>

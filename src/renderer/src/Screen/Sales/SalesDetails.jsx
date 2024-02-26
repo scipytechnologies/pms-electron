@@ -155,7 +155,7 @@ function SalesAndBilling() {
                   ])
                   : []
               }
-              columns={['BillNumber', 'Name', 'Employee', 'Shift', 'Total Sales Amount', 'Action']}
+              columns={['BillNumber', 'Date', 'Employee', 'Shift', 'Total Sales Amount', 'Action']}
               search={true}
               pagination={true}
               sort={true}
