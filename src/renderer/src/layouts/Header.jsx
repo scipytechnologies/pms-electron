@@ -314,6 +314,12 @@ const [quantity,setQuantity] =useState('')
     }
   }
 
+  function LogOut(){
+    localStorage.removeItem('user-token')
+    window.location.reload(false);
+    
+  }
+
   return (
     <div className="header-main px-3 px-lg-4">
       <Link onClick={toggleSidebar} className="menu-link me-3 me-lg-4">
@@ -602,7 +608,7 @@ const [quantity,setQuantity] =useState('')
               <Link to="">
                 <i className="ri-user-settings-line"></i> Account Settings
               </Link> */}
-              <Link to="/pages/signin">
+              <Link onClick={LogOut}>
                 <i className="ri-logout-box-r-line"></i> Log Out
               </Link>
             </nav>
