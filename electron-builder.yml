@@ -14,6 +14,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: IndhanX
+  icon: build/icon.ico
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -41,6 +42,6 @@ appImage:
 npmRebuild: false
 publish:
   provider: github
-  token: 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
+  token: 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
   owner: scipytechnologies
   repo: Autoupdator

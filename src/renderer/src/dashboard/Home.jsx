@@ -7,6 +7,8 @@ import { dp3 } from '../data/DashboardData'
 import ReactApexChart from 'react-apexcharts'
 import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../Services/mainservice'
+import { driver } from 'driver.js'
+import 'driver.js/dist/driver.css'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -47,56 +49,56 @@ export default function Home() {
 
   const chartOptions = {
     chart: {
-        type: 'bar', // Change the chart type to bar
-        fontFamily: 'Arial, sans-serif',
-        foreColor: '#333',
+      type: 'bar', // Change the chart type to bar
+      fontFamily: 'Arial, sans-serif',
+      foreColor: '#333'
     },
     xaxis: {
-        categories: formattedDates,
-        labels: {
-            style: {
-                colors: '#555',
-                fontSize: '9px',
-                fontWeight: 'bold',
-            },
-        },
+      categories: formattedDates,
+      labels: {
+        style: {
+          colors: '#555',
+          fontSize: '9px',
+          fontWeight: 'bold'
+        }
+      }
     },
     yaxis: {
-        title: {
-            text: 'Total Sales',
-            style: {
-                color: '#555',
-                fontSize: '14px',
-                fontWeight: 'bold',
-            },
-        },
-        labels: {
-            style: {
-                colors: '#555',
-                fontSize: '12px',
-                fontWeight: 'bold',
-            },
-        },
+      title: {
+        text: 'Total Sales',
+        style: {
+          color: '#555',
+          fontSize: '14px',
+          fontWeight: 'bold'
+        }
+      },
+      labels: {
+        style: {
+          colors: '#555',
+          fontSize: '12px',
+          fontWeight: 'bold'
+        }
+      }
     },
     plotOptions: {
-        bar: {
-            horizontal: false, // Change to true for horizontal bars
-            columnWidth: '60%', // Adjust the width of the bars if needed
-            dataLabels: {
-                position: 'top', // Show data labels on top of columns
-            },
-        },
+      bar: {
+        horizontal: false, // Change to true for horizontal bars
+        columnWidth: '60%', // Adjust the width of the bars if needed
+        dataLabels: {
+          position: 'top' // Show data labels on top of columns
+        }
+      }
     },
     dataLabels: {
-        enabled: false,
-        style: {
-            colors: ['white'],
-            fontSize: '9px',
-            fontWeight: 'bold',
-        },
+      enabled: false,
+      style: {
+        colors: ['white'],
+        fontSize: '9px',
+        fontWeight: 'bold'
+      }
     },
-    colors: ['#01a174'],
-};
+    colors: ['#01a174']
+  }
 
   const pump = useSelector((state) => state.pumpstore)
   console.log(user)
@@ -912,6 +914,17 @@ export default function Home() {
     fetchData(user.PumpId)
   }, [])
 
+  const driverObj = driver({
+    showProgress: true,
+    steps: [
+      { element: '.card-one', popover: { title: 'Title', description: 'Description' } },
+      { element: '.top-nav', popover: { title: 'Title', description: 'Description' } },
+      { element: '.sidebar', popover: { title: 'Title', description: 'Description' } },
+      { element: '.footer', popover: { title: 'Title', description: 'Description' } },
+    ]
+  });
+  
+  // driverObj.drive();
   return (
     <React.Fragment>
       <Header onSkin={setSkin} />
@@ -928,14 +941,18 @@ export default function Home() {
             </ol>
           </div>
           <div className="d-flex gap-2 mt-3 mt-md-0">
-            <Button variant="" className="btn-white d-flex align-items-center gap-2" onClick={() =>
-                              navigate(`/dashboard/DipStock/StockDetails`)
-                            }  >
+            <Button
+              variant=""
+              className="btn-white d-flex align-items-center gap-2"
+              onClick={() => navigate(`/dashboard/DipStock/StockDetails`)}
+            >
               <i className="ri-truck-line fs-18 lh-1"></i>Dip Stock
             </Button>
-            <Button variant="" className="btn-white d-flex align-items-center gap-2"  onClick={() =>
-                              navigate(`/dashboard/addSales`)
-                            } >
+            <Button
+              variant=""
+              className="btn-white d-flex align-items-center gap-2"
+              onClick={() => navigate(`/dashboard/addSales`)}
+            >
               <i className="ri-calculator-line fs-18 lh-1"></i>Add Daily Sales
             </Button>
             {/* <Button variant="primary" className="d-flex align-items-center gap-2">
@@ -982,11 +999,22 @@ export default function Home() {
                     <Col xs="6" key={index}>
                       <label className="fs-sm fw-medium mb-1">{item.TankNumber}</label>
                       <h3 className="card-value mb-2">
-                        {item.Quantity} &nbsp; <small style={{color:'#01a174'}}>{(item.Quantity/item.Volume*100).toFixed(2)}%</small>
+                        {item.Quantity} &nbsp;{' '}
+                        <small style={{ color: '#01a174' }}>
+                          {((item.Quantity / item.Volume) * 100).toFixed(2)}%
+                        </small>
                       </h3>
-                      <div className="d-flex justify-content-between"> <p style={{fontSize:'14px'}}>Total Volume : {item.Volume}</p> <p style={{fontSize:'14px'}}>Fuel : {item.Product}</p>   </div>
-                        
-                      <ProgressBar now={item.Quantity/item.Volume*100} className="ht-5 mb-0" variant="primary" />
+                      <div className="d-flex justify-content-between">
+                        {' '}
+                        <p style={{ fontSize: '14px' }}>Total Volume : {item.Volume}</p>{' '}
+                        <p style={{ fontSize: '14px' }}>Fuel : {item.Product}</p>{' '}
+                      </div>
+
+                      <ProgressBar
+                        now={(item.Quantity / item.Volume) * 100}
+                        className="ht-5 mb-0"
+                        variant="primary"
+                      />
                     </Col>
                   ))}
                 </Row>
