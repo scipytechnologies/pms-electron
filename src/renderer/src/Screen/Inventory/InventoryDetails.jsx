@@ -316,9 +316,6 @@ function InventoryDetails() {
             <Button style={{ color: 'white' }} onClick={handleViewClose} variant="secondary">
               Close
             </Button>
-            <Button style={{ color: 'white' }} variant="primary">
-              Submit
-            </Button>
           </Modal.Footer>
         </Modal>
         <Modal show={show} onHide={handleClose} centered size="md">

@@ -108,7 +108,7 @@ function EmployeeDetails() {
                   </tr>
                   <tr>
                     <th scope="row">Date of Birth</th>
-                    <td>{emp.DOB}</td>
+                    <td>{formatDate(emp.DOB)}</td>
                   </tr>
                   <tr>
                     <th scope="row">Department</th>
@@ -137,7 +137,7 @@ function EmployeeDetails() {
                 <tbody>
                   <tr>
                     <th scope="row">Join Date</th>
-                    <td><Date>{emp.createdAt}</Date></td>
+                    <td>{formatDate(emp.createdAt)}</td>
                   </tr>
                   <tr>
                     <th scope="row">Permanent Address</th>
@@ -209,9 +209,6 @@ function EmployeeDetails() {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

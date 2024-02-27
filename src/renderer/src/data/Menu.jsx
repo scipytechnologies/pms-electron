@@ -17,7 +17,7 @@ const Menu = [
         link: 'dashboard/Customer/CustomerDetails'
       },
       {
-        label: 'Credit History',
+        label: 'Payment History',
         link: 'dashboard/Customer/paymentHistory'
       }
     ]
@@ -32,7 +32,7 @@ const Menu = [
       },
       {
         label: 'Add DipStock',
-        link: 'dashboard/dipStock'
+        link: 'dashboard/DipStock/dipStock'
       },
       {
         label: 'DipStock History',
