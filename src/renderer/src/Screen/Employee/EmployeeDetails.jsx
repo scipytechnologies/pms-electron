@@ -263,7 +263,6 @@ function EmployeeDetails() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
                             <Dropdown.Item
                               onClick={() => navigate(`/dashboard/addEmployee/?id=${item.EmployeeId}`)}
                             >

@@ -492,7 +492,6 @@ function CustomerDetails() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
                             <Dropdown.Item
                               onClick={() =>
                                 navigate(`/dashboard/addCustomer/?id=${item.CustomerId}`)
