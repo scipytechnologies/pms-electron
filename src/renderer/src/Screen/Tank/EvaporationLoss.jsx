@@ -20,14 +20,13 @@ function EvaporationLoss() {
 
   const evaporationData = useSelector((state) => state.pumpstore.Evaporation)
   console.log("evaporationData", evaporationData)
-  console.log("pumpid",user.PumpId)
 
-  // async function evaporationDetails() {
-  //   setData(evaporationData)
-  // }
-  // useEffect(() => {
-  //   evaporationDetails()
-  // }, [])
+  async function evaporationDetails() {
+    setData(evaporationData)
+  }
+  useEffect(() => {
+    evaporationDetails()
+  }, [evaporationData])
 
   function formatDate(inputDate) {
     const date = new Date(inputDate);
