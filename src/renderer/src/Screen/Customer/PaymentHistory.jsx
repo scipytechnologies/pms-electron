@@ -40,11 +40,11 @@ function PaymentHistory() {
 
   function formatDate(inputDate) {
     const date = new Date(inputDate);
-  
+
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-  
+
     return `${day}-${month}-${year}`;
   }
 
@@ -80,10 +80,10 @@ function PaymentHistory() {
     content: () => componentRef.current
   })
 
- async function Redirecthandler(data) {
+  async function Redirecthandler(data) {
     const myParam = searchParams.get('redirect')
     if (myParam) {
-      const id = searchParams.get('id') 
+      const id = searchParams.get('id')
       const item = await data.filter((x) => x._id == id)
       console.log(item);
       handleOpen(item[0])
@@ -113,7 +113,7 @@ function PaymentHistory() {
             <h4 className="main-title mt-2 mb-0">Payment History</h4>
           </div>
           <Button
-          style={{color:'white'}}
+            style={{ color: 'white' }}
             variant="primary"
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/Customer/CustomerDetails')}
@@ -154,7 +154,7 @@ function PaymentHistory() {
                   </>
                 )
               ])}
-              columns={['Bill No.','Date', 'Customer', 'Paid Amount', 'Balance', 'Action']}
+              columns={['Bill No.', 'Date', 'Customer', 'Paid Amount', 'Balance', 'Action']}
               search={true}
               pagination={true}
               sort={true}
@@ -185,15 +185,10 @@ function PaymentHistory() {
                 <div className="mt-2">
                   Date :
                   <b>
-                    {new Date(item.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit'
-                    })}
+                    {formatDate(item.createdAt)}
                   </b>
-                  {/* Invoice Number : <b>123456</b> */}
-                </div>
-              </div>
+                </div>  
+              </div> 
               <div className="w-50">
                 <div className="m-3 border p-2">
                   <div style={{ fontWeight: 'bold', fontSize: '30px', textAlign: 'center' }}>
@@ -253,7 +248,7 @@ function PaymentHistory() {
             <Button variant="danger" onClick={handlePrint}>
               Print
             </Button>
-            <Button  style={{color:'white'}} variant="secondary" onClick={handleClose}>
+            <Button style={{ color: 'white' }} variant="secondary" onClick={handleClose}>
               Close
             </Button>
           </Modal.Footer>

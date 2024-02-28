@@ -40,6 +40,16 @@ function SalesReport() {
   const [employee, setEmployee] = useState({ value: 'all', label: 'All' })
   const [protable, setProtable] = useState(false)
 
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+  
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
+
   const handleYearChange = (selected) => {
     ///////////////// Error //////////////////////////////////
     const empty = { value: null, label: null }
@@ -108,12 +118,12 @@ function SalesReport() {
 
   const dayOptions = selectedMonth
     ? Array.from(
-        { length: new Date(selectedYear.value, selectedMonth.value, 0).getDate() },
-        (_, index) => {
-          const day = (index + 1).toString().padStart(2, '0')
-          return { value: day, label: day }
-        }
-      )
+      { length: new Date(selectedYear.value, selectedMonth.value, 0).getDate() },
+      (_, index) => {
+        const day = (index + 1).toString().padStart(2, '0')
+        return { value: day, label: day }
+      }
+    )
     : []
 
   const day = [{ label: 'none', value: 'none' }].concat(dayOptions)
@@ -161,6 +171,14 @@ function SalesReport() {
     } else {
       console.log(res)
     }
+  }
+
+  function resetData() {
+    setSelectedYear({ value: null, label: null })
+    setSelectedMonth({ value: null, label: null })
+    setSelectedDay({ value: null, label: null })
+    setEmployee({ value: 'all', label: 'All' })
+
   }
 
   const [main, setMain] = useState(['Date', 'Product'])
@@ -244,7 +262,7 @@ function SalesReport() {
                   name="color"
                   options={years}
                   onChange={handleYearChange}
-                  // value={selectedYear}
+                  value={selectedYear}
                 />
               </div>
               <div className="w-100 p-2">
@@ -289,7 +307,7 @@ function SalesReport() {
                   style={{ color: 'white' }}
                   variant="danger"
                   className="d-flex justify-content-center align-items-center w-100"
-                  onClick={generateReport}
+                  onClick={resetData}
                 >
                   <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Reset
                   <span className="d-none d-sm-inline"></span>
@@ -353,7 +371,7 @@ function SalesReport() {
                   {data.map((x) => {
                     return (
                       <tr>
-                        {x.date ? <td scope="row">{x.date}</td> : []}
+                        {x.date ? <td scope="row">{formatDate(x.date)}</td> : []}
                         {x.month || x.date ? [] : <td scope="row">{x.year}</td>}
                         {x.month ? <td scope="row">{months[x.month - 1]}</td> : []}
 
@@ -394,7 +412,7 @@ function SalesReport() {
                                 <Table borderless className="mb-0">
                                   <tbody>
                                     <tr>
-                                      <td>{x.product[productName].Amount}</td>
+                                      <td>{x.product[productName].Amount.toFixed(2)}</td>
                                     </tr>
                                   </tbody>
                                 </Table>

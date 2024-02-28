@@ -50,7 +50,7 @@ import EvaporationLoss from '../Screen/Tank/EvaporationLoss'
 const protectedRoutes = [
   { path: '', element: <Home /> },
   { path: 'dashboard/tank', element: <Tank /> },
-  { path: 'dashboard/dipStock', element: <DipStock /> },
+  { path: 'dashboard/DipStock/dipStock', element: <DipStock /> },
   { path: 'dashboard/addEmployee', element: <PostEmployee /> },
   { path: 'dashboard/addCustomer', element: <PostCustomer /> },
   { path: 'dashboard/addSales', element: <PostSales /> },

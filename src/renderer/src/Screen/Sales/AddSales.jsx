@@ -669,7 +669,7 @@ export default function PostSales() {
                                       <Form.Control
                                         type="text"
                                         name="Quantity"
-                                        value={field.Quantity}
+                                        value={field.Quantity.toFixed(2)}
                                         disabled={true}
                                         onChange={(event) => handleChangeField(index, event)}
                                       />

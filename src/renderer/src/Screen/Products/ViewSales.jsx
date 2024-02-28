@@ -240,8 +240,8 @@ function ViewProductSales() {
             <Button variant="danger" onClick={handlePrint}>
               Print
             </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
+            <Button variant="secondary" onClick={handleClose}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
