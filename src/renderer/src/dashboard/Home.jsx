@@ -54,12 +54,36 @@ export default function Home() {
       foreColor: '#333'
     },
     xaxis: {
-      categories: formattedDates,
+      categories: formattedDates.slice(-100),
+      tickAmount: 10,
+      
+
       labels: {
+        show: true,
+        rotate: 0,
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        showDuplicates: false,
+        trim: false,
+        minHeight: undefined,
+        maxHeight: 120,
         style: {
-          colors: '#555',
+          colors: [],
           fontSize: '9px',
-          fontWeight: 'bold'
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          fontWeight: 400,
+          cssClass: 'apexcharts-xaxis-label'
+        },
+        offsetX: -3,
+        offsetY: 1,
+        format: undefined,
+        formatter: undefined,
+        datetimeUTC: true,
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: "MMM 'yy",
+          day: 'dd MMM',
+          hour: 'HH:mm'
         }
       }
     },
@@ -920,10 +944,10 @@ export default function Home() {
       { element: '.card-one', popover: { title: 'Title', description: 'Description' } },
       { element: '.top-nav', popover: { title: 'Title', description: 'Description' } },
       { element: '.sidebar', popover: { title: 'Title', description: 'Description' } },
-      { element: '.footer', popover: { title: 'Title', description: 'Description' } },
+      { element: '.footer', popover: { title: 'Title', description: 'Description' } }
     ]
-  });
-  
+  })
+
   // driverObj.drive();
   return (
     <React.Fragment>
@@ -984,7 +1008,7 @@ export default function Home() {
               <Card.Body style={{ minHeight: '210px' }} className="rounded p-3 p-xl-4">
                 <ReactApexChart
                   options={chartOptions}
-                  series={[{ name: 'Sales', data: salesData.totalSales }]}
+                  series={[{ name: 'Sales', data: salesData.totalSales.slice(-100) }]}
                   type="bar"
                   height={350}
                 />
@@ -1057,41 +1081,7 @@ export default function Home() {
             </Card>
           </Col>
         </Row>
-        <Row className="g-3 mt-2">
-          <Col>
-            <Card className="card-one bg-dark">
-              <Card.Body
-                style={{ minHeight: '210px' }}
-                className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4"
-              >
-                {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
-                <p style={{ height: '100%', color: 'white' }}>Coming Soon...</p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card className="card-one">
-              <Card.Body
-                style={{ minHeight: '210px' }}
-                className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4"
-              >
-                {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
-                <p style={{ height: '100%' }}>Coming Soon...</p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card className="card-one">
-              <Card.Body
-                style={{ minHeight: '210px' }}
-                className=" d-flex justify-content-center align-item-center rounded p-3 p-xl-4"
-              >
-                {/* <ReactApexChart series={seriesEight} options={optionEight} height={'100%'} className="apex-chart-three" /> */}
-                <p style={{ height: '100%' }}>Coming Soon...</p>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+     
 
         <Footer />
       </div>

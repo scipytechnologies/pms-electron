@@ -75,13 +75,13 @@ const apicall = async (method, port, routename, body) => {
     return response
   } else if (method === 'delete') {
     // Ask for confirmation before proceeding with the delete operation
-    const confirmDelete = confirm('Are you sure you want to delete?')
-    if (confirmDelete) {
+    // const confirmDelete = confirm('Are you sure you want to delete?')
+    // if (confirmDelete) {
       const response = (await deleteInstance(Config.API_BASE_URL, port, routename)) || {}
       return response
-    } else {
-      return { message: 'Delete operation cancelled.' }
-    }
+    // } else {
+    //   return { message: 'Delete operation cancelled.' }
+    // }
   }
 }
 
