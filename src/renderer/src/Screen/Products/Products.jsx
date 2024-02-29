@@ -34,7 +34,7 @@ export default function Product() {
       setCategories(res.data.result1)
       const data = collectProduct(res.data.result1)
       setFilteredProducts(data)
-      console.log(data);
+      console.log(data)
     } else {
       console.log(res)
     }
@@ -61,8 +61,8 @@ export default function Product() {
       const updatedCart = cart.map((cartItem) => {
         if (cartItem.Name === item.Name) {
           const newQuantity = cartItem.Quantity + quantity
-          const updatedQuantity = Math.max(newQuantity, 0);
-          const totalPrice = updatedQuantity > 0 ? parseInt(item.Price) * updatedQuantity : 0;
+          const updatedQuantity = Math.max(newQuantity, 0)
+          const totalPrice = updatedQuantity > 0 ? parseInt(item.Price) * updatedQuantity : 0
           return {
             ...cartItem,
             Quantity: updatedQuantity,
@@ -72,7 +72,10 @@ export default function Product() {
         return cartItem
       })
       setCart(updatedCart)
-      setQuantities({ ...quantities, [item.Name]: Math.max((quantities[item.Name] || 0) + quantity,0) })
+      setQuantities({
+        ...quantities,
+        [item.Name]: Math.max((quantities[item.Name] || 0) + quantity, 0)
+      })
     } else {
       const newItem = {
         Name: item.Name,
@@ -162,11 +165,15 @@ export default function Product() {
                 <Col sm="6" md="3" key={index}>
                   <Card className="card-people">
                     <Card.Body>
-                      <img
-                        style={{ width: '100%', height: 'auto' }}
-                        src={"https://www.mobismea.com/upload/iblock/2a0/2f5hleoupzrnz9o3b8elnbv82hxfh4ld/No%20Product%20Image%20Available.png"}
-                        alt="productName"
-                      ></img>
+                      <div
+                        style={{
+                          height: '220px',
+                          backgroundImage: `url(http://52.66.119.51:9000/employee/getImage/${item.image})`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundSize: 'cover'
+                        }}
+                        className="w-100"
+                      ></div>
                       <div className="d-flex">
                         <div className="w-80">
                           <h6 className="mt-3">

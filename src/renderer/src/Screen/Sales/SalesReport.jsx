@@ -137,7 +137,7 @@ function SalesReport() {
     let date = null
     event.preventDefault()
     if (selectedYear.value == null) {
-      alert('Please Select Year')
+      // alert('Please Select Year')
     }
     if (selectedYear && selectedYear.value == 'all') {
       date = 'all'

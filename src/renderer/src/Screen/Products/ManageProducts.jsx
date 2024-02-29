@@ -10,6 +10,8 @@ import { Modal, Table } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import img1 from '../../assets/img/img1.jpg'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import Dropzone from 'react-dropzone'
+import axios from 'axios'
 
 export default function ManageProducts() {
   ///// Skin Switch /////
@@ -52,8 +54,8 @@ export default function ManageProducts() {
   const [selectedcategory, setSelectedcategory] = useState([])
   const [selectedcategoryid, setSelectedcategoryid] = useState([])
   const [totalGST, setTotalGST] = useState(0)
-  console.log("selectedProduct", selectedProduct)
-  console.log("selectedcategoryid", selectedcategoryid)
+  console.log('selectedProduct', selectedProduct)
+  console.log('selectedcategoryid', selectedcategoryid)
 
   function handleClose() {
     setShow(false)
@@ -65,11 +67,25 @@ export default function ManageProducts() {
       [event.target.name]: event.target.value
     })
   }
+  const [file, setFile] = useState(null)
+
+  const handleDrop = (acceptedFiles) => {
+    setFile(acceptedFiles[0])
+  }
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    console.log(form);
-    const data = { ...form, ...{ 'OnSale': true, Category: selectedcategory } }
-    const res = await mainservice.updateProduct(productId, data)
+    console.log(form)
+    const data = { ...form, ...{ OnSale: true, Category: selectedcategory, image: file } }
+    // const res = await mainservice.updateProduct(productId, data)
+    const res = await axios.put(
+      `http://52.66.119.51:9000/ProductRouter/updateProduct/${productId}`,
+      data,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    )
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
@@ -79,19 +95,18 @@ export default function ManageProducts() {
     }
   }
 
-  const SubmitHandler = async (cat,id) => {
+  const SubmitHandler = async (cat, id) => {
     const res = await mainservice.onSales(cat, id)
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
-    }
-    else {
+    } else {
       console.log(res)
     }
   }
 
-  async function deleteProduct(cat,id) {
-    const res = await mainservice.deleteProduct(cat,id)
+  async function deleteProduct(cat, id) {
+    const res = await mainservice.deleteProduct(cat, id)
     if (res.data != null) {
       console.log(res)
       getProductbyid(productId)
@@ -101,11 +116,11 @@ export default function ManageProducts() {
   }
 
   const onDeleteHandler = (item) => {
-    const cat = selectedcategoryid;
-    console.log("categoryid",cat)
-    const id = item._id;
-    console.log("id",id)
-    deleteProduct(cat,id)
+    const cat = selectedcategoryid
+    console.log('categoryid', cat)
+    const id = item._id
+    console.log('id', id)
+    deleteProduct(cat, id)
   }
 
   async function getProductbyid(productId) {
@@ -129,8 +144,6 @@ export default function ManageProducts() {
   useEffect(() => {
     getProductbyid(productId)
   }, [])
-
-
 
   switchSkin(skin)
 
@@ -159,7 +172,9 @@ export default function ManageProducts() {
           </div>
 
           <div className="d-flex align-items-center gap-2 mt-3 mt-md-0">
-            <Button style={{ color: 'white' }} onClick={() => setShow(true)}>Add Product</Button>
+            <Button style={{ color: 'white' }} onClick={() => setShow(true)}>
+              Add Product
+            </Button>
           </div>
         </div>
 
@@ -173,14 +188,19 @@ export default function ManageProducts() {
                 <Row>
                   {selectedProduct &&
                     selectedProduct.map((item, index) => (
-                      <Col sm="6" md="3" key={index}>
+                      <Col sm="6" md="2" key={index}>
                         <Card className="card-people">
                           <Card.Body>
-                            <img
-                              style={{ width: '100%', height: 'auto' }}
-                              src={"https://www.mobismea.com/upload/iblock/2a0/2f5hleoupzrnz9o3b8elnbv82hxfh4ld/No%20Product%20Image%20Available.png"}
-                              alt="productName"
-                            ></img>
+                            <div
+                              style={{
+                                height: '180px',
+                                backgroundImage: `url(http://52.66.119.51:9000/employee/getImage/${item.image})`,
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: 'cover'
+                              }}
+                              className="w-100"
+                            ></div>
+
                             <div className="d-flex">
                               <div className="w-80">
                                 <h6 className="mt-3">
@@ -207,27 +227,27 @@ export default function ManageProducts() {
                             </div> */}
                             <div className="d-flex justify-content-between mutual-badge mb-1 mt-1">
                               <div className="w-100">
-
-                                {item.OnSale && item.OnSale === true ?
+                                {item.OnSale && item.OnSale === true ? (
                                   <Button
                                     className="w-100"
                                     style={{ color: 'white' }}
                                     variant="primary"
                                     onClick={() => SubmitHandler(selectedcategoryid, item._id)}
-                                  //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
+                                    //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
                                   >
                                     On Sale
-                                  </Button> : <Button
+                                  </Button>
+                                ) : (
+                                  <Button
                                     className="w-100"
                                     style={{ color: 'white' }}
                                     variant="secondary"
                                     onClick={() => SubmitHandler(selectedcategoryid, item._id)}
-                                  //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
+                                    //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
                                   >
                                     Off Sale
-                                  </Button>}
-
-
+                                  </Button>
+                                )}
                               </div>
                               <div className="w-20">
                                 <Button
@@ -236,7 +256,7 @@ export default function ManageProducts() {
                                   variant="danger"
                                   onClick={() => onDeleteHandler(item)}
 
-                                //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
+                                  //   onClick={() => addToCart({ Name: item.Name, Price: item.Price }, -1)}
                                 >
                                   <i className="ri-delete-bin-fill"></i>
                                 </Button>
@@ -260,14 +280,39 @@ export default function ManageProducts() {
             <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
+                  <div
+                    className="w-100 h-100 d-flex justify-content-center align-items-center border"
+                    style={{ minHeight: '180px', backgroundColor: '#F4F5F7' }}
+                  >
+                    <Dropzone onDrop={handleDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps()}>
+                          <input {...getInputProps()} />
+                          {file ? (
+                            <div>
+                              <img
+                                style={{ width: '180px' }}
+                                src={URL.createObjectURL(file)}
+                                alt="Oops Something Went Wrong"
+                              />
+                            </div>
+                          ) : (
+                            <p>Drag and drop an image here, or click to select one</p>
+                          )}
+                        </div>
+                      )}
+                    </Dropzone>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+            <div className="setting-item">
+              <Row className="g-2 align-items-center">
+                <Col md>
                   <h6>Name</h6>
                 </Col>
                 <Col md>
-                  <Form.Control
-                    name="Name"
-                    onChange={onChangeHandler}
-                    type="text"
-                  />
+                  <Form.Control name="Name" onChange={onChangeHandler} type="text" />
                 </Col>
                 <Col md>
                   <h6>Category</h6>
@@ -289,21 +334,13 @@ export default function ManageProducts() {
                   <h6>Brand</h6>
                 </Col>
                 <Col md>
-                  <Form.Control
-                    name="Brand"
-                    onChange={onChangeHandler}
-                    type="text"
-                  />
+                  <Form.Control name="Brand" onChange={onChangeHandler} type="text" />
                 </Col>
                 <Col md>
                   <h6>Price</h6>
                 </Col>
                 <Col md>
-                  <Form.Control
-                    name="Price"
-                    onChange={onChangeHandler}
-                    type="text"
-                  />
+                  <Form.Control name="Price" onChange={onChangeHandler} type="text" />
                 </Col>
               </Row>
             </div>
@@ -332,7 +369,6 @@ export default function ManageProducts() {
             </Button>
           </Modal.Footer>
         </Modal>
-
 
         <Footer />
       </div>
