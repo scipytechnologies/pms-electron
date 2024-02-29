@@ -392,8 +392,8 @@ function CustomerDetails() {
                   </tr>
                 </thead>
                 <tbody>
-                  {credit.map((x, index) => {
-                    return (
+                  {credit.slice().reverse().map((x, index) => {
+                    return (  
                       <tr>
                         <th scope="row">{index + 1}</th>
                         <td>{formatDate(x.createdAt)}</td>
