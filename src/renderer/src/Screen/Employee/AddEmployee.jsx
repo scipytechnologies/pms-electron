@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { event } from 'jquery'
 import { Link, useNavigate } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
-import axios from 'axios';
+import axios from 'axios'
 
 export default function PostEmployee() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -65,15 +65,19 @@ export default function PostEmployee() {
   const navigate = useNavigate()
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    console.log(form)
+    // console.log(form)
     const data = { ...form, image: file }
-    console.log(data);
+    console.log(data)
     // const res = await mainservice.PostEmployee(data, user.PumpId)
-    const res = await axios.post(`http://52.66.119.51:9000/employee/createemployee/${user.PumpId}`, data, {
+    const res = await axios.post(
+      `http://52.66.119.51:9000/employee/createemployee/${user.PumpId}`,
+      data,
+      {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    )
     if (res.data != null) {
       navigate('/dashboard/Employee/EmployeeDetails')
     } else {
@@ -142,7 +146,30 @@ export default function PostEmployee() {
             <Card.Title>Create a New Employee</Card.Title>
             {/* <Card.Text>short Description</Card.Text> */}
           </Card.Header>
-          <Card.Body className="p-0">
+          <Card.Body className="p-0"><div className="setting-item">
+              <Row className="g-2 align-items-center">
+              <Col md >
+                  <div className="w-100 h-100 d-flex justify-content-center align-items-center border" style={{minHeight:'180px',backgroundColor:'#F4F5F7'}}>
+                    <Dropzone onDrop={handleDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps()}>
+                          <input {...getInputProps()} />    
+                          {file?(
+                            <div>
+                              <img
+                                style={{ width: '180px' }}
+                                src={URL.createObjectURL(file)}
+                                alt="Oops Something Went Wrong"
+                              />
+                            </div>
+                          ) : <p>Drag and drop an image here, or click to select one</p>}
+                        </div>
+                      )}
+                    </Dropzone>
+                  </div>
+                </Col>
+              </Row>
+            </div>
             <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
@@ -360,32 +387,6 @@ export default function PostEmployee() {
                     as="textarea"
                     rows="3"
                   />
-                </Col>
-                <Col md>
-                  <div>
-                    <Dropzone onDrop={handleDrop}>
-                      {({ getRootProps, getInputProps }) => (
-                        <div {...getRootProps()}>
-                          <input {...getInputProps()} />
-                          <p>Drag and drop an image here, or click to select one</p>
-                        </div>
-                      )}
-                    </Dropzone>
-                    {file && (
-                      <div>
-                        <h2>Selected Image:</h2>
-                        <img
-                          style={{ width: '20px' }}
-                          src={URL.createObjectURL(file)}
-                          alt="Uploaded"
-                        />
-                        {/* <button onClick={handleUpload}>Upload</button>
-          {uploadStatus && (
-            <p>{uploadStatus.success ? uploadStatus.message : uploadStatus.message}</p>
-          )} */}
-                      </div>
-                    )}
-                  </div>
                 </Col>
               </Row>
             </div>

@@ -9,9 +9,8 @@ import { _ } from 'gridjs-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { pumpInfo } from '../../store/pump'
 
-
 function EmployeeDetails() {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const [skin, setSkin] = useState(currentSkin)
   const navigate = useNavigate()
@@ -25,34 +24,34 @@ function EmployeeDetails() {
   }
   useEffect(() => {
     getEmployee()
-  }, [])
+  }, [employeeData])
 
-  async function deleteEmployee(pumpId,employeeId) {
-    const res = await mainservice.deleteEmployee(pumpId,employeeId)
+  async function deleteEmployee(pumpId, employeeId) {
+    const res = await mainservice.deleteEmployee(pumpId, employeeId)
     if (res.data != null) {
       console.log('deleted')
-      getEmployee()
+      fetchPump(user.PumpId)
     } else {
       console.log(res.message)
     }
   }
 
   const onDeleteHandler = (item) => {
-    const pumpId = user.PumpId;
-    console.log("pumpid",pumpId)
+    const pumpId = user.PumpId
+    console.log('pumpid', pumpId)
     const employeeId = item.EmployeeId
-    console.log("employeeId",employeeId)
-    deleteEmployee(pumpId,employeeId)
+    console.log('employeeId', employeeId)
+    deleteEmployee(pumpId, employeeId)
   }
 
   function formatDate(inputDate) {
-    const date = new Date(inputDate);
-  
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-  
-    return `${day}-${month}-${year}`;
+    const date = new Date(inputDate)
+
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+
+    return `${day}-${month}-${year}`
   }
 
   const [show, setShow] = useState(false)
@@ -94,7 +93,15 @@ function EmployeeDetails() {
         </Modal.Header>
         <Modal.Body>
           <div className=" d-flex w-100">
-            <div style={{ height: '280px', backgroundImage:"url(https://www.nabapravat.com/img/team/avatar.svg)", backgroundRepeat:'no-repeat',backgroundSize:"cover" }} className="w-25 border m-3"></div>
+            <div
+              style={{
+                height: '280px',
+                backgroundImage: `url(http://52.66.119.51:9000/employee/getImage/${emp.image})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover'
+              }}
+              className="w-25 border m-3"
+            ></div>
             <div style={{ height: '280px' }} className="w-75 border m-3">
               <p className="m-2">Personal Details</p>
               <Table borderless size="xl" striped className="mb-0">
@@ -234,7 +241,7 @@ function EmployeeDetails() {
             variant="primary"
             className="d-flex align-items-center gap-2"
             onClick={() => navigate('/dashboard/addEmployee')}
-            style={{color:'white'}}
+            style={{ color: 'white' }}
           >
             <i className="ri-bar-chart-2-line fs-18 lh-1"></i>Add Employee
             <span className="d-none d-sm-inline"></span>
@@ -244,43 +251,52 @@ function EmployeeDetails() {
         <Card>
           <Card.Body>
             <Grid
-              data={employeeData.slice().reverse().map((item) => [
-                item.serialNumber,
-                item.EmployeeName,
-                formatDate(item.DOB),
-                item.Designation,
-                item.PhoneNumber,
-                _(
-                  <>
-                    <ButtonGroup>
-                      <Button size="sm" variant="white" onClick={() => handleOpen(item.EmployeeId)}>
-                        <i className="ri-eye-line"></i>
-                      </Button>
-                      <Button className="p-0" variant="white">
-                        <Dropdown drop="end">
-                          <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
-                            <i className="ri-more-2-fill" color="primary"></i>
-                          </Dropdown.Toggle>
+              data={employeeData
+                .slice()
+                .reverse()
+                .map((item) => [
+                  item.serialNumber,
+                  item.EmployeeName,
+                  formatDate(item.DOB),
+                  item.Designation,
+                  item.PhoneNumber,
+                  _(
+                    <>
+                      <ButtonGroup>
+                        <Button
+                          size="sm"
+                          variant="white"
+                          onClick={() => handleOpen(item.EmployeeId)}
+                        >
+                          <i className="ri-eye-line"></i>
+                        </Button>
+                        <Button className="p-0" variant="white">
+                          <Dropdown drop="end">
+                            <Dropdown.Toggle variant="white" size="sm" className="btn-no-outline">
+                              <i className="ri-more-2-fill" color="primary"></i>
+                            </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() => navigate(`/dashboard/addEmployee/?id=${item.EmployeeId}`)}
-                            >
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              style={{ color: 'red' }}
-                              onClick={() => onDeleteHandler(item)}
-                            >
-                              Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Button>
-                    </ButtonGroup>
-                  </>
-                )
-              ])}
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                onClick={() =>
+                                  navigate(`/dashboard/addEmployee/?id=${item.EmployeeId}`)
+                                }
+                              >
+                                Edit
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                style={{ color: 'red' }}
+                                onClick={() => onDeleteHandler(item)}
+                              >
+                                Delete
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </Button>
+                      </ButtonGroup>
+                    </>
+                  )
+                ])}
               columns={[
                 'Employee Id',
                 'Employee Name',
