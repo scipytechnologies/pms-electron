@@ -269,13 +269,13 @@ export default function PostInventory() {
                   <h6>Current Stock</h6>
                 </Col>
                 <Col md>
-                  <Form.Control type="text" name="CurrentStock" value={uform.CurrentStock} placeholder="600 Litre" onChange={onChangeHandler} />
+                  <Form.Control type="text" name="CurrentStock" value={uform.CurrentStock} onChange={onChangeHandler} />
+                </Col>
+                <Col>
+                  <h6>Description</h6>
                 </Col>
                 <Col md>
-                  <h6>Brand</h6>
-                </Col>
-                <Col md>
-                  <Form.Control type="text" name="Brand" value={uform.Brand} placeholder="Petrol" onChange={onChangeHandler} />
+                  <Form.Control as="textarea" rows="3" name="Description" value={uform.Description} onChange={onChangeHandler} />
                 </Col>
                 {/* <Col md>
                   <h6>Price</h6>
@@ -292,16 +292,16 @@ export default function PostInventory() {
               </Row>
             </div>
 
-            <div className="setting-item">
+            {/* <div className="setting-item">
               <Row className="g-2">
                 <Col>
                   <h6>Description</h6>
                 </Col>
                 <Col md>
-                  <Form.Control as="textarea" rows="3" name="Description" value={uform.Description} placeholder="Enter tagline" onChange={onChangeHandler} />
+                  <Form.Control as="textarea" rows="3" name="Description" value={uform.Description} onChange={onChangeHandler} />
                 </Col>
               </Row>
-            </div>
+            </div> */}
           </Card.Body>
         </Card>
 

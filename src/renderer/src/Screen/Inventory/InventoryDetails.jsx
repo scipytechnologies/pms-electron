@@ -120,7 +120,8 @@ function InventoryDetails() {
     console.log(form)
     const res = await mainservice.updatehistory(id, pumpId, form)
     if (res.data != null) {
-      navigate('/dashboard/Inventory/InventoryDetails')
+      fetchPump(user.PumpId)
+      handleClose()
       console.log(res)
     } else {
       console.log(res.message)
@@ -217,9 +218,9 @@ function InventoryDetails() {
                 )
               ])}
               columns={[
-                'Inventory Management Id',
-                'Category Name',
-                'Item Name',
+                ' Id',
+                'Category',
+                'Item',
                 'Current Stock',
                 'Manage Stock',
                 'Action'
@@ -249,13 +250,6 @@ function InventoryDetails() {
                   <td> {inventory.CategoryName}</td>
                 </tr>
                 <tr>
-                  <th>Brand</th>
-                  <td> {inventory.Brand}</td>
-
-                  <th>Description</th>
-                  <td><p>{inventory.Description} </p> </td>
-                </tr>{' '}
-                <tr>
                   <th>Created Date</th>
                   <td > {new Date(inventory.createdAt).toLocaleDateString('en-GB', {
                     year: 'numeric',
@@ -266,8 +260,12 @@ function InventoryDetails() {
                   <th>Current Stock</th>
                   <td>
                     {' '}
-                    <b>{inventory.CurrentStock} </b>{' '}
+                    <p><b>{inventory.CurrentStock}</b></p>{' '}
                   </td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{inventory.Description}</td>
                 </tr>
               </Table>
             </Row>{' '}
@@ -296,7 +294,7 @@ function InventoryDetails() {
                     </tr>
                   </thead>
                   <tbody>
-                    {track.map((x) => {
+                    {track.slice().reverse().map((x) => {
                       return (
                         <tr>
                           <td scope="row">{formatDate(x.Date)}</td>

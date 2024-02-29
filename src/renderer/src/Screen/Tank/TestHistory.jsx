@@ -26,7 +26,7 @@ function TestHistory() {
   }
   useEffect(() => {
     testHistoryDetails()
-  }, [])
+  }, [testHistoryData])
 
   function formatDate(inputDate) {
     const date = new Date(inputDate);
