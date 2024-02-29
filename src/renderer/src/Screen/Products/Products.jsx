@@ -60,16 +60,19 @@ export default function Product() {
     if (cart.some((cartItem) => cartItem.Name === item.Name)) {
       const updatedCart = cart.map((cartItem) => {
         if (cartItem.Name === item.Name) {
+          const newQuantity = cartItem.Quantity + quantity
+          const updatedQuantity = Math.max(newQuantity, 0);
+          const totalPrice = updatedQuantity > 0 ? parseInt(item.Price) * updatedQuantity : 0;
           return {
             ...cartItem,
-            Quantity: cartItem.Quantity + quantity,
-            Total: cartItem.Total + parseInt(item.Price) * quantity
+            Quantity: updatedQuantity,
+            Total: totalPrice
           }
         }
         return cartItem
       })
       setCart(updatedCart)
-      setQuantities({ ...quantities, [item.Name]: (quantities[item.Name] || 0) + quantity })
+      setQuantities({ ...quantities, [item.Name]: Math.max((quantities[item.Name] || 0) + quantity,0) })
     } else {
       const newItem = {
         Name: item.Name,
