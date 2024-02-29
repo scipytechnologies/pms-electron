@@ -16,6 +16,8 @@ import mainservice from '../../Services/mainservice'
 import { useSelector, useDispatch } from 'react-redux'
 import { event } from 'jquery'
 import { Link, useNavigate } from 'react-router-dom'
+import Dropzone from 'react-dropzone'
+import axios from 'axios'
 
 export default function PostEmployee() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -39,6 +41,14 @@ export default function PostEmployee() {
       }
     }
   }
+
+  const [file, setFile] = useState(null)
+  const [uploadStatus, setUploadStatus] = useState(null)
+
+  const handleDrop = (acceptedFiles) => {
+    setFile(acceptedFiles[0])
+  }
+
   const [form, setform] = useState({})
   const onChangeHandler = (event) => {
     const { name, value } = event.target
@@ -55,8 +65,19 @@ export default function PostEmployee() {
   const navigate = useNavigate()
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    console.log(form)
-    const res = await mainservice.PostEmployee(form, user.PumpId)
+    // console.log(form)
+    const data = { ...form, image: file }
+    console.log(data)
+    // const res = await mainservice.PostEmployee(data, user.PumpId)
+    const res = await axios.post(
+      `http://52.66.119.51:9000/employee/createemployee/${user.PumpId}`,
+      data,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    )
     if (res.data != null) {
       navigate('/dashboard/Employee/EmployeeDetails')
     } else {
@@ -125,7 +146,30 @@ export default function PostEmployee() {
             <Card.Title>Create a New Employee</Card.Title>
             {/* <Card.Text>short Description</Card.Text> */}
           </Card.Header>
-          <Card.Body className="p-0">
+          <Card.Body className="p-0"><div className="setting-item">
+              <Row className="g-2 align-items-center">
+              <Col md >
+                  <div className="w-100 h-100 d-flex justify-content-center align-items-center border" style={{minHeight:'180px',backgroundColor:'#F4F5F7'}}>
+                    <Dropzone onDrop={handleDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps()}>
+                          <input {...getInputProps()} />    
+                          {file?(
+                            <div>
+                              <img
+                                style={{ width: '180px' }}
+                                src={URL.createObjectURL(file)}
+                                alt="Oops Something Went Wrong"
+                              />
+                            </div>
+                          ) : <p>Drag and drop an image here, or click to select one</p>}
+                        </div>
+                      )}
+                    </Dropzone>
+                  </div>
+                </Col>
+              </Row>
+            </div>
             <div className="setting-item">
               <Row className="g-2 align-items-center">
                 <Col md>
@@ -137,7 +181,6 @@ export default function PostEmployee() {
                     value={uform.FirstName}
                     onChange={onChangeHandler}
                     type="text"
-                   
                   />
                 </Col>
                 <Col md>
@@ -149,7 +192,6 @@ export default function PostEmployee() {
                     value={uform.LastName}
                     onChange={onChangeHandler}
                     type="text"
-                   
                   />
                 </Col>
                 <Col md>
@@ -176,7 +218,6 @@ export default function PostEmployee() {
                     value={uform.PhoneNumber}
                     onChange={onChangeHandler}
                     type="text"
-                 
                   />
                 </Col>
                 <Col md>
@@ -188,7 +229,6 @@ export default function PostEmployee() {
                     value={uform.Email}
                     onChange={onChangeHandler}
                     type="text"
-                   
                   />
                 </Col>
               </Row>
@@ -205,7 +245,6 @@ export default function PostEmployee() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                 
                   />
                 </Col>
                 <Col>
@@ -218,7 +257,6 @@ export default function PostEmployee() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                
                   />
                 </Col>
               </Row>
@@ -235,7 +273,6 @@ export default function PostEmployee() {
                     // value={uform.AadhaarId}
                     onChange={onChangeHandler}
                     type="text"
-                 
                   />
                 </Col>
                 <Col md>
@@ -247,7 +284,6 @@ export default function PostEmployee() {
                     value={uform.VoterId}
                     onChange={onChangeHandler}
                     type="text"
-                 
                   />
                 </Col>
                 <Col md>
@@ -259,7 +295,6 @@ export default function PostEmployee() {
                     value={uform.PANCardNumber}
                     onChange={onChangeHandler}
                     type="text"
-                  
                   />
                 </Col>
               </Row>
@@ -275,7 +310,6 @@ export default function PostEmployee() {
                     value={uform.PFNumber}
                     onChange={onChangeHandler}
                     type="text"
-               
                   />
                 </Col>
                 <Col md>
@@ -287,7 +321,6 @@ export default function PostEmployee() {
                     value={uform.ESINumber}
                     onChange={onChangeHandler}
                     type="text"
-              
                   />
                 </Col>
                 <Col md>
@@ -299,7 +332,6 @@ export default function PostEmployee() {
                     value={uform.UAN}
                     onChange={onChangeHandler}
                     type="text"
-               
                   />
                 </Col>
               </Row>
@@ -315,7 +347,6 @@ export default function PostEmployee() {
                     value={uform.Designation}
                     onChange={onChangeHandler}
                     type="text"
-                   
                   />
                 </Col>
                 <Col md>
@@ -327,7 +358,6 @@ export default function PostEmployee() {
                     value={uform.Department}
                     onChange={onChangeHandler}
                     type="text"
-                
                   />
                 </Col>
                 <Col md>
@@ -339,7 +369,6 @@ export default function PostEmployee() {
                     value={uform.Salary}
                     onChange={onChangeHandler}
                     type="text"
-                  
                   />
                 </Col>
               </Row>
@@ -357,7 +386,6 @@ export default function PostEmployee() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                 
                   />
                 </Col>
               </Row>
@@ -382,7 +410,6 @@ export default function PostEmployee() {
                     value={uform.AccountNumber}
                     onChange={onChangeHandler}
                     type="text"
-                 
                   />
                 </Col>
                 <Col md>
@@ -394,7 +421,6 @@ export default function PostEmployee() {
                     value={uform.IFSCCode}
                     onChange={onChangeHandler}
                     type="text"
-                   
                   />
                 </Col>
                 <Col md>
@@ -406,7 +432,6 @@ export default function PostEmployee() {
                     value={uform.Branch}
                     onChange={onChangeHandler}
                     type="text"
-                   
                   />
                 </Col>
               </Row>
@@ -421,13 +446,13 @@ export default function PostEmployee() {
               <Col xs="12">
                 {editMode ? (
                   <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={onUpdateHandler} type="submit" style={{color:'white'}}>
+                    <Button onClick={onUpdateHandler} type="submit" style={{ color: 'white' }}>
                       Update
                     </Button>
                   </div>
                 ) : (
-                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }} >
-                    <Button onClick={onSubmitHandler} type="submit" style={{color:'white'}}>
+                  <div className="mt-1" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button onClick={onSubmitHandler} type="submit" style={{ color: 'white' }}>
                       Submit
                     </Button>
                   </div>
