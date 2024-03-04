@@ -42,6 +42,6 @@ appImage:
 npmRebuild: false
 publish:
   provider: github
-  token: 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
+  token: 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
   owner: scipytechnologies
   repo: Autoupdator

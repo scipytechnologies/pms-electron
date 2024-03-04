@@ -35,6 +35,7 @@ function InventoryDetails() {
   console.log("data", data)
 
   async function getInventoryManagement() {
+    fetchPump(user.PumpId)
     setData(inventoryData)
   }
   useEffect(() => {
