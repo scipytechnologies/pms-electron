@@ -202,6 +202,7 @@ export default function AddProduct() {
                         type="text"
                         name="CategoryName"
                         onChange={onChangeHandler}
+                        required
                       />
                     </Col>
                   </Row>
@@ -215,6 +216,7 @@ export default function AddProduct() {
                         type="textarea"
                         name="Description"
                         onChange={onChangeHandler}
+                        required
                       />
                     </Col>
                   </Row>

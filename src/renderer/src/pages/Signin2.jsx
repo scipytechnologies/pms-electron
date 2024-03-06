@@ -4,6 +4,7 @@ import { Button, Card, Col, Form, Row } from 'react-bootstrap'
 import bg1 from '../assets/img/bg1.jpg'
 import icon from '../assets/img/fullLogo.jpg'
 import mainservice from '../Services/mainservice'
+import { Toaster, toast } from 'sonner'
 export default function Signin2() {
   const [form, setForm] = useState({})
 
@@ -19,11 +20,12 @@ export default function Signin2() {
     console.log(form)
     const res = await mainservice.Login(form)
     if (res.data != null) {
+      toast.success('Sign In Sucessful')
       const token = res.data.token
       localStorage.setItem('user-token', JSON.stringify(token))
       window.location.reload(false)
     } else {
-      console.log('error')
+      toast.error('Login Failed')
     }
   }
 
@@ -33,6 +35,7 @@ export default function Signin2() {
   }
   return (
     <div className="page-sign d-block py-0">
+       <Toaster  richColors />
       <Row className="g-0">
         <Col md="7" lg="5" xl="4" className="col-wrapper ">
           <div>

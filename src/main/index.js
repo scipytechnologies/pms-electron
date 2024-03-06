@@ -1,9 +1,9 @@
-import { app, shell, BrowserWindow, dialog } from 'electron';
-import { join } from 'path';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { autoUpdater } from 'electron-updater'; // Import autoUpdater
-import icon from '../../resources/icon.png?asset';
-
+import { app, shell, BrowserWindow, dialog } from 'electron'
+import { join } from 'path'
+import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { autoUpdater } from 'electron-updater' // Import autoUpdater
+import icon from '../../resources/icon.png?asset'
+import { updateElectronBuilderToken } from './updateConfig.js'
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -14,57 +14,59 @@ function createWindow() {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
-    },
-  });
-
+      sandbox: false
+    }
+  })
+  if (!is.dev) {
+    updateElectronBuilderToken()
+  }
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show();
-  });
+    mainWindow.show()
+  })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url);
-    return { action: 'deny' };
-  });
+    shell.openExternal(details.url)
+    return { action: 'deny' }
+  })
 
   // Set up auto-updater events
   autoUpdater.on('checking-for-update', () => {
-    console.log('Checking for update...');
-  });
+    console.log('Checking for update...')
+  })
 
   autoUpdater.on('update-available', (info) => {
-    console.log('Update available:', info);
-  });
+    console.log('Update available:', info)
+  })
 
   autoUpdater.on('update-not-available', () => {
-    console.log('Update not available.');
-  });
+    console.log('Update not available.')
+  })
 
   autoUpdater.on('download-progress', (progress) => {
-    console.log(`Download speed: ${progress.bytesPerSecond} - Downloaded ${progress.percent}%`);
-  });
+    console.log(`Download speed: ${progress.bytesPerSecond} - Downloaded ${progress.percent}%`)
+  })
 
   autoUpdater.on('update-downloaded', (info) => {
-    dialog.showMessageBox({
-      type: 'info',
-      title: 'Update Available',
-      message: 'A new version is ready to be installed',
-      buttons: ['Ok'],
-    }
-    ,
-    //  (buttonIndex) => {
-    //   if (buttonIndex === 0) {
-    //     autoUpdater.quitAndInstall();
-    //   }
-    // }
-    );
-  });
+    dialog.showMessageBox(
+      {
+        type: 'info',
+        title: 'Update Available',
+        message: 'A new version is ready to be installed',
+        buttons: ['Ok']
+      }
+      //  (buttonIndex) => {
+      //   if (buttonIndex === 0) {
+      //     autoUpdater.quitAndInstall();
+      //   }
+      // }
+    )
+  })
 
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
 
@@ -72,25 +74,25 @@ function createWindow() {
 
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.indhanx');
+  electronApp.setAppUserModelId('com.indhanx')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window);
-  });
+    optimizer.watchWindowShortcuts(window)
+  })
 
   // Configure autoUpdater
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdatesAndNotify()
 
-  createWindow();
+  createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
 
 // Rest of your existing code...

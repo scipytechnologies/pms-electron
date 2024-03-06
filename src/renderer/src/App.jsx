@@ -12,6 +12,7 @@ import { pumpInfo } from './store/pump'
 import Redirect from './routeProtection/ForceRedirect'
 import ProtectedRoute from './routeProtection/ProtectedRoute'
 import Splash from './assets/splash.mp4'
+import { Toaster, toast } from 'sonner'
 // import css
 import './assets/css/remixicon.css'
 
@@ -31,6 +32,24 @@ window.addEventListener('load', function () {
 
 export default function App() {
   localStorage.setItem('sidebar-skin', 'dark')
+  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => {setIsOnline(true)
+       toast.success('Online')};
+    const handleOffline = () => {setIsOnline(false)
+      toast.error('Offline')};
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+
   const dispatch = useDispatch()
   const active = useSelector((state) => state.loginedUser.isConnected)
   async function Auth() {
@@ -91,6 +110,7 @@ export default function App() {
 
   return (
     <React.Fragment>
+       <Toaster  richColors />
       {showSplashScreen && (
         <VideoSplashScreen videoSrc={Splash} onVideoEnd={handleVideoEnd} />
       )}

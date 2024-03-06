@@ -69,7 +69,7 @@ export default class Sidebar extends Component {
         </div> */}
 
         <div style={{height:'50px'}} className="bg-primary m-2 rounded p-2">
-        <p className='d-flex justify-content-end align-items-end' style={{height:'100%', fontSize:'9px',color:'white'}}>Beta 0.2.3</p> 
+        <p className='d-flex justify-content-end align-items-end' style={{height:'100%', fontSize:'9px',color:'white'}}>Beta v0.2.6</p> 
         </div>
       </div>
     )
