@@ -143,7 +143,7 @@ export default function Tank() {
       fetchPump(user.PumpId)
     } else {
       console.log(res)
-      toast.error('Evaporation Not Created')
+      toast.error('Something Went Wrong')
     }
     console.log('successdata', data)
     handleClose()
@@ -160,7 +160,7 @@ export default function Tank() {
       toast.success('Nozzle Created')
     } else {
       console.log(res)
-      toast.error('Nozzle Not Created')
+      toast.error('Something Went Wrong')
     }
     console.log('data', data)
     handleClose()
@@ -176,7 +176,7 @@ export default function Tank() {
       toast.success('Tank Created Successfully')
     } else {
       console.log(res)
-      toast.error('Tank Not Created')
+      toast.error('Something Went Wrong')
     }
     handleClose()
   }

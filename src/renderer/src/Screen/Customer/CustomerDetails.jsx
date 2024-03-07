@@ -50,7 +50,7 @@ function CustomerDetails() {
         toast.success('Deleted Successfully')
       } else {
         console.log('Deletion failed. Server response:', res)
-        toast.error('Deletion Failed')
+        toast.error('Something Went Wrong')
       }
     } catch (error) {
       console.log('An error is occurred in deletion', error)

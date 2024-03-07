@@ -163,7 +163,7 @@ export default function PostInventory() {
       console.log("response", res)
     } else {
       console.log(res)
-      toast.error('Inventory Not Created')
+      toast.error('Something Went Wrong')
     }
   }
 

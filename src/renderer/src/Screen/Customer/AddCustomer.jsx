@@ -108,7 +108,7 @@ export default function PostCustomer() {
       toast.success('Customer Created Successfully')
     } else {
       console.log(res)
-      toast.error('No Customer Added')
+      toast.error('Something Went Wrong')
     }
   }
 

@@ -33,7 +33,7 @@ function InventoryDetails() {
   const inventoryData = useSelector((state) => state.pumpstore.InventoryManagement)
   const pumpId = useSelector((state) => state.loginedUser.PumpId)
   const user = useSelector((state) => state.loginedUser)
-  console.log("data", data)
+  console.log('data', data)
 
   async function getInventoryManagement() {
     fetchPump(user.PumpId)
@@ -44,15 +44,14 @@ function InventoryDetails() {
   }, [])
 
   function formatDate(inputDate) {
-    const date = new Date(inputDate);
-  
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-  
-    return `${day}-${month}-${year}`;
+    const date = new Date(inputDate)
+
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+
+    return `${day}-${month}-${year}`
   }
-  
 
   async function deleteInventoryManagement(pumpId, inventoryId) {
     const res = await mainservice.deleteInventoryManagement(pumpId, inventoryId)
@@ -62,7 +61,7 @@ function InventoryDetails() {
       toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
-      toast.error('Deletion Failed')
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -81,6 +80,7 @@ function InventoryDetails() {
   }
   const [show, setShow] = useState(false)
   function handleClose() {
+    setform({})
     setShow(false)
   }
   function handleOpen(id) {
@@ -89,7 +89,7 @@ function InventoryDetails() {
   }
   const [view, setView] = useState(false)
   const [inventory, setInventory] = useState({})
-  console.log("inventory", inventoryData)
+  console.log('inventory', inventoryData)
   function handleViewClose() {
     setView(false)
   }
@@ -100,7 +100,7 @@ function InventoryDetails() {
     setInventory(data.data.result2)
     if (data.data.result2.InventoryHistory) {
       setTrack(data.data.result2.InventoryHistory)
-      console.log("hello...", data.data.result2)
+      console.log('hello...', data.data.result2)
     }
     setView(true)
   }
@@ -116,19 +116,22 @@ function InventoryDetails() {
 
   const ChangeHandler = (selectedOption) => {
     setSelectedMode(selectedOption)
-    console.log("selectedmode", selectedmode)
+    console.log('selectedmode', selectedmode)
   }
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-    console.log(form)
-    const res = await mainservice.updatehistory(id, pumpId, form)
-    if (res.data != null) {
-      fetchPump(user.PumpId)
-      handleClose()
-      console.log(res)
+    if (!form.Date) {
+      toast.error('Please add a Date')
     } else {
-      console.log(res.message)
+      const res = await mainservice.updatehistory(id, pumpId, form)
+      if (res.data != null) {
+        fetchPump(user.PumpId)
+        handleClose()
+        console.log(res)
+      } else {
+        toast.error('Something Went Wrong')
+      }
     }
   }
 
@@ -176,60 +179,60 @@ function InventoryDetails() {
         <Card>
           <Card.Body>
             <Grid
-              data={inventoryData.slice().reverse().map((item) => [
-                item.serialNumber,
-                item.CategoryName,
-                item.ItemName,
-                item.CurrentStock,
-                _(
-                  <>
-                    <ButtonGroup>
-                      <Button size="sm" variant="warning" onClick={() => handleOpen(item.InventoryManagementId)}>
-                        Manage Stock
-                      </Button>
-                    </ButtonGroup>
-                  </>
-                ),
-                _(
-                  <>
-                    <ButtonGroup>
-                      <Button
-                        size="sm"
-                        variant="white"
-                        onClick={() => handleViewOpen(item.InventoryManagementId)}
-                      >
-                        <i className="ri-eye-line"></i>
-                      </Button>
-                      <Button
-                        className="p-1"
-                        variant="danger"
-                        onClick={() => onDeleteHandler(item)}
-                      >
-                        <i className="ri-delete-bin-5-fill" color="primary"></i>
-                        {/* <Dropdown drop="end">
+              data={inventoryData
+                .slice()
+                .reverse()
+                .map((item) => [
+                  item.serialNumber,
+                  item.CategoryName,
+                  item.ItemName,
+                  item.CurrentStock,
+                  _(
+                    <>
+                      <ButtonGroup>
+                        <Button
+                          size="sm"
+                          variant="warning"
+                          onClick={() => handleOpen(item.InventoryManagementId)}
+                        >
+                          Manage Stock
+                        </Button>
+                      </ButtonGroup>
+                    </>
+                  ),
+                  _(
+                    <>
+                      <ButtonGroup>
+                        <Button
+                          size="sm"
+                          variant="white"
+                          onClick={() => handleViewOpen(item.InventoryManagementId)}
+                        >
+                          <i className="ri-eye-line"></i>
+                        </Button>
+                        <Button
+                          className="p-1"
+                          variant="danger"
+                          onClick={() => onDeleteHandler(item)}
+                        >
+                          <i className="ri-delete-bin-5-fill" color="primary"></i>
+                          {/* <Dropdown drop="end">
                                                     <Dropdown.Toggle variant='white' size="sm" className='btn-no-outline'>
                                                         <i className='ri-more-2-fill' color="primary"></i>
                                                     </Dropdown.Toggle> */}
 
-                        {/* <Dropdown.Menu> */}
-                        {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item> */}
-                        {/* <Dropdown.Item onClick={() => navigate(`/dashboard/addinventory/?id=${item.InventoryManagementId}`)}>Edit</Dropdown.Item> */}
-                        {/* <Dropdown.Item style={{ color: 'red' }} onClick={() => onDeleteHandler(item)}>Delete</Dropdown.Item>
+                          {/* <Dropdown.Menu> */}
+                          {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item> */}
+                          {/* <Dropdown.Item onClick={() => navigate(`/dashboard/addinventory/?id=${item.InventoryManagementId}`)}>Edit</Dropdown.Item> */}
+                          {/* <Dropdown.Item style={{ color: 'red' }} onClick={() => onDeleteHandler(item)}>Delete</Dropdown.Item>
                                                     </Dropdown.Menu> */}
-                        {/* </Dropdown> */}
-                      </Button>
-                    </ButtonGroup>
-                  </>
-                )
-              ])}
-              columns={[
-                ' Id',
-                'Category',
-                'Item',
-                'Current Stock',
-                'Manage Stock',
-                'Action'
-              ]}
+                          {/* </Dropdown> */}
+                        </Button>
+                      </ButtonGroup>
+                    </>
+                  )
+                ])}
+              columns={[' Id', 'Category', 'Item', 'Current Stock', 'Manage Stock', 'Action']}
               search={true}
               pagination={true}
               sort={true}
@@ -247,7 +250,7 @@ function InventoryDetails() {
           <Modal.Body>
             <Row style={{ color: 'black' }} className="border m-2 p-2">
               <Table borderless>
-                <tr >
+                <tr>
                   <th>Item Name</th>
                   <td> {inventory.ItemName}</td>
 
@@ -256,16 +259,21 @@ function InventoryDetails() {
                 </tr>
                 <tr>
                   <th>Created Date</th>
-                  <td > {new Date(inventory.createdAt).toLocaleDateString('en-GB', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                  })}</td>
+                  <td>
+                    {' '}
+                    {new Date(inventory.createdAt).toLocaleDateString('en-GB', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit'
+                    })}
+                  </td>
 
                   <th>Current Stock</th>
                   <td>
                     {' '}
-                    <p><b>{inventory.CurrentStock}</b></p>{' '}
+                    <p>
+                      <b>{inventory.CurrentStock}</b>
+                    </p>{' '}
                   </td>
                 </tr>
                 <tr>
@@ -299,17 +307,28 @@ function InventoryDetails() {
                     </tr>
                   </thead>
                   <tbody>
-                    {track.slice().reverse().map((x) => {
-                      return (
-                        <tr>
-                          <td scope="row">{formatDate(x.Date)}</td>
-                          <td>{x.Mode}</td>
-                          <td>{x.Stock}</td>
-                          <th>{x.CurrentStock}</th>
-                          <th>{x.Note}</th>
-                        </tr>
-                      )
-                    })}
+                    {track
+                      .slice()
+                      .reverse()
+                      .map((x) => {
+                        return (
+                          <tr>
+                            <td scope="row">
+                              {x.Date
+                                ? formatDate(x.Date)
+                                : new Date(inventory.createdAt).toLocaleDateString('en-GB', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                                  })}
+                            </td>
+                            <td>{x.Mode}</td>
+                            <td>{x.Stock}</td>
+                            <th>{x.CurrentStock}</th>
+                            <th>{x.Note}</th>
+                          </tr>
+                        )
+                      })}
                   </tbody>
                 </Table>
               </div>
@@ -341,10 +360,7 @@ function InventoryDetails() {
               <Col md>
                 <h6>Mode</h6>
               </Col>
-              <Select
-                options={options}
-                onChange={ChangeHandler}
-              />
+              <Select options={options} onChange={ChangeHandler} />
             </Col>
             <Col md className="p-1">
               <Col md>
@@ -361,12 +377,7 @@ function InventoryDetails() {
               <Col md>
                 <h6>Note</h6>
               </Col>
-              <Form.Control
-                type="text"
-                name="Note"
-                placeholder="Note"
-                onChange={onChangeHandler}
-              />
+              <Form.Control type="text" name="Note" placeholder="Note" onChange={onChangeHandler} />
             </Col>
           </Modal.Body>
           <Modal.Footer>

@@ -57,7 +57,7 @@ export default function AddProduct() {
     }
     else {
       console.log(res.message)
-      toast.error('Deletion Failed')
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -78,7 +78,7 @@ export default function AddProduct() {
       toast.success('Category Created Successfully')
     } else {
       console.log(res)
-      toast.error('Category Not Created')
+      toast.error('Something Went Wrong')
     }
   }
 

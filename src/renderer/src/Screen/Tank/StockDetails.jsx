@@ -98,7 +98,7 @@ function StockDetails() {
       toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
-      toast.error('Deletion Failed')
+      toast.error('Something Went Wrong')
     }
   }
 

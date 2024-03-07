@@ -84,7 +84,7 @@ export default function PostEmployee() {
       toast.success('Employee Created Successfully')
     } else {
       console.log(res)
-      toast.error('Employee Not Created')
+      toast.error('Something Went Wrong')
     }
   }
 

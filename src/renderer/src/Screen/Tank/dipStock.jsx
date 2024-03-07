@@ -102,7 +102,7 @@ export default function DipStock() {
       console.log(res.data)
     } else {
       console.log(res)
-      toast.error('DipStock Not Created')
+      toast.error('Something Went Wrong')
     }
   }
 

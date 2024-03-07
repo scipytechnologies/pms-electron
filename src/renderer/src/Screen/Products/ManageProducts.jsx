@@ -94,7 +94,7 @@ export default function ManageProducts() {
       setShow(false)
     } else {
       console.log(res)
-      toast.error('Product Not Added')
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -116,7 +116,7 @@ export default function ManageProducts() {
       toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
-      toast.error('Deletion Failed')
+      toast.error('Something Went Wrong')
     }
   }
 
