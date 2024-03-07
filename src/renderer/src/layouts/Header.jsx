@@ -141,8 +141,10 @@ const [quantity,setQuantity] =useState('')
     const res = await mainservice.createFuel(user.PumpId, { Fuel: form })
     if (res.data != null) {
       fetchPump(user.PumpId)
+      toast.success('Successfully Created')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -151,8 +153,10 @@ const [quantity,setQuantity] =useState('')
     const res = await mainservice.deleteFuel(user.PumpId, id)
     if (res.data != null) {
       fetchPump(user.PumpId)
+      toast.success('Deleted Successfully')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
   const toggleSidebar = (e) => {
@@ -206,8 +210,10 @@ const [quantity,setQuantity] =useState('')
             const res = await mainservice.editFuel(user.PumpId, item._id, form)
             if (res.data != null) {
               fetchPump(user.PumpId)
+              toast.success('Successfully Updated')
             } else {
               console.log(res)
+              toast.success('Something Went Wrong')
             }
           } catch (error) {
             console.error('An error occurred:', error)
