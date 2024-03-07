@@ -139,7 +139,7 @@ export default function Tank() {
     if (res.data != null) {
       console.log('res', res)
       navigate('/dashboard/Evaporation/EvaporationLoss')
-      toast.success('Evaporation Created Successfully')
+      toast.success('Successfully Created')
       fetchPump(user.PumpId)
     } else {
       console.log(res)
@@ -173,7 +173,7 @@ export default function Tank() {
     const res = await mainservice.CreateTank({ Tank: data }, user.PumpId)
     if (res.data != null) {
       GetTanks()
-      toast.success('Tank Created Successfully')
+      toast.success('Successfully Created')
     } else {
       console.log(res)
       toast.error('Something Went Wrong')

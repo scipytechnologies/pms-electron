@@ -159,7 +159,7 @@ export default function PostInventory() {
     console.log("pumpid", user.PumpId)
     if (res.data != null) {
       navigate('/dashboard/Inventory/InventoryDetails')
-      toast.success('Inventory Created Successfully')
+      toast.success('Successfully Created')
       console.log("response", res)
     } else {
       console.log(res)
@@ -178,9 +178,11 @@ export default function PostInventory() {
     console.log("updateId", id)
     if (res.data != null) {
       console.log(res.data, "Inventory Details Updated")
+      toast.success('Successfully Updated')
     }
     else {
       console.log(res.data)
+      toast.error('Something Went Wrong')
     }
   }
 

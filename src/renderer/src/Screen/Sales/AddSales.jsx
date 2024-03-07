@@ -439,10 +439,10 @@ export default function PostSales() {
     const res = await mainservice.createSalesAndBilling(user.PumpId, data)
     if (res.data != null) {
       navigate('/dashboard/Sales/SalesDetails')
-      toast.success('Sales Created Successfully')
+      toast.success('Successfully Created')
     } else {
       console.log(res)
-      toast.error('Sales Not Created')
+      toast.error('Something Went Wrong')
     }
   }
 

@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../Services/mainservice'
 import { pumpInfo } from '../store/pump'
 import { event } from 'jquery'
+import { Toaster, toast } from 'sonner'
 // import {
 //   NovuProvider,
 //   PopoverNotificationCenter,
@@ -127,9 +128,11 @@ const [quantity,setQuantity] =useState('')
     if (res.data != null) {
       navigate('/dashboard/FuelTest/TestHistory')
       fetchPump(user.PumpId)
+      toast.success('Successfully Created')
       console.log('console.res', res)
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -327,6 +330,7 @@ const [quantity,setQuantity] =useState('')
 
   return (
     <div className="header-main px-3 px-lg-4">
+      <Toaster richColors />
       <Link onClick={toggleSidebar} className="menu-link me-3 me-lg-4">
         <i className="ri-menu-2-fill"></i>
       </Link>

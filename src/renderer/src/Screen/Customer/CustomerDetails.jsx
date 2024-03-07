@@ -159,8 +159,10 @@ function CustomerDetails() {
     if (res.data != null) {
       handleCreditClose()
       fetchPump(user.PumpId)
+      toast.success('Successfully Created')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
   const [form2, setForm2] = useState({})
@@ -185,8 +187,10 @@ function CustomerDetails() {
     if (res.data != null) {
       console.log(res.data._id)
       navigate(`/dashboard/Customer/paymentHistory?redirect=true&id=${res.data._id}`)
+      toast.success('Successfully Paid')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
 

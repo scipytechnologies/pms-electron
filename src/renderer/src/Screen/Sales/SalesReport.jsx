@@ -20,6 +20,7 @@ import { pumpInfo } from '../../store/pump'
 import { useSelector, useDispatch } from 'react-redux'
 import { useReactToPrint } from 'react-to-print'
 import Select from 'react-select'
+import { Toaster, toast } from 'sonner'
 function SalesReport() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
   const dispatch = useDispatch()
@@ -141,18 +142,22 @@ function SalesReport() {
     }
     if (selectedYear && selectedYear.value == 'all') {
       date = 'all'
+      toast.success('Report Generated')
     } else {
       if ((selectedMonth && selectedMonth.value == 'all') || selectedMonth.value === null) {
         if (selectedDay.value != null) {
           alert('Please Select a valid month')
         } else {
           date = selectedYear.value
+          toast.success('Report Generated')
         }
       } else {
         if ((selectedDay && selectedDay.value === null) || selectedDay.value === 'none') {
           date = selectedYear.value + '-' + selectedMonth.value
+          toast.success('Report Generated')
         } else {
           date = selectedYear.value + '-' + selectedMonth.value + '-' + selectedDay.value
+          toast.success('Report Generated')
         }
       }
     }
@@ -212,6 +217,7 @@ function SalesReport() {
   return (
     <>
       <Header onSkin={setSkin} />
+      <Toaster richColors />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>
@@ -397,7 +403,7 @@ function SalesReport() {
                                 <Table borderless className="mb-0">
                                   <tbody>
                                     <tr>
-                                      <td>{x.product[productName].Quantity}</td>
+                                      <td>{x.product[productName].Quantity.toFixed(2)}</td>
                                     </tr>
                                   </tbody>
                                 </Table>

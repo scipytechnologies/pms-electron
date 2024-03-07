@@ -81,7 +81,7 @@ export default function PostEmployee() {
     )
     if (res.data != null) {
       navigate('/dashboard/Employee/EmployeeDetails')
-      toast.success('Employee Created Successfully')
+      toast.success('Successfully Created')
     } else {
       console.log(res)
       toast.error('Something Went Wrong')
@@ -100,8 +100,10 @@ export default function PostEmployee() {
     if (res.data != null) {
       navigate('/dashboard/Employee/EmployeeDetails')
       console.log(res.data, 'Employee Details Updated')
+      toast.success('Successfully Updated')
     } else {
       console.log(res.data)
+      toast.error('Something Went Wrong')
     }
   }
 

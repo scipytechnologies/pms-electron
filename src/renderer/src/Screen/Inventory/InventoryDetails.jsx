@@ -128,6 +128,7 @@ function InventoryDetails() {
       if (res.data != null) {
         fetchPump(user.PumpId)
         handleClose()
+        toast.success('Successfully Created')
         console.log(res)
       } else {
         toast.error('Something Went Wrong')

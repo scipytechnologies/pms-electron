@@ -1021,7 +1021,7 @@ export default function Home() {
                 <Row className="g-4 mb-2">
                   {tank.map((item, index) => (
                     <Col xs="6" key={index}>
-                      <label className="fs-sm fw-medium mb-1">{item.TankNumber}</label>
+                      <label className="fs-sm fw-medium mb-1">Tank No{' '}{item.TankNumber}</label>
                       <h3 className="card-value mb-2">
                         {item.Quantity} &nbsp;{' '}
                         <small style={{ color: '#01a174' }}>

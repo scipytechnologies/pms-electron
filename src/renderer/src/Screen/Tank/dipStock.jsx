@@ -98,7 +98,7 @@ export default function DipStock() {
     const res = await mainservice.createDipStock(user.PumpId, data)
     if (res.data != null) {
       navigate('/dashboard/DipStock/StockDetails')
-      toast.success('DipStock Created Successfully')
+      toast.success('Successfully Created')
       console.log(res.data)
     } else {
       console.log(res)
@@ -153,8 +153,10 @@ export default function DipStock() {
     if (res.data != null) {
       navigate('/dashboard/DipStock/StockDetails')
       console.log(res.data, 'Employee Details Updated')
+      toast.success('Successfully Updated')
     } else {
       console.log(res.data)
+      toast.error('Something Went Wrong')
     }
   }
 

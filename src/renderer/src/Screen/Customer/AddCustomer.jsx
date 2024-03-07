@@ -105,7 +105,7 @@ export default function PostCustomer() {
     const res = await mainservice.createCustomer(form, user.PumpId)
     if (res.data != null) {
       navigate('/dashboard/Customer/CustomerDetails')
-      toast.success('Customer Created Successfully')
+      toast.success('Successfully Created')
     } else {
       console.log(res)
       toast.error('Something Went Wrong')
@@ -123,9 +123,11 @@ export default function PostCustomer() {
     console.log("updateId", id)
     if (res.data != null) {
       navigate('/dashboard/Customer/CustomerDetails')
+      toast.success('Successfully Updated')
     }
     else {
       console.log(res.data)
+      toast.error('Something Went Wrong')
     }
   }
 

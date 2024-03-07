@@ -75,7 +75,7 @@ export default function AddProduct() {
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
-      toast.success('Category Created Successfully')
+      toast.success('Successfully Created')
     } else {
       console.log(res)
       toast.error('Something Went Wrong')
