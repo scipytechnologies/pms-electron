@@ -16,6 +16,7 @@ import Select from 'react-select'
 import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../../Services/mainservice'
 import { pumpInfo } from '../../store/pump'
+import { Toaster, toast } from 'sonner'
 
 export default function PostSales() {
   const navigate = useNavigate()
@@ -438,8 +439,10 @@ export default function PostSales() {
     const res = await mainservice.createSalesAndBilling(user.PumpId, data)
     if (res.data != null) {
       navigate('/dashboard/Sales/SalesDetails')
+      toast.success('Sales Created Successfully')
     } else {
       console.log(res)
+      toast.error('Sales Not Created')
     }
   }
 
@@ -535,6 +538,7 @@ export default function PostSales() {
 
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div style={{ marginTop: '50px' }} className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">

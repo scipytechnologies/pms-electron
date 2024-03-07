@@ -8,6 +8,7 @@ import { Grid } from 'gridjs-react'
 import { _ } from 'gridjs-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { pumpInfo } from '../../store/pump'
+import { Toaster, toast } from 'sonner'
 
 function EmployeeDetails() {
   const dispatch = useDispatch()
@@ -31,8 +32,10 @@ function EmployeeDetails() {
     if (res.data != null) {
       console.log('deleted')
       fetchPump(user.PumpId)
+      toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
+      toast.error('Deletion Failed')
     }
   }
 
@@ -87,6 +90,7 @@ function EmployeeDetails() {
 
   return (
     <>
+      <Toaster richColors />
       <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Employee Details</Modal.Title>
@@ -109,7 +113,7 @@ function EmployeeDetails() {
                   <tr>
                     <th scope="row"> Full Name</th>
                     <td>
-                      {emp.FirstName}
+                      {emp.FirstName}{' '}
                       {emp.LastName}
                     </td>
                   </tr>

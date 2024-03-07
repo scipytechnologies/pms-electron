@@ -20,6 +20,7 @@ import { _ } from 'gridjs-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { pumpInfo } from '../../store/pump'
 import Select from 'react-select'
+import { Toaster, toast } from 'sonner'
 
 function InventoryDetails() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -58,8 +59,10 @@ function InventoryDetails() {
     if (res.data != null) {
       console.log('deleted')
       getInventoryManagement()
+      toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
+      toast.error('Deletion Failed')
     }
   }
 
@@ -141,6 +144,7 @@ function InventoryDetails() {
   return (
     <>
       <Header onSkin={setSkin} />
+      <Toaster richColors />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>

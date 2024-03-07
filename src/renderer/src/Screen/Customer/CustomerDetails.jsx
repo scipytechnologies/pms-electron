@@ -9,6 +9,7 @@ import { _ } from 'gridjs-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { pumpInfo } from '../../store/pump'
 import Select from 'react-select'
+import { Toaster, toast } from 'sonner'
 
 function CustomerDetails() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -33,11 +34,11 @@ function CustomerDetails() {
 
   function formatDate(inputDate) {
     const date = new Date(inputDate);
-  
+
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-  
+
     return `${day}-${month}-${year}`;
   }
 
@@ -46,8 +47,10 @@ function CustomerDetails() {
       const res = await mainservice.deleteCustomer(pumpId, customerId)
       if (res.data != null) {
         fetchPump(user.PumpId)
+        toast.success('Deleted Successfully')
       } else {
         console.log('Deletion failed. Server response:', res)
+        toast.error('Deletion Failed')
       }
     } catch (error) {
       console.log('An error is occurred in deletion', error)
@@ -190,6 +193,7 @@ function CustomerDetails() {
   return (
     <>
       {/*////////////////////////////////////////////////////////////////// Add Credit Sales////////////////////////////////////////////////////////// // */}
+      <Toaster richColors />
       <Modal show={showcredit} onHide={handleCreditClose} centered size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Credit Sales</Modal.Title>
@@ -393,7 +397,7 @@ function CustomerDetails() {
                 </thead>
                 <tbody>
                   {credit.slice().reverse().map((x, index) => {
-                    return (  
+                    return (
                       <tr>
                         <th scope="row">{index + 1}</th>
                         <td>{formatDate(x.createdAt)}</td>

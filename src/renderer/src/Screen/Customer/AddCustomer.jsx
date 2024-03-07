@@ -13,6 +13,7 @@ import img10 from '../../assets/img/img10.jpg'
 import img11 from '../../assets/img/img11.jpg'
 import img14 from '../../assets/img/img14.jpg'
 import Header from '../../layouts/Header'
+import { Toaster, toast } from 'sonner'
 
 export default function PostCustomer() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -104,8 +105,10 @@ export default function PostCustomer() {
     const res = await mainservice.createCustomer(form, user.PumpId)
     if (res.data != null) {
       navigate('/dashboard/Customer/CustomerDetails')
+      toast.success('Customer Created Successfully')
     } else {
       console.log(res)
+      toast.error('No Customer Added')
     }
   }
 
@@ -153,6 +156,7 @@ export default function PostCustomer() {
   }, [skin])
   return (
     <React.Fragment>
+    <Toaster richColors />
       <Header onSkin={setSkin} />
       <div style={{ marginTop: '50px' }} className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">

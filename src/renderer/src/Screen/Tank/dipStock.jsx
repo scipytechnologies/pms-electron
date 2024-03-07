@@ -15,6 +15,7 @@ import mainservice from '../../Services/mainservice'
 import { useSelector, useDispatch } from 'react-redux'
 import Select from 'react-select'
 import { identity } from '@fullcalendar/core/internal'
+import { Toaster, toast } from 'sonner'
 
 export default function DipStock() {
   const user = useSelector((state) => state.loginedUser)
@@ -97,9 +98,11 @@ export default function DipStock() {
     const res = await mainservice.createDipStock(user.PumpId, data)
     if (res.data != null) {
       navigate('/dashboard/DipStock/StockDetails')
+      toast.success('DipStock Created Successfully')
       console.log(res.data)
     } else {
       console.log(res)
+      toast.error('DipStock Not Created')
     }
   }
 
@@ -181,6 +184,7 @@ export default function DipStock() {
   }, [skin])
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div style={{ marginTop: '50px' }} className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">
