@@ -32,23 +32,26 @@ window.addEventListener('load', function () {
 
 export default function App() {
   localStorage.setItem('sidebar-skin', 'dark')
-  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
+  const [isOnline, setIsOnline] = useState(window.navigator.onLine)
 
   useEffect(() => {
-    const handleOnline = () => {setIsOnline(true)
-       toast.success('Online')};
-    const handleOffline = () => {setIsOnline(false)
-      toast.error('Offline')};
+    const handleOnline = () => {
+      setIsOnline(true)
+      toast.success('Online')
+    }
+    const handleOffline = () => {
+      setIsOnline(false)
+      toast.error('Offline')
+    }
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
-
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   const dispatch = useDispatch()
   const active = useSelector((state) => state.loginedUser.isConnected)
@@ -110,10 +113,9 @@ export default function App() {
 
   return (
     <React.Fragment>
-       <Toaster  richColors />
-      {showSplashScreen && (
-        <VideoSplashScreen videoSrc={Splash} onVideoEnd={handleVideoEnd} />
-      )}
+      <Toaster richColors />
+
+      {showSplashScreen && <VideoSplashScreen videoSrc={Splash} onVideoEnd={handleVideoEnd} />}
       {!showSplashScreen && (
         <Routes>
           <Route path="/" element={<Main />}>

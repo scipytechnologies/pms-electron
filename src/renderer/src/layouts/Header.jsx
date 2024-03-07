@@ -9,6 +9,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../Services/mainservice'
 import { pumpInfo } from '../store/pump'
 import { event } from 'jquery'
+// import {
+//   NovuProvider,
+//   PopoverNotificationCenter,
+//   NotificationBell
+// } from '@novu/notification-center'
 
 export default function Header({ onSkin }) {
   const fuel = useSelector((state) => state.pumpstore.Fuel)
@@ -615,6 +620,14 @@ const [quantity,setQuantity] =useState('')
           </div>
         </Dropdown.Menu>
       </Dropdown>
+      {/* <NovuProvider
+        subscriberId={'1888'}
+        applicationIdentifier={'8sNFrKgpN8St'}
+      >
+        <PopoverNotificationCenter colorScheme={'light'}>
+          {({ unseenCount }) => <NotificationBell unseenCount={unseenCount} />}
+        </PopoverNotificationCenter>
+      </NovuProvider> */}
     </div>
   )
 }
