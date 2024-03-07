@@ -12,6 +12,7 @@ import img1 from '../../assets/img/img1.jpg'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import { Toaster, toast } from 'sonner'
 
 export default function ManageProducts() {
   ///// Skin Switch /////
@@ -89,9 +90,11 @@ export default function ManageProducts() {
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
+      toast.success('Product Added')
       setShow(false)
     } else {
       console.log(res)
+      toast.error('Product Not Added')
     }
   }
 
@@ -110,8 +113,10 @@ export default function ManageProducts() {
     if (res.data != null) {
       console.log(res)
       getProductbyid(productId)
+      toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
+      toast.error('Deletion Failed')
     }
   }
 
@@ -153,6 +158,7 @@ export default function ManageProducts() {
 
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -220,7 +226,7 @@ export default function ManageProducts() {
                               </div>
                             </div>
                             <div className="">
-                              <small> Brand : {item.Brand} </small>
+                              <small> Brand : {item.Name} </small>
                             </div>
                             {/* <div className="">
                               <small>Description : {item.ProductDescription} </small>
@@ -326,21 +332,11 @@ export default function ManageProducts() {
                     value={selectedcategory}
                   />
                 </Col>
-              </Row>
-            </div>
-            <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <h6>Brand</h6>
-                </Col>
-                <Col md>
-                  <Form.Control name="Brand" onChange={onChangeHandler} type="text" />
-                </Col>
-                <Col md>
+                 <Col md>
                   <h6>Price</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="Price" onChange={onChangeHandler} type="text" />
+                  <Form.Control name="Price" onChange={onChangeHandler} type="number" />
                 </Col>
               </Row>
             </div>

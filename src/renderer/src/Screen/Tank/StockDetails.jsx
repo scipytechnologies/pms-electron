@@ -20,6 +20,7 @@ import { _ } from 'gridjs-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useReactToPrint } from 'react-to-print'
 import { pumpInfo } from '../../store/pump'
+import { Toaster, toast } from 'sonner'
 
 function StockDetails() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -94,8 +95,10 @@ function StockDetails() {
     if (res.data != null) {
       console.log('deleted')
       getDipStock()
+      toast.success('Deleted Successfully')
     } else {
       console.log(res.message)
+      toast.error('Deletion Failed')
     }
   }
 
@@ -115,6 +118,7 @@ function StockDetails() {
   return (
     <>
       <Header onSkin={setSkin} />
+      <Toaster richColors />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>

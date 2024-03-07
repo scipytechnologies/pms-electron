@@ -193,7 +193,7 @@ export default function Product() {
                         </div>
                       </div>
                       <div className="">
-                        <small> Brand : {item.Brand} </small>
+                        <small> Brand : {item.Name} </small>
                       </div>
                       {/* <div className="">
                         <small>Description : {item.ProductDescription} </small>

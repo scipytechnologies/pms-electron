@@ -10,6 +10,7 @@ import GaugeChart from 'react-gauge-chart'
 import mainservice from '../../Services/mainservice'
 import { pumpInfo } from '../../store/pump'
 import Select from 'react-select'
+import { Toaster, toast } from 'sonner'
 
 export default function Tank() {
   const user = useSelector((state) => state.loginedUser)
@@ -138,9 +139,11 @@ export default function Tank() {
     if (res.data != null) {
       console.log('res', res)
       navigate('/dashboard/Evaporation/EvaporationLoss')
+      toast.success('Evaporation Created Successfully')
       fetchPump(user.PumpId)
     } else {
       console.log(res)
+      toast.error('Evaporation Not Created')
     }
     console.log('successdata', data)
     handleClose()
@@ -152,9 +155,12 @@ export default function Tank() {
     let data = { ...nozzleForm, FuelId: TankID }
     const res = await mainservice.createNozzle({ Nozzle: data }, user.PumpId)
     if (res.data != null) {
+      setNozzleModal(false)
       fetchPump(user.PumpId)
+      toast.success('Nozzle Created')
     } else {
       console.log(res)
+      toast.error('Nozzle Not Created')
     }
     console.log('data', data)
     handleClose()
@@ -167,8 +173,10 @@ export default function Tank() {
     const res = await mainservice.CreateTank({ Tank: data }, user.PumpId)
     if (res.data != null) {
       GetTanks()
+      toast.success('Tank Created Successfully')
     } else {
       console.log(res)
+      toast.error('Tank Not Created')
     }
     handleClose()
   }
@@ -190,6 +198,7 @@ export default function Tank() {
   }, [skin])
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-md-flex align-items-center justify-content-between mb-4">
@@ -362,13 +371,13 @@ export default function Tank() {
                   <h6>Tank Number</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="TankNumber" onChange={onChangeHandler} type="text" />
+                  <Form.Control name="TankNumber" onChange={onChangeHandler} type="number" />
                 </Col>
                 <Col md>
                   <h6>Volume</h6>
                 </Col>
                 <Col md>
-                  <Form.Control name="Volume" onChange={onChangeHandler} type="text" />
+                  <Form.Control name="Volume" onChange={onChangeHandler} type="number" />
                 </Col>
               </Row>
             </div>
@@ -393,8 +402,7 @@ export default function Tank() {
                   <Form.Control
                     name="Quantity"
                     onChange={onChangeHandler}
-                    type="text"
-                    placeholder="Agent 1"
+                    type="number"
                   />
                 </Col>
               </Row>
@@ -410,7 +418,6 @@ export default function Tank() {
                     onChange={onChangeHandler}
                     as="textarea"
                     rows="3"
-                    placeholder="Enter tagline"
                   />
                 </Col>
               </Row>
@@ -420,7 +427,7 @@ export default function Tank() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSubmitHandler}>
+            <Button style={{color:"white"}} variant="primary" onClick={onSubmitHandler}>
               Save Changes
             </Button>
           </Modal.Footer>

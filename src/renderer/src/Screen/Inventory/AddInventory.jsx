@@ -8,6 +8,7 @@ import mainservice from '../../Services/mainservice'
 import Select from 'react-select'
 import { useSelector, useDispatch } from 'react-redux'
 import { pumpInfo } from '../../store/pump'
+import { Toaster, toast } from 'sonner'
 
 export default function PostInventory() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -158,9 +159,11 @@ export default function PostInventory() {
     console.log("pumpid", user.PumpId)
     if (res.data != null) {
       navigate('/dashboard/Inventory/InventoryDetails')
+      toast.success('Inventory Created Successfully')
       console.log("response", res)
     } else {
       console.log(res)
+      toast.error('Inventory Not Created')
     }
   }
 
@@ -204,6 +207,7 @@ export default function PostInventory() {
   }, [skin])
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div style={{ marginTop: '50px' }} className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">

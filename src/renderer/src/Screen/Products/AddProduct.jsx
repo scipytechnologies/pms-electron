@@ -6,6 +6,7 @@ import mainservice from '../../Services/mainservice'
 import { useSelector, useDispatch } from 'react-redux'
 import { pumpInfo } from '../../store/pump'
 import { Link, useNavigate } from 'react-router-dom'
+import { Toaster, toast } from 'sonner'
 
 export default function AddProduct() {
   ///// Skin Switch /////
@@ -52,9 +53,11 @@ export default function AddProduct() {
     if (res.data != null) {
       console.log(res)
       fetchPump(user.PumpId)
+      toast.success('Category Deleted')
     }
     else {
       console.log(res.message)
+      toast.error('Deletion Failed')
     }
   }
 
@@ -72,8 +75,10 @@ export default function AddProduct() {
     if (res.data != null) {
       console.log(res.data)
       fetchPump(user.PumpId)
+      toast.success('Category Created Successfully')
     } else {
       console.log(res)
+      toast.error('Category Not Created')
     }
   }
 
@@ -99,6 +104,7 @@ export default function AddProduct() {
 
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-sm-flex align-items-center justify-content-between mb-4">

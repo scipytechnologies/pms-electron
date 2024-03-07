@@ -18,6 +18,7 @@ import { event } from 'jquery'
 import { Link, useNavigate } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import { Toaster, toast } from 'sonner'
 
 export default function PostEmployee() {
   const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : ''
@@ -80,8 +81,10 @@ export default function PostEmployee() {
     )
     if (res.data != null) {
       navigate('/dashboard/Employee/EmployeeDetails')
+      toast.success('Employee Created Successfully')
     } else {
       console.log(res)
+      toast.error('Employee Not Created')
     }
   }
 
@@ -126,6 +129,7 @@ export default function PostEmployee() {
   }, [skin])
   return (
     <React.Fragment>
+      <Toaster richColors />
       <Header onSkin={setSkin} />
       <div style={{ marginTop: '50px' }} className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">
