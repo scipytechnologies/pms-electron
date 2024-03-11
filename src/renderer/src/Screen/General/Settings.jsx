@@ -12,6 +12,7 @@ import img11 from '../../assets/img/img11.jpg'
 import img14 from '../../assets/img/img14.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../../Services/mainservice'
+import { Toaster, toast } from 'sonner'
 
 export default function Settings() {
   const user = useSelector((state) => state.loginedUser)
@@ -48,16 +49,20 @@ export default function Settings() {
     if (res.data != null) {
       setShow(false)
       fetchcolabs(user.PumpId)
+      toast.success('Successfully Created')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
   const onDeleteHandler = async (id) => {
     const res = await mainservice.DeleteColab(id)
     if (res.data != null) {
       fetchcolabs(user.PumpId)
+      toast.success('Deleted Successfully')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -66,6 +71,7 @@ export default function Settings() {
   }, [])
   return (
     <React.Fragment>
+      <Toaster richColors/>
       <HeaderMobile />
       <div className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">
@@ -152,18 +158,18 @@ export default function Settings() {
               <Card.Title>Member Access</Card.Title>
               <Card.Text>Manage your members Access</Card.Text>
             </div>
-            {user.role == 'owner' ? 
-            <div>
-              <Button
-                style={{ color: 'white' }}
-                variant="primary"
-                className="d-flex align-items-center gap-2"
-                onClick={handleOpen}
-              >
-                <i className="ri-user-add-fill"></i>Add New Collaborator
-                <span className="d-none d-sm-inline"></span>
-              </Button>
-            </div> : []}
+            {user.role == 'owner' ?
+              <div>
+                <Button
+                  style={{ color: 'white' }}
+                  variant="primary"
+                  className="d-flex align-items-center gap-2"
+                  onClick={handleOpen}
+                >
+                  <i className="ri-user-add-fill"></i>Add New Collaborator
+                  <span className="d-none d-sm-inline"></span>
+                </Button>
+              </div> : []}
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -189,30 +195,30 @@ export default function Settings() {
                             </div>
                           </td>
                           <td>{x.role}</td>
-                       {user.role !== 'owner' ? (
-                                  []
-                                ) :   <td>
+                          {user.role !== 'owner' ? (
+                            []
+                          ) : <td>
                             {x.role === 'owner' ? (
                               <>- - - -</>
                             ) : (
                               <>
-                              
-                                  <>
-                                    {' '}
-                                    <Nav as="nav">
-                                      <Link to="">
-                                        <i className="ri-pencil-line"></i>
-                                      </Link>
-                                      <Link
-                                        onClick={() => {
-                                          onDeleteHandler(x.id)
-                                        }}
-                                      >
-                                        <i className="ri-delete-bin-line"></i>
-                                      </Link>
-                                    </Nav>
-                                  </>
-                          
+
+                                <>
+                                  {' '}
+                                  <Nav as="nav">
+                                    <Link to="">
+                                      <i className="ri-pencil-line"></i>
+                                    </Link>
+                                    <Link
+                                      onClick={() => {
+                                        onDeleteHandler(x.id)
+                                      }}
+                                    >
+                                      <i className="ri-delete-bin-line"></i>
+                                    </Link>
+                                  </Nav>
+                                </>
+
                               </>
                             )}
                           </td>}
@@ -343,24 +349,18 @@ export default function Settings() {
                 </Col>
               </Row>
             </div>{' '}
-            <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <Button
-                    style={{ color: 'white' }}
-                    variant="primary"
-                    className="d-flex"
-                    onClick={onSubmitHandler}
-                  >
-                    Submit
-                  </Button>
-                </Col>
-              </Row>
-            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
+            </Button>
+            <Button
+              style={{ color: 'white' }}
+              variant="primary"
+              className="d-flex"
+              onClick={onSubmitHandler}
+            >
+              Submit
             </Button>
           </Modal.Footer>
         </Modal>
