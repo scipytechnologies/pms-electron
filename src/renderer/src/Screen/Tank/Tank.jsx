@@ -236,7 +236,7 @@ export default function Tank() {
         {/* Evap */}
         <Modal show={evaporationModal} onHide={handleCloseEvaporation} size="lg" centered>
           <Modal.Header closeButton>
-            <Modal.Title>Add New Evaporation</Modal.Title>
+            <Modal.Title>Calculate Evaporation</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="setting-item">
@@ -257,7 +257,6 @@ export default function Tank() {
                     name="InitialQuantity"
                     onChange={onChangeEvaporation}
                     type="text"
-                    placeholder="Initial Quantity"
                   />
                 </Col>
               </Row>
@@ -272,7 +271,6 @@ export default function Tank() {
                     name="ActualQuantity"
                     onChange={onChangeEvaporation}
                     type="text"
-                    placeholder="Actual Quantity"
                   />
                 </Col>
                 <Col md>
@@ -281,11 +279,10 @@ export default function Tank() {
                 <Col md>
                   <Form.Control
                     disabled={true}
-                    value={missing}
+                    value={missing.toFixed(2)}
                     name="Missing"
                     onChange={onChangeEvaporation}
                     type="text"
-                    placeholder="Missing"
                   />
                 </Col>
               </Row>
