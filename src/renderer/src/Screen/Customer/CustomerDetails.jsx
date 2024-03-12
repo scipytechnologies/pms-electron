@@ -409,7 +409,7 @@ function CustomerDetails() {
                         <td>{x.Product}</td>
                         <td>{x.Quantity}</td>
                         <td>{x.Price}</td>
-                        <td>{x.Amount}</td>
+                        <td>{x.Amount.toFixed(2)}</td>
                         <td>{x.Status}</td>
                       </tr>
                     )
