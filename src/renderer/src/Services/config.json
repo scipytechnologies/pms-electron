@@ -3,7 +3,7 @@
         "Accept": "application/json",
         "Content-Type": "application/json"
     },
-    "API_BASE_URL": "http://52.66.119.51:9000/"
+    "API_BASE_URL": "http://65.2.31.180:9000/"
     
     
 }

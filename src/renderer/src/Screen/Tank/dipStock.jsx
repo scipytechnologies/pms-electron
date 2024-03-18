@@ -383,7 +383,6 @@ export default function DipStock() {
                                                   type="text"
                                                   name="Quantity"
                                                   value={field.ItemName}
-                                                  placeholder="Item Name"
                                                   onChange={(event) => handleChangeField(index, event)}
                                                 />
                                               </div>

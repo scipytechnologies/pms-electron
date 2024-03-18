@@ -452,7 +452,7 @@ export default function Tank() {
                         setTankData(item)
                       }}
                     >
-                      <i class="ri-windy-line"></i>
+                      <i class="ri-windy-line"></i>    
                     </Button>
                     <Button
                       className="p-1"

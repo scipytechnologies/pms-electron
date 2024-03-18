@@ -76,6 +76,7 @@ export default function AddProduct() {
       console.log(res.data)
       fetchPump(user.PumpId)
       toast.success('Successfully Created')
+      setform({})
     } else {
       console.log(res)
       toast.error('Something Went Wrong')
@@ -205,6 +206,7 @@ export default function AddProduct() {
                         <h6>Category Name</h6>
                       </div>
                       <Form.Control
+                      value={form.CategoryName || ''}
                         type="text"
                         name="CategoryName"
                         onChange={onChangeHandler}
@@ -219,6 +221,7 @@ export default function AddProduct() {
                         <h6>Description</h6>
                       </div>
                       <Form.Control
+                      value={form.Description || ''}
                         type="textarea"
                         name="Description"
                         onChange={onChangeHandler}

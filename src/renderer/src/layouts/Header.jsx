@@ -10,6 +10,7 @@ import mainservice from '../Services/mainservice'
 import { pumpInfo } from '../store/pump'
 import { event } from 'jquery'
 import { Toaster, toast } from 'sonner'
+import './style.css'
 // import {
 //   NovuProvider,
 //   PopoverNotificationCenter,
@@ -93,7 +94,7 @@ export default function Header({ onSkin }) {
       setOpening(opening[0].Reading)
     }
   }
-const [quantity,setQuantity] =useState('')
+  const [quantity, setQuantity] = useState('')
   const ChangeInputHandler = (event) => {
     const { name, value } = event.target
     setInputForm({
@@ -102,7 +103,7 @@ const [quantity,setQuantity] =useState('')
     })
     // console.log('hiinput',value,nozzle.opening[0].Reading)
     if (name === 'Closing') {
-      const Quantity =(value - opening)
+      const Quantity = value - opening
       setQuantity(Quantity)
     }
   }
@@ -120,7 +121,7 @@ const [quantity,setQuantity] =useState('')
       NozzleId: fuelform.NozzleName.value,
       TestResult: isChecked,
       Opening: opening,
-      Quantity : quantity
+      Quantity: quantity
     }
 
     console.log('wholedata', formData)
@@ -140,6 +141,7 @@ const [quantity,setQuantity] =useState('')
     event.preventDefault()
     const res = await mainservice.createFuel(user.PumpId, { Fuel: form })
     if (res.data != null) {
+      setForm({})
       fetchPump(user.PumpId)
       toast.success('Successfully Created')
     } else {
@@ -147,6 +149,17 @@ const [quantity,setQuantity] =useState('')
       toast.error('Something Went Wrong')
     }
   }
+  // const minimizeWindow = () => {
+  //   window.api.minimizeWindow() // Call a function exposed by the preload script
+  // }
+
+  // const maximizeWindow = () => {
+  //   window.api.maximizeWindow() // Call a function exposed by the preload script
+  // }
+
+  // const closeWindow = () => {
+  //   window.api.closeWindow() // Call a function exposed by the preload script
+  // }
 
   const onRemoveHandler = async (id) => {
     console.log(id)
@@ -209,6 +222,7 @@ const [quantity,setQuantity] =useState('')
           try {
             const res = await mainservice.editFuel(user.PumpId, item._id, form)
             if (res.data != null) {
+              setForm({})
               fetchPump(user.PumpId)
               toast.success('Successfully Updated')
             } else {
@@ -328,26 +342,22 @@ const [quantity,setQuantity] =useState('')
     }
   }
 
-  function LogOut(){
+  function LogOut() {
     localStorage.removeItem('user-token')
-    window.location.reload(false);
-    
+    window.location.reload(false)
   }
 
   return (
-    <div className="header-main px-3 px-lg-4">
-      <Toaster richColors />
-      <Link onClick={toggleSidebar} className="menu-link me-3 me-lg-4">
-        <i className="ri-menu-2-fill"></i>
-      </Link>
-
-      {/* <div className="form-search me-auto">
-        <input type="text" className="form-control" placeholder="Search" />
-        <i className="ri-search-line"></i>
-      </div> */}
-      <div className="d-flex justify-content-center align-items-center w-50 me-auto p-2 ">
-        <div style={{ width: '120px', fontWeight: 'bolder' }}>Fuel Price</div>
-        <div className="w-100 form-search">
+    <div id='' className="d-flex justify-content-between header-main px-3 px-lg-4">
+    
+      <div>
+        <Link onClick={toggleSidebar} className="menu-link me-3 me-lg-4">
+          <i className="ri-menu-2-fill"></i>
+        </Link>
+      </div>
+      <div className="d-flex  align-items-center ">
+      <i style={{fontSize:"18px"}} className="ri-price-tag-3-line mb-1"></i> <h6 className='ps-1' style={{fontWeight:'bolder',width:'90px'}}>Fuel Price </h6> 
+        <div style={{width:'20vw'}}  className="form-search">
           <marquee direction="left">
             <div className="d-flex">
               {fuel.map((item) => {
@@ -361,9 +371,9 @@ const [quantity,setQuantity] =useState('')
             </div>
           </marquee>
         </div>
-        <Dropdown className="dropdown-notification " align="end">
+        <Dropdown  className="dropdown-notification" align="end">
           <Dropdown.Toggle
-            className="d-flex justify-content-center"
+           
             style={{
               backgroundColor: 'white',
               alignItems: 'center',
@@ -383,11 +393,21 @@ const [quantity,setQuantity] =useState('')
               <Row className="g-2 align-items-center">
                 <Col md>
                   <h6>New Fuel</h6>
-                  <Form.Control name="FuelName" type="text" onChange={onChangeHandler} />
+                  <Form.Control
+                    value={form.FuelName || ''}
+                    name="FuelName"
+                    type="text"
+                    onChange={onChangeHandler}
+                  />
                 </Col>
                 <Col md>
                   <h6>Price</h6>
-                  <Form.Control name="FuelPricePerLitre" type="text" onChange={onChangeHandler} />
+                  <Form.Control
+                    value={form.FuelPricePerLitre || ''}
+                    name="FuelPricePerLitre"
+                    type="text"
+                    onChange={onChangeHandler}
+                  />
                 </Col>
                 <Col>
                   <Button
@@ -406,10 +426,8 @@ const [quantity,setQuantity] =useState('')
           </Dropdown.Menu>
         </Dropdown>
       </div>
-
-      {/* FuelTest */}
-      <div className="d-flex justify-content-end align-items-center w-100 p-0 ">
-        <div className="dropdown" style={{ position: 'absolute', right: '120px' }}>
+      <div className="d-flex  align-items-center">
+        <div className="dropdown">
           {/* <div style={{ width: '80px', fontWeight: 'bolder' }}>Test Fuel</div> */}
           <Dropdown className="dropdown-notification " align="end">
             <Dropdown.Toggle
@@ -417,14 +435,13 @@ const [quantity,setQuantity] =useState('')
               style={{
                 backgroundColor: 'white',
                 alignItems: 'center',
-                width: '50px',
-                fontWeight: 'bolder',
-                color: 'black',
                 border: 0
               }}
             >
-              <span style={{ width: '80px' }}>Test Fuel</span>
-              <span style={{ marginLeft: 'auto' }}></span>
+              <div className='d-flex' style={{ width: '100px',color:'#41505F'}}>
+                <i style={{fontSize:"18px"}} className="ri-scales-3-fill"></i> <h6 className='p-1' style={{fontWeight:'bolder'}}>Fuel Test </h6> 
+              </div>
+              {/* <span style={{ marginLeft: 'auto' }}></span> */}
               {/* <i class="ri-edit-box-line"></i> */}
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ width: '400px' }} className="mt-10-f me--10-f">
@@ -475,9 +492,15 @@ const [quantity,setQuantity] =useState('')
                     <h6>Closing</h6>
                     <Form.Control name="Closing" type="text" onChange={ChangeInputHandler} />
                   </Col>
-                  <Col md> 
+                  <Col md>
                     <h6>Quantity</h6>
-                    <Form.Control disabled={true} value={quantity} name="Quantity" type="text" onChange={ChangeInputHandler} />
+                    <Form.Control
+                      disabled={true}
+                      value={quantity}
+                      name="Quantity"
+                      type="text"
+                      onChange={ChangeInputHandler}
+                    />
                   </Col>
                 </Row>
                 <Row className="g-2 align-items-center mt-0" style={{ marginRight: '30px' }}>
@@ -523,77 +546,29 @@ const [quantity,setQuantity] =useState('')
         </div>
       </div>
 
-      {/* <Dropdown className="dropdown-skin" align="end">
-        <Dropdown.Toggle as={CustomToggle}>
-          <i className="ri-settings-3-line"></i>
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="mt-10-f">
-          <label>Skin Mode</label>
-          <nav className="nav nav-skin">
-            <Link
-              onClick={skinMode}
-              className={localStorage.getItem('skin-mode') ? 'nav-link' : 'nav-link active'}
-            >
-              Light
-            </Link>
-            <Link
-              onClick={skinMode}
-              className={localStorage.getItem('skin-mode') ? 'nav-link active' : 'nav-link'}
-            >
-              Dark
-            </Link>
-          </nav>
-          <hr />
-          <label>Sidebar Skin</label>
-          <nav id="sidebarSkin" className="nav nav-skin">
-            <Link
-              onClick={sidebarSkin}
-              className={!localStorage.getItem('sidebar-skin') ? 'nav-link active' : 'nav-link'}
-            >
-              Default
-            </Link>
-            <Link
-              onClick={sidebarSkin}
-              className={
-                localStorage.getItem('sidebar-skin') === 'prime' ? 'nav-link active' : 'nav-link'
-              }
-            >
-              Prime
-            </Link>
-            <Link
-              onClick={sidebarSkin}
-              className={
-                localStorage.getItem('sidebar-skin') === 'dark' ? 'nav-link active' : 'nav-link'
-              }
-            >
-              Dark
-            </Link>
-          </nav>
-        </Dropdown.Menu>
-      </Dropdown> */}
-
-      {/* <Dropdown className="dropdown-notification ms-3 ms-xl-4" align="end">
-        <Dropdown.Toggle as={CustomToggle}>
-          <small>3</small>
-          <i className="ri-notification-3-line"></i>
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="mt-10-f me--10-f">
-          <div className="dropdown-menu-header">
-            <h6 className="dropdown-menu-title">Notifications</h6>
-          </div>
-          {NotificationList()}
-          <div className="dropdown-menu-footer">
-            <Link to="#">Show all Notifications</Link>
-          </div>
-        </Dropdown.Menu>
-      </Dropdown> */}
-
-      <Dropdown className="dropdown-profile ms-3 ms-xl-4" align="end">
+      <Dropdown className=" d-flex dropdown-profile ms-3 ms-xl-4 m" align="end">
         <Dropdown.Toggle as={CustomToggle}>
           <div className="avatar online">
             <img src="https://www.nabapravat.com/img/team/avatar.svg" alt="" />
           </div>
         </Dropdown.Toggle>
+        {/* <div className="d-flex ms-3">
+          <button
+            style={{ border: 'none', width: '30px', padding: '5px' }}
+            onClick={minimizeWindow}
+          >
+            <i class="ri-fullscreen-exit-fill"></i>
+          </button>
+          <button
+            style={{ border: 'none', width: '30px', padding: '5px' }}
+            onClick={maximizeWindow}
+          >
+            <i class="ri-fullscreen-line"></i>
+          </button>
+          <button style={{ border: 'none', width: '30px', padding: '5px' }} onClick={closeWindow}>
+            <i class="ri-close-line"></i>
+          </button>
+        </div> */}
         <Dropdown.Menu className="mt-10-f">
           <div className="dropdown-menu-body">
             <div className="avatar avatar-xl online mb-3">
@@ -630,6 +605,7 @@ const [quantity,setQuantity] =useState('')
           </div>
         </Dropdown.Menu>
       </Dropdown>
+  <Toaster richColors />
       {/* <NovuProvider
         subscriberId={'1888'}
         applicationIdentifier={'8sNFrKgpN8St'}

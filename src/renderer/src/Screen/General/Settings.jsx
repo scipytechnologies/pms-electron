@@ -152,18 +152,21 @@ export default function Settings() {
               <Card.Title>Member Access</Card.Title>
               <Card.Text>Manage your members Access</Card.Text>
             </div>
-            {user.role == 'owner' ? 
-            <div>
-              <Button
-                style={{ color: 'white' }}
-                variant="primary"
-                className="d-flex align-items-center gap-2"
-                onClick={handleOpen}
-              >
-                <i className="ri-user-add-fill"></i>Add New Collaborator
-                <span className="d-none d-sm-inline"></span>
-              </Button>
-            </div> : []}
+            {user.role == 'owner' ? (
+              <div>
+                <Button
+                  style={{ color: 'white' }}
+                  variant="primary"
+                  className="d-flex align-items-center gap-2"
+                  onClick={handleOpen}
+                >
+                  <i className="ri-user-add-fill"></i>Add New Collaborator
+                  <span className="d-none d-sm-inline"></span>
+                </Button>
+              </div>
+            ) : (
+              []
+            )}
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -189,14 +192,14 @@ export default function Settings() {
                             </div>
                           </td>
                           <td>{x.role}</td>
-                       {user.role !== 'owner' ? (
-                                  []
-                                ) :   <td>
-                            {x.role === 'owner' ? (
-                              <>- - - -</>
-                            ) : (
-                              <>
-                              
+                          {user.role !== 'owner' ? (
+                            []
+                          ) : (
+                            <td>
+                              {x.role === 'owner' ? (
+                                <>- - - -</>
+                              ) : (
+                                <>
                                   <>
                                     {' '}
                                     <Nav as="nav">
@@ -212,10 +215,10 @@ export default function Settings() {
                                       </Link>
                                     </Nav>
                                   </>
-                          
-                              </>
-                            )}
-                          </td>}
+                                </>
+                              )}
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
@@ -226,57 +229,23 @@ export default function Settings() {
           </Card.Body>
         </Card>
 
-        {/* <Card className="card-settings mt-4">
+        <Card className="card-settings mt-4">
           <Card.Header>
-            <Card.Title>Connected Apps</Card.Title>
-            <Card.Text>Quia voluptas sit aspernatur aut odit aut fugit nemo enim ipsam voluptatem.</Card.Text>
+            <Card.Title>Change Password</Card.Title>
+            {/* <Card.Text>Quia voluptas sit aspernatur aut odit aut fugit nemo enim ipsam voluptatem.</Card.Text> */}
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
               <Row className="g-3">
-                {[
-                  {
-                    "bg": "bg-disqus",
-                    "icon": "ri-disqus-fill",
-                    "name": "Disqus",
-                    "text": "An American blog comment hosting service for web sites and online communities that use a networked platform."
-                  }, {
-                    "bg": "bg-dropbox",
-                    "icon": "ri-dropbox-fill",
-                    "name": "Dropbox",
-                    "text": "A file hosting service company that offers cloud storage, file synchronization, personal cloud, and client software."
-                  }, {
-                    "bg": "bg-evernote",
-                    "icon": "ri-evernote-fill",
-                    "name": "Evernote",
-                    "text": "An app that allows users to create notes, which can be text, drawings, photographs, audio, or saved web content."
-                  }, {
-                    "bg": "bg-messenger",
-                    "icon": "ri-messenger-fill",
-                    "name": "Messenger",
-                    "text": "A proprietary instant messaging app developed by Meta Platforms. Originally developed as Facebook Chat in 2008."
-                  }
-                ].map((app, index) => (
-                  <Col md="6" key={index}>
-                    <Card className="card-app">
-                      <Card.Body>
-                        <div className={"card-logo " + app.bg}><i className={app.icon}></i></div>
-                        <div className="app-body">
-                          <h6>{app.name}</h6>
-                          <p>{app.text}</p>
-                        </div>
-                      </Card.Body>
-                      <Card.Footer>
-                        <Link to="">Preferences</Link>
-                        <Form.Check type="switch" checked onChange={()=>''} />
-                      </Card.Footer>
-                    </Card>
-                  </Col>
-                ))}
+                <Col className="d-flex ">
+                  <Form.Control className='m-2 ' type="text" placeholder="Enter New Password" />
+                  <Form.Control className=' m-2 ' type="text" placeholder="Confirm Password" />
+                  <Button style={{color:'white'}} className='m-2'>Submit</Button>{' '}
+                </Col>
               </Row>
             </div>
           </Card.Body>
-        </Card> */}
+        </Card>
 
         <Modal show={show} onHide={handleClose} centered size="md">
           <Modal.Header closeButton>

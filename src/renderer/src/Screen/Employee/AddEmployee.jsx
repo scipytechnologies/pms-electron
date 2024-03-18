@@ -71,7 +71,7 @@ export default function PostEmployee() {
     console.log(data)
     // const res = await mainservice.PostEmployee(data, user.PumpId)
     const res = await axios.post(
-      `http://52.66.119.51:9000/employee/createemployee/${user.PumpId}`,
+      `http://65.2.31.180:9000/employee/createemployee/${user.PumpId}`,
       data,
       {
         headers: {

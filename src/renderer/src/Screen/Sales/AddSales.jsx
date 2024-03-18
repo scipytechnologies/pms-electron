@@ -603,7 +603,6 @@ export default function PostSales() {
         <Card className="card-settings mt-4">
           <Card.Header>
             <Card.Title>Nozzle Details</Card.Title>
-            <Card.Text>short Description</Card.Text>
           </Card.Header>
           <Card.Body className="p-0">
             <div className="setting-item">
@@ -849,7 +848,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="TwoK"
                                 value={cash.TwoK}
                                 onChange={onChangeHandler}
@@ -889,7 +887,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="FiveH"
                                 value={cash.FiveH}
                                 onChange={onChangeHandler}
@@ -929,7 +926,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="TwoH"
                                 value={cash.TwoH}
                                 onChange={onChangeHandler}
@@ -969,7 +965,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="OneH"
                                 value={cash.OneH}
                                 onChange={onChangeHandler}
@@ -1009,7 +1004,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="FiveT"
                                 value={cash.FiveT}
                                 onChange={onChangeHandler}
@@ -1049,7 +1043,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="TwoT"
                                 value={cash.TwoT}
                                 onChange={onChangeHandler}
@@ -1089,7 +1082,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="Ten"
                                 value={cash.Ten}
                                 onChange={onChangeHandler}
@@ -1129,7 +1121,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="Five"
                                 value={cash.Five}
                                 onChange={onChangeHandler}
@@ -1169,7 +1160,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="Two"
                                 value={cash.Two}
                                 onChange={onChangeHandler}
@@ -1209,7 +1199,6 @@ export default function PostSales() {
                               <Form.Control
                                 style={{ width: '200px' }}
                                 type="text"
-                                placeholder="Rs.0.0/-"
                                 name="One"
                                 value={cash.One}
                                 onChange={onChangeHandler}
@@ -1316,7 +1305,6 @@ export default function PostSales() {
                                                       type="text"
                                                       name="Price"
                                                       value={field.Price}
-                                                      placeholder="Item Name"
                                                       onChange={(event) =>
                                                         handleChangeField2(index, event)
                                                       }
@@ -1435,7 +1423,6 @@ export default function PostSales() {
                                                       type="text"
                                                       name="Price"
                                                       value={field.Price}
-                                                      placeholder="Price"
                                                       onChange={(event) =>
                                                         handleChangeField3(index, event)
                                                       }
@@ -1542,7 +1529,6 @@ export default function PostSales() {
                                                       type="text"
                                                       name="Price"
                                                       value={field.Price}
-                                                      placeholder="Price"
                                                       onChange={(event) =>
                                                         handleChangeField4(index, event)
                                                       }
@@ -1635,7 +1621,6 @@ export default function PostSales() {
                     name="Name"
                     onChange={onChangeHandlercard}
                     type="text"
-                    placeholder="Name of Card"
                   />
                 </Col>
               </Row>
@@ -1665,7 +1650,6 @@ export default function PostSales() {
                     name="Name"
                     onChange={onChangeHandlerupi}
                     type="text"
-                    placeholder="Name of UPI"
                   />
                 </Col>
               </Row>

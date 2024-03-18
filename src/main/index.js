@@ -4,13 +4,16 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { autoUpdater } from 'electron-updater' // Import autoUpdater
 import icon from '../../resources/icon.png?asset'
 import { updateElectronBuilderToken } from './updateConfig.js'
+import { ipcMain } from 'electron'
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1080,
+    height: 720,
     show: false,
+    frame: true,
     autoHideMenuBar: true,
+    resizable: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -92,6 +95,27 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+  ipcMain.on('minimize-window', () => {
+    const mainWindow = BrowserWindow.getFocusedWindow()
+    if (mainWindow) mainWindow.minimize()
+  })
+
+  ipcMain.on('maximize-window', () => {
+    const mainWindow = BrowserWindow.getFocusedWindow()
+    if (mainWindow) {
+      if (mainWindow.isMaximized()) {
+        mainWindow.unmaximize()
+      } else {
+        mainWindow.maximize()
+      }
+    }
+  })
+
+  ipcMain.on('close-window', () => {
+    const mainWindow = BrowserWindow.getFocusedWindow()
+    if (mainWindow) mainWindow.close()
   })
 })
 

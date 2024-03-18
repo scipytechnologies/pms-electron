@@ -28,7 +28,7 @@ function fetchToken(apiUrl) {
 }
 
 export async function updateElectronBuilderToken() {
-  const apiUrl = 'http://52.66.119.51:9000/user/getGitToken' // Replace with your API endpoint
+  const apiUrl = 'http://65.2.31.180:9000/user/getGitToken' // Replace with your API endpoint
   try {
     const token = await fetchToken(apiUrl)
     console.log(token)

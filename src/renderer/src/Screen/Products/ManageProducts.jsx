@@ -79,7 +79,7 @@ export default function ManageProducts() {
     const data = { ...form, ...{ OnSale: true, Category: selectedcategory, image: file } }
     // const res = await mainservice.updateProduct(productId, data)
     const res = await axios.put(
-      `http://52.66.119.51:9000/ProductRouter/updateProduct/${productId}`,
+      `http://65.2.31.180:9000/ProductRouter/updateProduct/${productId}`,
       data,
       {
         headers: {
@@ -200,9 +200,10 @@ export default function ManageProducts() {
                             <div
                               style={{
                                 height: '180px',
-                                backgroundImage: `url(http://52.66.119.51:9000/employee/getImage/${item.image})`,
+                                backgroundImage: `url(http://65.2.31.180:9000/employee/getImage/${item.image})`,
                                 backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover'
+                                backgroundSize:'contain',
+                                backgroundPosition: 'center'   
                               }}
                               className="w-100"
                             ></div>

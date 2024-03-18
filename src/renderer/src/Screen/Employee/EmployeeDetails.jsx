@@ -100,9 +100,10 @@ function EmployeeDetails() {
             <div
               style={{
                 height: '280px',
-                backgroundImage: `url(http://52.66.119.51:9000/employee/getImage/${emp.image})`,
+                backgroundImage: `url(http://65.2.31.180:9000/employee/getImage/${emp.image})`,
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover'
+                backgroundSize: 'contain',
+                backgroundPosition:'center'
               }}
               className="w-25 border m-3"
             ></div>

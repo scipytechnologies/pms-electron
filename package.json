@@ -1,6 +1,6 @@
 {
   "name": "indhanx",
-  "version": "0.2.6",
+  "version": "0.3.6",
   "description": "IndhanX - Fuel Management System",
   "main": "./out/main/index.js",
   "author": "indhanx.com",
