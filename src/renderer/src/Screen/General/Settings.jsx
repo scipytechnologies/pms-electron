@@ -12,6 +12,7 @@ import img11 from '../../assets/img/img11.jpg'
 import img14 from '../../assets/img/img14.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import mainservice from '../../Services/mainservice'
+import { Toaster, toast } from 'sonner'
 
 export default function Settings() {
   const user = useSelector((state) => state.loginedUser)
@@ -48,16 +49,20 @@ export default function Settings() {
     if (res.data != null) {
       setShow(false)
       fetchcolabs(user.PumpId)
+      toast.success('Successfully Created')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
   const onDeleteHandler = async (id) => {
     const res = await mainservice.DeleteColab(id)
     if (res.data != null) {
       fetchcolabs(user.PumpId)
+      toast.success('Deleted Successfully')
     } else {
       console.log(res)
+      toast.error('Something Went Wrong')
     }
   }
 
@@ -66,6 +71,7 @@ export default function Settings() {
   }, [])
   return (
     <React.Fragment>
+      <Toaster richColors/>
       <HeaderMobile />
       <div className="main p-4 p-lg-5">
         <ol className="breadcrumb fs-sm mb-2">
@@ -312,24 +318,18 @@ export default function Settings() {
                 </Col>
               </Row>
             </div>{' '}
-            <div className="setting-item">
-              <Row className="g-2 align-items-center">
-                <Col md>
-                  <Button
-                    style={{ color: 'white' }}
-                    variant="primary"
-                    className="d-flex"
-                    onClick={onSubmitHandler}
-                  >
-                    Submit
-                  </Button>
-                </Col>
-              </Row>
-            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
+            </Button>
+            <Button
+              style={{ color: 'white' }}
+              variant="primary"
+              className="d-flex"
+              onClick={onSubmitHandler}
+            >
+              Submit
             </Button>
           </Modal.Footer>
         </Modal>
